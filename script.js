@@ -20,7 +20,7 @@ const personagens = [
     { nome: "Optimus Prime", dicas: ["Ele é o líder dos Autobots.", "Seu corpo se transforma em um caminhão, e sua frase mais famosa é 'Autobots, roll out!'."], imagemUrl: "https://i.imgur.com/p8b6Q1c.jpeg" },
     { nome: "Peter Pan", dicas: ["Ele é um menino que se recusa a crescer e mora em uma ilha mágica.", "Voa com a ajuda de pó de fada e é amigo de uma pequena fada chamada Sininho."], imagemUrl: "https://i.imgur.com/e2N6B4l.jpeg" },
     { nome: "Sherlock Holmes", dicas: ["É um detetive particular britânico, conhecido por sua grande inteligência e observação.", "Vive na Rua Baker, 221B, em Londres, e é acompanhado por seu amigo Dr. Watson."], imagemUrl: "https://i.imgur.com/dK3f0bS.jpeg" },
-    { nome: "Bob Esponja", dicas: ["É uma criatura amarela que mora em um abacaxi, no fundo do mar.", "Seu melhor amigo é uma estrela do mar, e ele trabalha no Siri Cascudo."], imagemUrl: "https://i.imgur.com/q7N6y0w.jpeg" },
+    { nome: "SpongeBob SquarePants", dicas: ["É uma criatura amarela que mora em um abacaxi, no fundo do mar.", "Seu melhor amigo é uma estrela do mar, e ele trabalha no Siri Cascudo."], imagemUrl: "https://i.imgur.com/q7N6y0w.jpeg" },
     { nome: "Super-Homem", dicas: ["Ele é um alienígena do planeta Krypton, enviado à Terra ainda bebê.", "Seus poderes incluem superforça, voo e visão de raio-x."], imagemUrl: "https://i.imgur.com/qR5K5L2.jpeg" }
 ];
 
@@ -35,13 +35,16 @@ let nomeJogador = "";
 let tempoRestante = TEMPO_MAXIMO;
 let timer;
 
-// Elementos da tela de início
+// Elementos das telas
 const startScreen = document.getElementById('start-screen');
+const gameScreen = document.getElementById('game-screen');
+const endScreen = document.getElementById('end-screen');
+
+// Elementos da tela de início
 const startBtn = document.getElementById('start-btn');
 const nameInput = document.getElementById('name-input');
 
 // Elementos da tela de jogo
-const gameScreen = document.getElementById('game-screen');
 const inputPalpite = document.getElementById('adivinhaInput');
 const btnEnviar = document.getElementById('enviarPalpiteBtn');
 const mensagem = document.getElementById('mensagem');
@@ -53,6 +56,13 @@ const pontuacaoTexto = document.getElementById('pontuacao');
 const metaTexto = document.getElementById('meta');
 const playerNameDisplay = document.getElementById('player-name-display');
 const timerDisplay = document.getElementById('timer-display');
+
+// Elementos da tela de fim de jogo
+const endTitle = document.getElementById('end-title');
+const endIcon = document.getElementById('end-icon');
+const endMessage = document.getElementById('end-message');
+const endContainer = document.getElementById('end-container');
+const playAgainBtn = document.getElementById('play-again-btn');
 
 // --- Funções de Lógica do Jogo ---
 
@@ -149,7 +159,7 @@ function fimDeRodada() {
     btnReiniciar.classList.remove('hidden');
 
     if (pontuacao >= META_PONTOS) {
-        fimDeJogoTotal("vitória");
+        fimDeJogoTotal("vitoria");
     } else if (tentativas >= 3) {
         fimDeJogoTotal("derrota");
     } else {
@@ -158,24 +168,28 @@ function fimDeRodada() {
 }
 
 function fimDeJogoTotal(resultado) {
-    clearInterval(timer); 
-    btnEnviar.disabled = true;
-    btnPedirDica.disabled = true;
-    btnPedirDica.style.display = 'none';
-    btnReiniciar.classList.remove('hidden');
-    btnReiniciar.textContent = 'Reiniciar Jogo';
+    clearInterval(timer);
+    gameScreen.classList.add('hidden');
+    endScreen.classList.remove('hidden');
+    
+    endContainer.classList.remove('win', 'lose');
+    endIcon.classList.remove('fa-trophy', 'fa-sad-cry');
 
-    if (resultado === "vitória") {
-        mensagem.textContent = `Parabéns, ${nomeJogador}! Você venceu o jogo, atingindo ${pontuacao} pontos!`;
-        mensagem.className = 'win-message';
-    } else { 
-        mensagem.textContent = `Fim de jogo, ${nomeJogador}. O personagem era "${personagemSecreto.nome}". Você terminou com ${pontuacao} pontos.`;
-        mensagem.className = 'lose-message';
+    if (resultado === "vitoria") {
+        endTitle.textContent = "Parabéns, Você Venceu!";
+        endIcon.classList.add('fa-trophy', 'win');
+        endContainer.classList.add('win');
+        endMessage.textContent = `Você atingiu a meta de ${META_PONTOS} pontos e terminou com ${pontuacao} pontos.`;
+    } else {
+        endTitle.textContent = "Fim de Jogo!";
+        endIcon.classList.add('fa-sad-cry', 'lose');
+        endContainer.classList.add('lose');
+        endMessage.textContent = `O personagem era "${personagemSecreto.nome}". Você terminou com ${pontuacao} pontos. Tente novamente!`;
     }
 }
 
 function perderPorTempo() {
-    fimDeJogoTotal("derrota"); 
+    fimDeJogoTotal("derrota");
 }
 
 function atualizarCronometro() {
@@ -215,9 +229,8 @@ startBtn.addEventListener('click', () => {
 
 btnReiniciar.addEventListener('click', () => {
     if (btnReiniciar.textContent === 'Reiniciar Jogo') {
-        gameScreen.classList.add('hidden');
         startScreen.classList.remove('hidden');
-        iniciarNovoJogoCompleto();
+        gameScreen.classList.add('hidden');
     } else {
         iniciarNovaRodada();
     }
@@ -229,4 +242,9 @@ inputPalpite.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
         verificarPalpite();
     }
+});
+
+playAgainBtn.addEventListener('click', () => {
+    endScreen.classList.add('hidden');
+    startScreen.classList.remove('hidden');
 });

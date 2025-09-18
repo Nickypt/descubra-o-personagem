@@ -11,12 +11,12 @@
 <body>
 
     <div id="start-screen" class="screen">
-        <div class="intro-container">
+        <div class="intro-container animate__fade-in-up">
             <i class="fas fa-question-circle intro-icon animate__pulse"></i>
-            <h1 class="animate__fade-in-up">Bem-vindo ao <br>Adivinhe o Personagem</h1>
-            <p class="animate__fade-in-up">Sua missão é descobrir o personagem secreto com a menor quantidade de dicas possível.</p>
+            <h1>Bem-vindo ao <br>Adivinhe o Personagem</h1>
+            <p>Sua missão é descobrir o personagem secreto com a menor quantidade de dicas possível.</p>
             <input type="text" id="name-input" placeholder="Digite seu nome...">
-            <button id="start-btn" class="animate__fade-in-up">Começar Jogo</button>
+            <button id="start-btn">Começar Jogo</button>
         </div>
     </div>
 
@@ -28,7 +28,7 @@
             <i class="fas fa-question-circle decoration-icon bottom-left"></i>
         </div>
         
-        <div class="main-container">
+        <div class="main-container animate__fade-in">
             <aside class="score-sidebar">
                 <div class="score-item">
                     <i class="fas fa-trophy"></i>
@@ -62,6 +62,15 @@
                 <p id="mensagem"></p>
                 <button id="reiniciarBtn" class="hidden">Próximo Personagem</button>
             </main>
+        </div>
+    </div>
+
+    <div id="end-screen" class="screen hidden">
+        <div id="end-container" class="end-container animate__zoom-in">
+            <i id="end-icon" class="end-icon fas"></i>
+            <h1 id="end-title">Fim de Jogo!</h1>
+            <p id="end-message"></p>
+            <button id="play-again-btn">Jogar Novamente</button>
         </div>
     </div>
 

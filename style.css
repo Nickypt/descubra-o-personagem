@@ -32,14 +32,6 @@ body {
     display: none !important;
 }
 
-.animate__pulse {
-    animation: pulse 2s infinite ease-in-out;
-}
-
-.animate__fade-in-up {
-    animation: fade-in-up 1s ease-out;
-}
-
 /* Animações */
 @keyframes pulse {
     0%, 100% { transform: scale(1); }
@@ -55,6 +47,16 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes zoom-in {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 @keyframes rotate-animation {
@@ -75,12 +77,13 @@ body {
     flex-direction: column;
     padding: 20px;
     box-sizing: border-box;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .screen.hidden {
     opacity: 0;
     pointer-events: none;
+    transform: scale(0.9);
 }
 
 /* Estilo da Tela de Início */
@@ -284,6 +287,53 @@ button:disabled {
 
 .win-message { color: var(--success-color); }
 .lose-message { color: var(--danger-color); }
+
+/* Estilo da Tela de Fim de Jogo */
+#end-screen {
+    z-index: 20;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.end-container {
+    background-color: var(--card-bg);
+    padding: 3em 2em;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    max-width: 500px;
+    width: 100%;
+    border-bottom: 5px solid var(--accent-color);
+}
+
+.end-container.win { border-color: var(--success-color); }
+.end-container.lose { border-color: var(--danger-color); }
+
+.end-icon {
+    font-size: 4em;
+    margin-bottom: 0.5em;
+}
+
+.end-icon.win { color: var(--success-color); }
+.end-icon.lose { color: var(--danger-color); }
+
+#end-title { font-size: 2.5em; }
+#end-message { font-size: 1.2em; line-height: 1.5; }
+
+#play-again-btn {
+    margin-top: 1.5em;
+    padding: 0.8em 2em;
+    font-size: 1.2em;
+    background-color: var(--success-color);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+#play-again-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
 
 @media (max-width: 850px) {
     .main-container {
