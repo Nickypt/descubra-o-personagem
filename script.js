@@ -158,30 +158,24 @@ function fimDeRodada() {
 }
 
 function fimDeJogoTotal(resultado) {
-    clearInterval(timer);
+    clearInterval(timer); 
     btnEnviar.disabled = true;
     btnPedirDica.disabled = true;
     btnPedirDica.style.display = 'none';
     btnReiniciar.classList.remove('hidden');
     btnReiniciar.textContent = 'Reiniciar Jogo';
-    if (resultado === "vitoria") {
+
+    if (resultado === "vitória") {
         mensagem.textContent = `Parabéns, ${nomeJogador}! Você venceu o jogo, atingindo ${pontuacao} pontos!`;
         mensagem.className = 'win-message';
-    } else {
-        mensagem.textContent = `Fim de jogo, ${nomeJogador}. Você terminou com ${pontuacao} pontos. O personagem era "${personagemSecreto.nome}".`;
+    } else { 
+        mensagem.textContent = `Fim de jogo, ${nomeJogador}. O personagem era "${personagemSecreto.nome}". Você terminou com ${pontuacao} pontos.`;
         mensagem.className = 'lose-message';
     }
 }
 
 function perderPorTempo() {
-    clearInterval(timer);
-    mensagem.textContent = `Tempo esgotado, ${nomeJogador}! O personagem era "${personagemSecreto.nome}".`;
-    mensagem.className = 'lose-message';
-    btnEnviar.disabled = true;
-    btnPedirDica.disabled = true;
-    btnPedirDica.style.display = 'none';
-    btnReiniciar.classList.remove('hidden');
-    btnReiniciar.textContent = 'Reiniciar Jogo';
+    fimDeJogoTotal("derrota"); 
 }
 
 function atualizarCronometro() {
@@ -221,8 +215,8 @@ startBtn.addEventListener('click', () => {
 
 btnReiniciar.addEventListener('click', () => {
     if (btnReiniciar.textContent === 'Reiniciar Jogo') {
-        startScreen.classList.remove('hidden');
         gameScreen.classList.add('hidden');
+        startScreen.classList.remove('hidden');
         iniciarNovoJogoCompleto();
     } else {
         iniciarNovaRodada();
