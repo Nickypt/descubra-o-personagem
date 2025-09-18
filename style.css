@@ -5,9 +5,10 @@
     --card-bg: #22253a;
     --primary-color: #e6e6e6;
     --accent-color: #e94560;
-    --danger-color: #ea4335;
-    --success-color: #34d399;
     --secondary-color: #4a4a60;
+    --success-color: #34d399;
+    --danger-color: #ea4335;
+    --warning-color: #ffc107;
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     --border-radius: 16px;
 }
@@ -26,7 +27,42 @@ body {
     overflow: hidden;
 }
 
-/* --- Telas do Jogo --- */
+/* Utilitários */
+.hidden {
+    display: none !important;
+}
+
+.animate__pulse {
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.animate__fade-in-up {
+    animation: fade-in-up 1s ease-out;
+}
+
+/* Animações */
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes rotate-animation {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Telas do Jogo */
 .screen {
     position: absolute;
     top: 0;
@@ -40,15 +76,14 @@ body {
     padding: 20px;
     box-sizing: border-box;
     transition: opacity 0.5s ease;
-    opacity: 1;
 }
 
 .screen.hidden {
-    display: none;
     opacity: 0;
+    pointer-events: none;
 }
 
-/* --- Estilo da Tela de Início --- */
+/* Estilo da Tela de Início */
 #start-screen {
     z-index: 10;
 }
@@ -60,30 +95,14 @@ body {
     box-shadow: var(--shadow);
     max-width: 500px;
     width: 100%;
+    border-left: 5px solid var(--accent-color);
 }
 
 .intro-icon {
     font-size: 4em;
     color: var(--accent-color);
     margin-bottom: 0.5em;
-}
-
-#start-btn {
-    margin-top: 1.5em;
-    padding: 0.8em 2em;
-    font-size: 1.2em;
-    font-weight: 600;
-    background-color: var(--success-color);
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-#start-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 0 15px var(--accent-color);
 }
 
 #name-input {
@@ -94,15 +113,16 @@ body {
     font-size: 1em;
     background-color: var(--secondary-color);
     color: var(--primary-color);
-    border: none;
+    border: 2px solid transparent;
     border-radius: 50px;
     text-align: center;
+    transition: all 0.3s ease;
 }
 
 #name-input::placeholder { color: rgba(255, 255, 255, 0.5); }
-#name-input:focus { outline: none; box-shadow: 0 0 0 3px var(--accent-color); }
+#name-input:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 10px rgba(233, 69, 96, 0.5); }
 
-/* --- Estilo da Tela do Jogo --- */
+/* Estilo da Tela do Jogo */
 .background-decorations .decoration-icon {
     position: absolute;
     font-size: 8em;
@@ -116,11 +136,6 @@ body {
 .decoration-icon.bottom-left { bottom: 10%; left: 10%; }
 .decoration-icon.bottom-right { bottom: 10%; right: 10%; }
 
-@keyframes rotate-animation {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
 .main-container {
     display: flex;
     justify-content: center;
@@ -128,12 +143,9 @@ body {
     gap: 2em;
     width: 90%;
     max-width: 1200px;
-    position: relative;
 }
 
 .score-sidebar {
-    position: sticky;
-    top: 2em;
     padding: 1.5em;
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
@@ -143,6 +155,7 @@ body {
     flex-direction: column;
     gap: 1.5em;
     align-items: flex-start;
+    border-right: 5px solid var(--success-color);
 }
 
 .score-item {
@@ -169,6 +182,7 @@ body {
     align-items: center;
     gap: 1.5em;
     max-width: 600px;
+    border-bottom: 5px solid var(--accent-color);
 }
 
 h1 { font-size: 2.2em; font-weight: 700; margin: 0; }
@@ -187,6 +201,7 @@ h1 { font-size: 2.2em; font-weight: 700; margin: 0; }
 
 #timer-display.danger {
     color: var(--danger-color);
+    animation: pulse 1s infinite;
 }
 
 #dica-container {
@@ -204,13 +219,15 @@ h1 { font-size: 2.2em; font-weight: 700; margin: 0; }
     max-width: 90%;
     color: var(--primary-color);
     opacity: 0.9;
+    animation: fade-in-up 0.5s ease-out;
 }
 
-#dica img {
+#personagem-imagem {
     max-width: 100%;
     max-height: 200px;
     border-radius: var(--border-radius);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    animation: fade-in-up 0.5s ease-out;
 }
 
 .controls {
@@ -248,9 +265,14 @@ button {
     font-weight: 600;
 }
 
-button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); }
+button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); }
 
-#pedirDicaBtn { background-color: #ff9800; }
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#pedirDicaBtn { background-color: var(--warning-color); }
 #reiniciarBtn { margin-top: 1em; background-color: var(--success-color); width: 100%; }
 
 #mensagem {
@@ -271,6 +293,7 @@ button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0,
     .score-sidebar {
         width: 100%;
         position: static;
+        order: -1;
     }
     .game-container {
         width: 100%;
