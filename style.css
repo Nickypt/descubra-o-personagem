@@ -1,0 +1,279 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --bg-color: #1a1a2e;
+    --card-bg: #22253a;
+    --primary-color: #e6e6e6;
+    --accent-color: #e94560;
+    --danger-color: #ea4335;
+    --success-color: #34d399;
+    --secondary-color: #4a4a60;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --border-radius: 16px;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: var(--primary-color);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- Telas do Jogo --- */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    transition: opacity 0.5s ease;
+    opacity: 1;
+}
+
+.screen.hidden {
+    display: none;
+    opacity: 0;
+}
+
+/* --- Estilo da Tela de Início --- */
+#start-screen {
+    z-index: 10;
+}
+
+.intro-container {
+    background-color: var(--card-bg);
+    padding: 3em 2em;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    max-width: 500px;
+    width: 100%;
+}
+
+.intro-icon {
+    font-size: 4em;
+    color: var(--accent-color);
+    margin-bottom: 0.5em;
+}
+
+#start-btn {
+    margin-top: 1.5em;
+    padding: 0.8em 2em;
+    font-size: 1.2em;
+    font-weight: 600;
+    background-color: var(--success-color);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#start-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+#name-input {
+    width: 80%;
+    padding: 0.8em;
+    margin-top: 1.5em;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1em;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 50px;
+    text-align: center;
+}
+
+#name-input::placeholder { color: rgba(255, 255, 255, 0.5); }
+#name-input:focus { outline: none; box-shadow: 0 0 0 3px var(--accent-color); }
+
+/* --- Estilo da Tela do Jogo --- */
+.background-decorations .decoration-icon {
+    position: absolute;
+    font-size: 8em;
+    color: rgba(255, 255, 255, 0.05);
+    z-index: -1;
+    animation: rotate-animation 20s infinite linear;
+}
+
+.decoration-icon.top-left { top: 10%; left: 10%; }
+.decoration-icon.top-right { top: 10%; right: 10%; }
+.decoration-icon.bottom-left { bottom: 10%; left: 10%; }
+.decoration-icon.bottom-right { bottom: 10%; right: 10%; }
+
+@keyframes rotate-animation {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2em;
+    width: 90%;
+    max-width: 1200px;
+    position: relative;
+}
+
+.score-sidebar {
+    position: sticky;
+    top: 2em;
+    padding: 1.5em;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    align-items: flex-start;
+}
+
+.score-item {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.score-item i {
+    color: var(--accent-color);
+    font-size: 1.5em;
+}
+
+.game-container {
+    background-color: var(--card-bg);
+    padding: 3em 2.5em;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5em;
+    max-width: 600px;
+}
+
+h1 { font-size: 2.2em; font-weight: 700; margin: 0; }
+.game-header p { margin: 0.5em 0 1.5em; opacity: 0.7; }
+
+#player-name-display {
+    text-align: center;
+}
+
+#timer-display {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--success-color);
+    transition: color 0.5s ease;
+}
+
+#timer-display.danger {
+    color: var(--danger-color);
+}
+
+#dica-container {
+    height: 250px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#dica {
+    font-size: 1.1em;
+    line-height: 1.6;
+    max-width: 90%;
+    color: var(--primary-color);
+    opacity: 0.9;
+}
+
+#dica img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+    width: 100%;
+}
+
+input, button {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1em;
+    padding: 0.8em 1.5em;
+    border-radius: 50px;
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+input {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    flex-grow: 1;
+    text-align: center;
+    min-width: 150px;
+}
+
+input::placeholder { color: rgba(255, 255, 255, 0.5); }
+input:focus { outline: none; box-shadow: 0 0 0 3px var(--accent-color); }
+
+button {
+    background-color: var(--accent-color);
+    color: #fff;
+    font-weight: 600;
+}
+
+button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); }
+
+#pedirDicaBtn { background-color: #ff9800; }
+#reiniciarBtn { margin-top: 1em; background-color: var(--success-color); width: 100%; }
+
+#mensagem {
+    font-weight: 700;
+    font-size: 1.2em;
+    min-height: 2em;
+    margin-top: 1em;
+}
+
+.win-message { color: var(--success-color); }
+.lose-message { color: var(--danger-color); }
+
+@media (max-width: 850px) {
+    .main-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .score-sidebar {
+        width: 100%;
+        position: static;
+    }
+    .game-container {
+        width: 100%;
+    }
+    .background-decorations { display: none; }
+}

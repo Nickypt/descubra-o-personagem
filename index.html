@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhe o Personagem</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="start-screen" class="screen">
+        <div class="intro-container">
+            <i class="fas fa-question-circle intro-icon"></i>
+            <h1>Bem-vindo ao <br>Adivinhe o Personagem</h1>
+            <p>Sua missão é descobrir o personagem secreto com a menor quantidade de dicas possível.</p>
+            <input type="text" id="name-input" placeholder="Digite seu nome...">
+            <button id="start-btn">Começar Jogo</button>
+        </div>
+    </div>
+
+    <div id="game-screen" class="screen hidden">
+        <div class="background-decorations">
+            <i class="fas fa-question-circle decoration-icon top-left"></i>
+            <i class="fas fa-question-circle decoration-icon bottom-right"></i>
+            <i class="fas fa-question-circle decoration-icon top-right"></i>
+            <i class="fas fa-question-circle decoration-icon bottom-left"></i>
+        </div>
+        
+        <div class="main-container">
+            <aside class="score-sidebar">
+                <div class="score-item">
+                    <i class="fas fa-trophy"></i>
+                    <p id="pontuacao">Pontos: 0</p>
+                </div>
+                <div class="score-item">
+                    <i class="fas fa-star"></i>
+                    <p id="meta">Meta: 30</p>
+                </div>
+            </aside>
+            
+            <main class="game-container">
+                <header class="game-header">
+                    <h1 id="player-name-display">Adivinhe o Personagem</h1>
+                    <p>Descubra quem é a figura misteriosa!</p>
+                </header>
+                
+                <p id="timer-display">Tempo: 60s</p>
+                
+                <div id="dica-container">
+                    <div id="dica"></div>
+                </div>
+                
+                <div class="controls">
+                    <button id="pedirDicaBtn">Pedir Dica</button>
+                    <input type="text" id="adivinhaInput" placeholder="Digite seu palpite...">
+                    <button id="enviarPalpiteBtn">Adivinhar</button>
+                </div>
+                
+                <p id="mensagem"></p>
+                <button id="reiniciarBtn" style="display: none;">Reiniciar Jogo</button>
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
