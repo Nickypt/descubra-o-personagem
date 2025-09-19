@@ -13,6 +13,7 @@
     --border-radius: 16px;
 }
 
+/* Base do Body e Layout Geral */
 body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(45deg, #1a1a2e, #16213e);
@@ -28,94 +29,12 @@ body {
     animation: background-pulse 10s infinite alternate;
 }
 
-/* Animações de base */
+/* Animações e Decorações de Fundo */
 @keyframes background-pulse {
     0% { background-color: #1a1a2e; }
     100% { background-color: #121c2c; }
 }
 
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-@keyframes fade-in-up {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes zoom-in {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
-@keyframes rotate-animation {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-    20%, 40%, 60%, 80% { transform: translateX(5px); }
-}
-
-.shake {
-    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-}
-
-/* Animações de Confetes */
-@keyframes confetti-fall {
-    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-}
-
-.confetti-piece {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: var(--accent-color);
-    animation: confetti-fall 5s linear infinite;
-    z-index: 25;
-}
-
-.confetti-piece:nth-child(2n) {
-    width: 8px;
-    height: 15px;
-    background-color: var(--success-color);
-    animation-delay: 1.5s;
-}
-
-.confetti-piece:nth-child(3n) {
-    width: 12px;
-    height: 12px;
-    background-color: var(--warning-color);
-    animation-delay: 2.5s;
-}
-
-.confetti-piece:nth-child(4n) {
-    width: 10px;
-    height: 8px;
-    background-color: var(--primary-color);
-    animation-delay: 3.5s;
-}
-
-.end-screen.win .confetti-piece {
-    display: block;
-}
-
-/* Novas Decorações de Fundo */
 .background-decorations::after,
 .background-decorations::before {
     content: '';
@@ -128,7 +47,6 @@ body {
     pointer-events: none;
 }
 
-/* Estrelas Cadentes */
 .background-decorations::before {
     background: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.2) 0, transparent 30%),
                 radial-gradient(circle at 80% 90%, rgba(255, 255, 255, 0.1) 0, transparent 30%),
@@ -142,7 +60,6 @@ body {
     to { background-position: 300% 300%; }
 }
 
-/* Partículas Flutuantes */
 .background-decorations::after {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><circle cx="5" cy="5" r="5" fill="%23FFFFFF" opacity="0.1"/></svg>');
     background-size: 150px 150px;
@@ -167,20 +84,20 @@ body {
 .decoration-icon.bottom-left { bottom: 10%; left: 10%; }
 .decoration-icon.bottom-right { bottom: 10%; right: 10%; }
 
-/* Estrutura das telas */
+/* Estrutura das Telas (Ajustada) */
 .screen {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    min-height: 100vh; /* Garante que a tela ocupe toda a altura */
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     padding: 20px;
     box-sizing: border-box;
     transition: opacity 0.5s ease, transform 0.5s ease;
+    overflow-y: auto; /* Permite rolagem apenas se o conteúdo for muito grande */
 }
 
 .screen.hidden {
@@ -193,7 +110,7 @@ body {
     display: none !important;
 }
 
-/* Estilo da Tela de Início e Dificuldade */
+/* Telas de Início e Dificuldade */
 #start-screen, #difficulty-screen {
     z-index: 10;
 }
@@ -206,19 +123,22 @@ body {
     max-width: 500px;
     width: 100%;
     border-left: 5px solid var(--accent-color);
+    display: flex; /* Adiciona flex para centralização interna */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5em; /* Espaçamento entre os elementos */
 }
 
 .intro-icon {
     font-size: 4em;
     color: var(--accent-color);
-    margin-bottom: 0.5em;
     text-shadow: 0 0 15px var(--accent-color);
 }
 
 #name-input {
     width: 80%;
     padding: 0.8em;
-    margin-top: 1.5em;
     font-family: 'Poppins', sans-serif;
     font-size: 1em;
     background-color: var(--secondary-color);
@@ -238,7 +158,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     gap: 1.5em;
-    margin-top: 2em;
+    width: 100%;
 }
 
 .difficulty-card {
@@ -246,11 +166,13 @@ body {
     padding: 2em 1.5em;
     border-radius: var(--border-radius);
     width: 180px;
+    flex-grow: 1; /* Permite que os cartões se ajustem */
     cursor: pointer;
     transition: all 0.3s ease;
     border: 2px solid transparent;
     position: relative;
     overflow: hidden;
+    max-width: 250px;
 }
 
 .difficulty-card:hover {
@@ -270,14 +192,8 @@ body {
 }
 
 @keyframes shine {
-    from {
-        opacity: 0;
-        transform: scale(0);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    from { opacity: 0; transform: scale(0); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 .card-icon {
@@ -286,22 +202,14 @@ body {
     transition: transform 0.3s ease;
 }
 
-.difficulty-card:hover .card-icon {
-    transform: scale(1.1);
-}
-
+.difficulty-card:hover .card-icon { transform: scale(1.1); }
 .card-icon.easy { color: var(--success-color); }
 .difficulty-card:hover#easy-btn { border-color: var(--success-color); }
-
 .card-icon.medium { color: var(--warning-color); }
 .difficulty-card:hover#medium-btn { border-color: var(--warning-color); }
-
 .card-icon.hard { color: var(--danger-color); }
 .difficulty-card:hover#hard-btn { border-color: var(--danger-color); }
-
-.difficulty-subtitle {
-    opacity: 0.8;
-}
+.difficulty-subtitle { opacity: 0.8; }
 
 /* Estilo da Tela do Jogo */
 .main-container {
@@ -349,6 +257,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 1.5em;
     max-width: 600px;
     border-bottom: 5px solid var(--accent-color);
@@ -357,9 +266,7 @@ body {
 h1 { font-size: 2.2em; font-weight: 700; margin: 0; }
 .game-header p { margin: 0.5em 0 1.5em; opacity: 0.7; }
 
-#player-name-display {
-    text-align: center;
-}
+#player-name-display { text-align: center; }
 
 #timer-display {
     font-size: 1.5em;
@@ -379,6 +286,7 @@ h1 { font-size: 2.2em; font-weight: 700; margin: 0; }
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    gap: 1em; /* Espaçamento entre os elementos da dica */
 }
 
 #dica {
@@ -390,12 +298,11 @@ h1 { font-size: 2.2em; font-weight: 700; margin: 0; }
     animation: fade-in-up 0.5s ease-out;
 }
 
-/* Indicador de Dicas */
 .progresso-container {
     display: flex;
     justify-content: center;
     gap: 1em;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
 }
 
 .progresso-dot {
@@ -406,17 +313,9 @@ h1 { font-size: 2.2em; font-weight: 700; margin: 0; }
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.progresso-dot.active {
-    background-color: var(--warning-color);
-    transform: scale(1.2);
-}
+.progresso-dot.active { background-color: var(--warning-color); transform: scale(1.2); }
+.progresso-dot.used { background-color: var(--accent-color); transform: scale(0.9); }
 
-.progresso-dot.used {
-    background-color: var(--accent-color);
-    transform: scale(0.9);
-}
-
-/* Feedback de Imagem e Ícone */
 #personagem-feedback {
     position: relative;
     width: 100%;
@@ -445,13 +344,8 @@ h1 { font-size: 2.2em; font-weight: 700; margin: 0; }
     animation: zoom-in 0.5s ease-out;
 }
 
-#feedback-icon.correct {
-    color: var(--success-color);
-}
-
-#feedback-icon.incorrect {
-    color: var(--danger-color);
-}
+#feedback-icon.correct { color: var(--success-color); }
+#feedback-icon.incorrect { color: var(--danger-color); }
 
 .controls {
     display: flex;
@@ -481,7 +375,6 @@ input {
 
 input::placeholder { color: rgba(255, 255, 255, 0.5); }
 input:focus { outline: none; box-shadow: 0 0 0 3px var(--accent-color); }
-
 button {
     background-color: var(--accent-color);
     color: #fff;
@@ -490,15 +383,9 @@ button {
 }
 
 button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); }
-
-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
+button:disabled { cursor: not-allowed; opacity: 0.6; }
 #pedirDicaBtn { background-color: var(--warning-color); }
 #reiniciarBtn { margin-top: 1em; background-color: var(--success-color); width: 100%; }
-
 #mensagem {
     font-weight: 700;
     font-size: 1.2em;
@@ -535,21 +422,11 @@ button:disabled {
 
 .end-container.lose { border-color: var(--danger-color); }
 
-.end-icon {
-    font-size: 4em;
-    margin-bottom: 0.5em;
-}
-
-.end-icon.win { 
-    color: var(--success-color); 
-    text-shadow: 0 0 20px var(--success-color);
-}
-
+.end-icon { font-size: 4em; margin-bottom: 0.5em; }
+.end-icon.win { color: var(--success-color); text-shadow: 0 0 20px var(--success-color); }
 .end-icon.lose { color: var(--danger-color); }
-
 #end-title { font-size: 2.5em; }
 #end-message { font-size: 1.2em; line-height: 1.5; }
-
 #play-again-btn {
     margin-top: 1.5em;
     padding: 0.8em 2em;
