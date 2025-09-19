@@ -115,6 +115,58 @@ body {
     display: block;
 }
 
+/* Novas Decorações de Fundo */
+.background-decorations::after,
+.background-decorations::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Estrelas Cadentes */
+.background-decorations::before {
+    background: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.2) 0, transparent 30%),
+                radial-gradient(circle at 80% 90%, rgba(255, 255, 255, 0.1) 0, transparent 30%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 0, transparent 40%);
+    background-size: 300% 300%;
+    animation: star-move 30s infinite linear;
+}
+
+@keyframes star-move {
+    from { background-position: 0 0; }
+    to { background-position: 300% 300%; }
+}
+
+/* Partículas Flutuantes */
+.background-decorations::after {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><circle cx="5" cy="5" r="5" fill="%23FFFFFF" opacity="0.1"/></svg>');
+    background-size: 150px 150px;
+    animation: particles-move 60s infinite linear;
+}
+
+@keyframes particles-move {
+    from { background-position: 0 0; }
+    to { background-position: 600px 600px; }
+}
+
+.decoration-icon {
+    position: absolute;
+    font-size: 8em;
+    color: rgba(255, 255, 255, 0.05);
+    z-index: -1;
+    animation: rotate-animation 20s infinite linear;
+}
+
+.decoration-icon.top-left { top: 10%; left: 10%; }
+.decoration-icon.top-right { top: 10%; right: 10%; }
+.decoration-icon.bottom-left { bottom: 10%; left: 10%; }
+.decoration-icon.bottom-right { bottom: 10%; right: 10%; }
+
 /* Estrutura das telas */
 .screen {
     position: absolute;
@@ -252,19 +304,6 @@ body {
 }
 
 /* Estilo da Tela do Jogo */
-.background-decorations .decoration-icon {
-    position: absolute;
-    font-size: 8em;
-    color: rgba(255, 255, 255, 0.05);
-    z-index: -1;
-    animation: rotate-animation 20s infinite linear;
-}
-
-.decoration-icon.top-left { top: 10%; left: 10%; }
-.decoration-icon.top-right { top: 10%; right: 10%; }
-.decoration-icon.bottom-left { bottom: 10%; left: 10%; }
-.decoration-icon.bottom-right { bottom: 10%; right: 10%; }
-
 .main-container {
     display: flex;
     justify-content: center;
