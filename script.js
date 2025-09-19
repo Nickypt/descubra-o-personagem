@@ -124,8 +124,14 @@ function verificarPalpite() {
 
     if (palpite === personagemSecreto.nome.toLowerCase()) {
         const pontosGanhos = calcularPontos(tentativas);
-        atualizarPontuacao(pontosGanhos);
-        mensagem.textContent = `Parabéns, ${nomeJogador}! Você acertou em ${tentativas} tentativa(s) e ganhou ${pontosGanhos} pontos!`;
+        
+        // Adiciona o bônus por tempo
+        const bonusTempo = calcularBonusTempo(tempoRestante);
+        const totalPontos = pontosGanhos + bonusTempo;
+
+        atualizarPontuacao(totalPontos);
+        
+        mensagem.textContent = `Parabéns, ${nomeJogador}! Você acertou em ${tentativas} tentativa(s) e ganhou ${pontosGanhos} pontos. Bônus de tempo: ${bonusTempo} pontos! Total: ${totalPontos} pontos.`;
         mensagem.className = 'win-message';
         playSound(somAcerto);
         fimDeRodada();
@@ -133,7 +139,6 @@ function verificarPalpite() {
         mensagem.textContent = 'Incorreto. Tente novamente!';
         mensagem.className = 'lose-message shake';
         playSound(somErro);
-        // Remove a classe de animação após a conclusão
         setTimeout(() => {
             mensagem.classList.remove('shake');
         }, 500);
@@ -169,6 +174,23 @@ function calcularPontos(tentativas) {
     if (tentativas === 2) return 5;
     if (tentativas === 3) return 1;
     return 0;
+}
+
+// Função para calcular o bônus de pontos com base no tempo restante
+function calcularBonusTempo(tempo) {
+    if (tempo >= 50) {
+        return 10;
+    } else if (tempo >= 40) {
+        return 8;
+    } else if (tempo >= 30) {
+        return 5;
+    } else if (tempo >= 20) {
+        return 3;
+    } else if (tempo >= 10) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 function fimDeRodada() {
