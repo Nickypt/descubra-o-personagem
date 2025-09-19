@@ -147,7 +147,7 @@ function verificarPalpite() {
     tentativas++;
 
     if (palpite === personagemSecreto.nome.toLowerCase()) {
-        const pontosGanhos = calcularPontos(tentativas);
+        const pontosGanhos = calcularPontos();
         const bonusTempo = calcularBonusTempo(tempoRestante);
 
         // Aumenta a sequência de acertos
@@ -230,11 +230,24 @@ function mostrarDica() {
     }
 }
 
-function calcularPontos(tentativas) {
-    if (tentativas === 1) return 10;
-    if (tentativas === 2) return 5;
-    if (tentativas === 3) return 1;
-    return 0;
+// Função para calcular os pontos baseados em tentativas e dicas
+function calcularPontos() {
+    let pontos = 0;
+
+    // Pontos baseados no número de tentativas
+    if (tentativas === 1) {
+        pontos = 10;
+    } else if (tentativas === 2) {
+        pontos = 5;
+    } else if (tentativas >= 3) {
+        pontos = 2;
+    }
+
+    // Penalidade por cada dica usada
+    const penalidadeDica = dicaAtual * 2;
+    pontos = Math.max(0, pontos - penalidadeDica); // Garante que a pontuação não seja negativa
+
+    return pontos;
 }
 
 // Função para calcular o bônus de pontos com base no tempo restante
