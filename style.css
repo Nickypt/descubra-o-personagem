@@ -28,18 +28,12 @@ body {
     animation: background-pulse 10s infinite alternate;
 }
 
-/* Animação do fundo */
+/* Animações de base */
 @keyframes background-pulse {
     0% { background-color: #1a1a2e; }
     100% { background-color: #121c2c; }
 }
 
-/* Utilitários */
-.hidden {
-    display: none !important;
-}
-
-/* Animações */
 @keyframes pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
@@ -81,7 +75,7 @@ body {
     animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
 }
 
-/* Animações de Confetes para a tela de Vitória */
+/* Animações de Confetes */
 @keyframes confetti-fall {
     0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
     100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
@@ -93,7 +87,7 @@ body {
     height: 10px;
     background-color: var(--accent-color);
     animation: confetti-fall 5s linear infinite;
-    z-index: 25; /* Acima de tudo */
+    z-index: 25;
 }
 
 .confetti-piece:nth-child(2n) {
@@ -121,7 +115,7 @@ body {
     display: block;
 }
 
-/* Telas do Jogo */
+/* Estrutura das telas */
 .screen {
     position: absolute;
     top: 0;
@@ -141,6 +135,10 @@ body {
     opacity: 0;
     pointer-events: none;
     transform: scale(0.9);
+}
+
+.hidden {
+    display: none !important;
 }
 
 /* Estilo da Tela de Início e Dificuldade */
@@ -182,7 +180,7 @@ body {
 #name-input::placeholder { color: rgba(255, 255, 255, 0.5); }
 #name-input:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 10px rgba(233, 69, 96, 0.5); }
 
-/* Novo estilo para a tela de dificuldade */
+/* Cartões de dificuldade */
 .difficulty-options {
     display: flex;
     flex-wrap: wrap;
@@ -206,10 +204,8 @@ body {
 .difficulty-card:hover {
     transform: translateY(-5px) scale(1.05);
     box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-    border-color: var(--accent-color);
 }
 
-/* Animação de brilho ao passar o mouse */
 .difficulty-card:hover::before {
     content: '';
     position: absolute;
@@ -243,13 +239,17 @@ body {
 }
 
 .card-icon.easy { color: var(--success-color); }
+.difficulty-card:hover#easy-btn { border-color: var(--success-color); }
+
 .card-icon.medium { color: var(--warning-color); }
+.difficulty-card:hover#medium-btn { border-color: var(--warning-color); }
+
 .card-icon.hard { color: var(--danger-color); }
+.difficulty-card:hover#hard-btn { border-color: var(--danger-color); }
 
 .difficulty-subtitle {
     opacity: 0.8;
 }
-
 
 /* Estilo da Tela do Jogo */
 .background-decorations .decoration-icon {
@@ -270,7 +270,7 @@ body {
     justify-content: center;
     align-items: flex-start;
     gap: 2em;
-    width: 90%;
+    width: 95%;
     max-width: 1200px;
     animation: fade-in-up 1s ease-out;
 }
@@ -351,7 +351,7 @@ h1 { font-size: 2.2em; font-weight: 700; margin: 0; }
     animation: fade-in-up 0.5s ease-out;
 }
 
-/* --- Indicador de Dicas --- */
+/* Indicador de Dicas */
 .progresso-container {
     display: flex;
     justify-content: center;
@@ -377,7 +377,7 @@ h1 { font-size: 2.2em; font-weight: 700; margin: 0; }
     transform: scale(0.9);
 }
 
-/* --- Feedback de Imagem e Ícone --- */
+/* Feedback de Imagem e Ícone */
 #personagem-feedback {
     position: relative;
     width: 100%;
@@ -413,7 +413,6 @@ h1 { font-size: 2.2em; font-weight: 700; margin: 0; }
 #feedback-icon.incorrect {
     color: var(--danger-color);
 }
-
 
 .controls {
     display: flex;
@@ -529,18 +528,34 @@ button:disabled {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
 }
 
+/* Responsividade Aprimorada */
 @media (max-width: 850px) {
     .main-container {
         flex-direction: column;
         align-items: center;
+        width: 100%;
+        padding: 10px;
     }
     .score-sidebar {
-        width: 100%;
+        width: 90%;
         position: static;
         order: -1;
+        margin-bottom: 1.5em;
     }
     .game-container {
-        width: 100%;
+        width: 90%;
+        padding: 2em 1.5em;
+    }
+    .controls {
+        flex-direction: column;
+        gap: 1.5em;
     }
     .background-decorations { display: none; }
+}
+
+@media (max-width: 600px) {
+    h1 { font-size: 1.8em; }
+    .game-header p { font-size: 0.9em; }
+    #timer-display { font-size: 1.2em; }
+    .difficulty-card { width: 100%; }
 }
