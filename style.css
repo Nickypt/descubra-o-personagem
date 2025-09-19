@@ -29,7 +29,7 @@ body {
     animation: background-pulse 10s infinite alternate;
 }
 
-/* Animações e Decorações de Fundo */
+/* Animações e Decorações de Fundo (Ajustadas) */
 @keyframes background-pulse {
     0% { background-color: #1a1a2e; }
     100% { background-color: #121c2c; }
@@ -47,10 +47,11 @@ body {
     pointer-events: none;
 }
 
+/* Estrelas SUTIS */
 .background-decorations::before {
-    background: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.2) 0, transparent 30%),
-                radial-gradient(circle at 80% 90%, rgba(255, 255, 255, 0.1) 0, transparent 30%),
-                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 0, transparent 40%);
+    background: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0, transparent 30%),
+                radial-gradient(circle at 80% 90%, rgba(255, 255, 255, 0.03) 0, transparent 30%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.07) 0, transparent 40%);
     background-size: 300% 300%;
     animation: star-move 30s infinite linear;
 }
@@ -60,21 +61,22 @@ body {
     to { background-position: 300% 300%; }
 }
 
+/* Partículas Flutuantes SUTIS */
 .background-decorations::after {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><circle cx="5" cy="5" r="5" fill="%23FFFFFF" opacity="0.1"/></svg>');
-    background-size: 150px 150px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><circle cx="5" cy="5" r="5" fill="%23FFFFFF" opacity="0.05"/></svg>');
+    background-size: 300px 300px;
     animation: particles-move 60s infinite linear;
 }
 
 @keyframes particles-move {
     from { background-position: 0 0; }
-    to { background-position: 600px 600px; }
+    to { background-position: 900px 900px; }
 }
 
 .decoration-icon {
     position: absolute;
     font-size: 8em;
-    color: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.05); /* Opacidade ajustada */
     z-index: -1;
     animation: rotate-animation 20s infinite linear;
 }
@@ -84,20 +86,20 @@ body {
 .decoration-icon.bottom-left { bottom: 10%; left: 10%; }
 .decoration-icon.bottom-right { bottom: 10%; right: 10%; }
 
-/* Estrutura das Telas (Ajustada) */
+/* Estrutura das Telas */
 .screen {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    min-height: 100vh; /* Garante que a tela ocupe toda a altura */
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
     box-sizing: border-box;
     transition: opacity 0.5s ease, transform 0.5s ease;
-    overflow-y: auto; /* Permite rolagem apenas se o conteúdo for muito grande */
+    overflow-y: auto;
 }
 
 .screen.hidden {
@@ -123,11 +125,11 @@ body {
     max-width: 500px;
     width: 100%;
     border-left: 5px solid var(--accent-color);
-    display: flex; /* Adiciona flex para centralização interna */
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1.5em; /* Espaçamento entre os elementos */
+    gap: 1.5em;
 }
 
 .intro-icon {
@@ -166,7 +168,7 @@ body {
     padding: 2em 1.5em;
     border-radius: var(--border-radius);
     width: 180px;
-    flex-grow: 1; /* Permite que os cartões se ajustem */
+    flex-grow: 1;
     cursor: pointer;
     transition: all 0.3s ease;
     border: 2px solid transparent;
@@ -265,7 +267,6 @@ body {
 
 h1 { font-size: 2.2em; font-weight: 700; margin: 0; }
 .game-header p { margin: 0.5em 0 1.5em; opacity: 0.7; }
-
 #player-name-display { text-align: center; }
 
 #timer-display {
@@ -286,7 +287,7 @@ h1 { font-size: 2.2em; font-weight: 700; margin: 0; }
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 1em; /* Espaçamento entre os elementos da dica */
+    gap: 1em;
 }
 
 #dica {
