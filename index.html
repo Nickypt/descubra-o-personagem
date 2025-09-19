@@ -10,6 +10,10 @@
 </head>
 <body>
 
+    <audio id="somAcerto" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    <audio id="somErro" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
+    <audio id="somVitoria" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"></audio>
+
     <div id="start-screen" class="screen">
         <div class="intro-container animate__fade-in-up">
             <i class="fas fa-question-circle intro-icon animate__pulse"></i>
@@ -17,6 +21,18 @@
             <p>Sua missão é descobrir o personagem secreto com a menor quantidade de dicas possível.</p>
             <input type="text" id="name-input" placeholder="Digite seu nome...">
             <button id="start-btn">Começar Jogo</button>
+        </div>
+    </div>
+
+    <div id="difficulty-screen" class="screen hidden">
+        <div class="difficulty-container animate__fade-in-up">
+            <h2>Escolha a Dificuldade</h2>
+            <p>Personagens mais conhecidos valem mais pontos!</p>
+            <div class="difficulty-options">
+                <button id="easy-btn" class="difficulty-btn">Fácil</button>
+                <button id="medium-btn" class="difficulty-btn">Médio</button>
+                <button id="hard-btn" class="difficulty-btn">Difícil</button>
+            </div>
         </div>
     </div>
 
@@ -37,6 +53,10 @@
                 <div class="score-item">
                     <i class="fas fa-star"></i>
                     <p id="meta">Meta: 30</p>
+                </div>
+                <div class="score-item">
+                    <i class="fas fa-brain"></i>
+                    <p id="dificuldade-display">Nível: Fácil</p>
                 </div>
             </aside>
             
