@@ -37,6 +37,7 @@ let nomeJogador = "";
 let tempoRestante = TEMPO_MAXIMO;
 let timer;
 let nivelDificuldade = "";
+let sequenciaAcertos = 0;
 
 // Elementos das telas
 const startScreen = document.getElementById('start-screen');
@@ -67,6 +68,15 @@ const playerNameDisplay = document.getElementById('player-name-display');
 const timerDisplay = document.getElementById('timer-display');
 const dificuldadeDisplay = document.getElementById('dificuldade-display');
 
+// Elementos para o novo feedback visual
+const dicaDots = [
+    document.getElementById('dica1-dot'),
+    document.getElementById('dica2-dot'),
+    document.getElementById('dica3-dot')
+];
+const personagemFeedback = document.getElementById('personagem-feedback');
+const feedbackIcon = document.getElementById('feedback-icon');
+
 // Elementos da tela de fim de jogo
 const endTitle = document.getElementById('end-title');
 const endIcon = document.getElementById('end-icon');
@@ -82,6 +92,18 @@ const somVitoria = document.getElementById('somVitoria');
 function playSound(sound) {
     sound.currentTime = 0;
     sound.play().catch(e => console.error("Erro ao tocar áudio:", e));
+}
+
+// Função para atualizar o indicador de dicas visuais
+function atualizarIndicadorDicas() {
+    dicaDots.forEach((dot, index) => {
+        dot.classList.remove('used', 'active');
+        if (index < dicaAtual) {
+            dot.classList.add('used');
+        } else if (index === dicaAtual) {
+            dot.classList.add('active');
+        }
+    });
 }
 
 function iniciarNovaRodada() {
@@ -101,6 +123,8 @@ function iniciarNovaRodada() {
     divDica.innerHTML = '<p>Toque em "Pedir Dica" para começar!</p>';
     personagemImagem.src = '';
     personagemImagem.classList.add('hidden');
+    feedbackIcon.classList.add('hidden');
+    atualizarIndicadorDicas();
     playerNameDisplay.textContent = `Olá, ${nomeJogador}!`;
     dificuldadeDisplay.textContent = `Nível: ${nivelDificuldade.charAt(0).toUpperCase() + nivelDificuldade.slice(1)}`;
     inputPalpite.focus();
@@ -124,21 +148,52 @@ function verificarPalpite() {
 
     if (palpite === personagemSecreto.nome.toLowerCase()) {
         const pontosGanhos = calcularPontos(tentativas);
-        
-        // Adiciona o bônus por tempo
         const bonusTempo = calcularBonusTempo(tempoRestante);
-        const totalPontos = pontosGanhos + bonusTempo;
 
+        // Aumenta a sequência de acertos
+        sequenciaAcertos++;
+        let bonusSequencia = 0;
+        let mensagemSequencia = "";
+
+        if (sequenciaAcertos >= 3) {
+            bonusSequencia = 10 * sequenciaAcertos;
+            mensagemSequencia = `Você está em uma sequência de ${sequenciaAcertos} acertos e ganhou um bônus de ${bonusSequencia} pontos!`;
+        }
+        
+        const totalPontos = pontosGanhos + bonusTempo + bonusSequencia;
+        
         atualizarPontuacao(totalPontos);
         
-        mensagem.textContent = `Parabéns, ${nomeJogador}! Você acertou em ${tentativas} tentativa(s) e ganhou ${pontosGanhos} pontos. Bônus de tempo: ${bonusTempo} pontos! Total: ${totalPontos} pontos.`;
+        mensagem.innerHTML = `Parabéns, ${nomeJogador}! Você acertou em ${tentativas} tentativa(s) e ganhou ${pontosGanhos} pontos.<br>Bônus de tempo: ${bonusTempo} pontos!`;
+        
+        // Adiciona a mensagem do bônus de sequência se houver
+        if (bonusSequencia > 0) {
+            mensagem.innerHTML += `<br>${mensagemSequencia}`;
+        }
+
+        mensagem.innerHTML += `<br>Total: ${totalPontos} pontos.`;
         mensagem.className = 'win-message';
         playSound(somAcerto);
+        
+        // Adiciona feedback visual de acerto
+        feedbackIcon.classList.remove('hidden', 'incorrect');
+        feedbackIcon.classList.add('correct', 'fa-check');
+        personagemImagem.src = personagemSecreto.imagemUrl;
+        personagemImagem.classList.remove('hidden');
+
         fimDeRodada();
     } else {
         mensagem.textContent = 'Incorreto. Tente novamente!';
         mensagem.className = 'lose-message shake';
         playSound(somErro);
+
+        // Reseta a sequência de acertos
+        sequenciaAcertos = 0;
+        
+        // Adiciona feedback visual de erro
+        feedbackIcon.classList.remove('hidden', 'correct');
+        feedbackIcon.classList.add('incorrect', 'fa-times');
+
         setTimeout(() => {
             mensagem.classList.remove('shake');
         }, 500);
@@ -146,6 +201,11 @@ function verificarPalpite() {
         if (tentativas >= 3) {
             mensagem.textContent = `Você errou 3 vezes, ${nomeJogador}. O personagem era "${personagemSecreto.nome}".`;
             mensagem.className = 'lose-message';
+            
+            // Mostra a imagem mesmo se o jogador errar 3 vezes
+            personagemImagem.src = personagemSecreto.imagemUrl;
+            personagemImagem.classList.remove('hidden');
+
             fimDeRodada();
         }
     }
@@ -155,6 +215,7 @@ function mostrarDica() {
     dicaAtual++;
     if (dicaAtual < personagemSecreto.dicas.length) {
         divDica.innerHTML = `<p>${personagemSecreto.dicas[dicaAtual]}</p>`;
+        atualizarIndicadorDicas();
     } else {
         divDica.innerHTML = '';
         personagemImagem.src = personagemSecreto.imagemUrl;
@@ -300,6 +361,7 @@ hardBtn.addEventListener('click', () => {
 
 function iniciarNovoJogoCompleto() {
     pontuacao = 0;
+    sequenciaAcertos = 0;
     metaTexto.textContent = `Meta: ${META_PONTOS}`;
     pontuacaoTexto.textContent = `Pontos: ${pontuacao}`;
     iniciarNovaRodada();
