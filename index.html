@@ -27,11 +27,23 @@
     <div id="difficulty-screen" class="screen hidden">
         <div class="difficulty-container animate__fade-in-up">
             <h2>Escolha a Dificuldade</h2>
-            <p>Personagens mais conhecidos valem mais pontos!</p>
+            <p class="difficulty-subtitle">Personagens mais obscuros valem mais pontos!</p>
             <div class="difficulty-options">
-                <button id="easy-btn" class="difficulty-btn">Fácil</button>
-                <button id="medium-btn" class="difficulty-btn">Médio</button>
-                <button id="hard-btn" class="difficulty-btn">Difícil</button>
+                <div class="difficulty-card" id="easy-btn">
+                    <i class="fas fa-brain card-icon easy"></i>
+                    <h3>Fácil</h3>
+                    <p>Personagens icônicos e mundialmente conhecidos. Ideal para começar.</p>
+                </div>
+                <div class="difficulty-card" id="medium-btn">
+                    <i class="fas fa-gem card-icon medium"></i>
+                    <h3>Médio</h3>
+                    <p>Personagens populares, mas que exigem um pouco mais de reflexão.</p>
+                </div>
+                <div class="difficulty-card" id="hard-btn">
+                    <i class="fas fa-skull card-icon hard"></i>
+                    <h3>Difícil</h3>
+                    <p>Personagens de nicho que vão testar seu conhecimento. Máxima pontuação!</p>
+                </div>
             </div>
         </div>
     </div>
