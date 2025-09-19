@@ -15,7 +15,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: var(--bg-color);
+    background: linear-gradient(45deg, #1a1a2e, #16213e);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,6 +25,13 @@ body {
     text-align: center;
     position: relative;
     overflow: hidden;
+    animation: background-pulse 10s infinite alternate;
+}
+
+/* Animação do fundo */
+@keyframes background-pulse {
+    0% { background-color: #1a1a2e; }
+    100% { background-color: #121c2c; }
 }
 
 /* Utilitários */
@@ -223,6 +230,7 @@ body {
     gap: 2em;
     width: 90%;
     max-width: 1200px;
+    animation: fade-in-up 1s ease-out;
 }
 
 .score-sidebar {
@@ -398,9 +406,10 @@ button {
     background-color: var(--accent-color);
     color: #fff;
     font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); }
+button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); }
 
 button:disabled {
     cursor: not-allowed;
@@ -470,11 +479,12 @@ button:disabled {
     border: none;
     border-radius: 50px;
     cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 #play-again-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
 }
 
 @media (max-width: 850px) {
