@@ -97,7 +97,6 @@ function playSound(sound) {
     sound.play().catch(e => console.error("Erro ao tocar áudio:", e));
 }
 
-// Função para atualizar o indicador de dicas visuais
 function atualizarIndicadorDicas() {
     dicaDots.forEach((dot, index) => {
         dot.classList.remove('used', 'active');
@@ -131,7 +130,7 @@ function iniciarNovaRodada() {
     playerNameDisplay.textContent = `Olá, ${nomeJogador}!`;
     dificuldadeDisplay.textContent = `Nível: ${nivelDificuldade.charAt(0).toUpperCase() + nivelDificuldade.slice(1)}`;
     inputPalpite.focus();
-    iniciarCronometro(); // Reinicia o cronômetro para cada nova rodada
+    iniciarCronometro();
 }
 
 function atualizarPontuacao(pontosGanhos) {
@@ -214,7 +213,7 @@ function mostrarDica() {
         personagemImagem.src = personagemSecreto.imagemUrl;
         personagemImagem.classList.remove('hidden');
         personagemImagem.onerror = function() {
-            this.src = 'https://i.imgur.com/kYq3Q0L.jpeg'; // Imagem de fallback
+            this.src = 'https://i.imgur.com/kYq3Q0L.jpeg';
             mensagem.textContent = "A imagem não foi carregada. Tente adivinhar com as dicas!";
         };
         btnPedirDica.disabled = true;
@@ -254,10 +253,8 @@ function fimDeRodada(resultado) {
     btnReiniciar.classList.remove('hidden');
 
     if (pontuacao >= META_PONTOS) {
-        btnReiniciar.textContent = "Próximo Personagem"; // Se o jogador já tem pontos, ele continua
         fimDeJogoTotal("vitoria");
     } else if (resultado === "erro" && tentativas >= 3) {
-        btnReiniciar.textContent = "Jogar Novamente"; // Se a derrota foi por 3 erros, ele reinicia
         fimDeJogoTotal("derrota");
     } else {
         btnReiniciar.textContent = 'Próximo Personagem';
@@ -272,7 +269,6 @@ function fimDeJogoTotal(resultado) {
     endContainer.classList.remove('win', 'lose');
     endIcon.classList.remove('fa-trophy', 'fa-sad-cry');
     
-    // Limpa confetes anteriores
     document.querySelectorAll('.confetti-piece').forEach(confetti => confetti.remove());
 
     if (resultado === "vitoria") {
@@ -299,10 +295,9 @@ function fimDeJogoTotal(resultado) {
 
 function perderPorTempo() {
     clearInterval(timer);
-    // Para garantir que a imagem seja mostrada no final
     personagemImagem.src = personagemSecreto.imagemUrl;
     personagemImagem.classList.remove('hidden');
-    feedbackIcon.classList.add('hidden'); // O ícone de feedback não faz sentido aqui
+    feedbackIcon.classList.add('hidden');
     mensagem.textContent = `O tempo acabou! O personagem era "${personagemSecreto.nome}".`;
     fimDeJogoTotal("derrota");
 }
@@ -367,6 +362,31 @@ function iniciarNovoJogoCompleto() {
 }
 
 btnReiniciar.addEventListener('click', () => {
-    if (pontuacao >= META_PONTOS) { // Se o jogador venceu, ele continua na mesma dificuldade
+    if (pontuacao >= META_PONTOS) {
         iniciarNovaRodada();
-    } else { // Se o jogador
+    } else {
+        gameScreen.classList.add('hidden');
+        difficultyScreen.classList.remove('hidden');
+    }
+});
+
+btnEnviar.addEventListener('click', verificarPalpite);
+btnPedirDica.addEventListener('click', mostrarDica);
+inputPalpite.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        verificarPalpite();
+    }
+});
+
+playAgainBtn.addEventListener('click', () => {
+    endScreen.classList.add('hidden');
+    gameScreen.classList.remove('hidden');
+    iniciarNovoJogoCompleto();
+});
+
+changeDifficultyBtn.addEventListener('click', () => {
+    endScreen.classList.add('hidden');
+    difficultyScreen.classList.remove('hidden');
+    pontuacao = 0;
+    sequenciaAcertos = 0;
+});
