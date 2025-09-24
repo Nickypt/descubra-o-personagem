@@ -111,13 +111,22 @@ button:disabled {
     color: #aaa;
 }
 
+.difficulty-container {
+    max-width: 900px; /* Aumente a largura máxima para acomodar os cards */
+}
+
 .difficulty-options {
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* Altera a direção para linha */
+    justify-content: center; /* Centraliza os itens horizontalmente */
+    align-items: center; /* Centraliza os itens verticalmente */
+    flex-wrap: wrap; /* Permite que os cards quebrem para a próxima linha */
     gap: 20px;
 }
 
 .difficulty-card {
+    flex: 1 1 250px; /* Cada card terá pelo menos 250px de largura e poderá crescer */
+    max-width: 300px;
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: 15px;
     padding: 20px;
