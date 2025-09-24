@@ -17,9 +17,8 @@
 body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(45deg, #1a1a2e, #16213e);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    place-items: center;
     min-height: 100vh;
     margin: 0;
     color: var(--primary-color);
@@ -92,9 +91,8 @@ body {
     left: 0;
     width: 100%;
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    place-items: center;
     padding: 20px;
     box-sizing: border-box;
     transition: opacity 0.5s ease, transform 0.5s ease;
@@ -213,27 +211,26 @@ body {
 .difficulty-subtitle { opacity: 0.8; }
 
 /* Estilo da Tela do Jogo */
-.main-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+#game-screen {
+    display: grid;
+    grid-template-rows: auto 1fr;
     gap: 1em;
-    width: 95%;
-    max-width: 800px;
-    animation: fade-in-up 1s ease-out;
 }
 
 .game-stats-bar {
-    background-color: var(--card-bg);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(34, 37, 58, 0.9);
+    backdrop-filter: blur(5px);
     padding: 0.8em 1.5em;
-    border-radius: 50px;
-    box-shadow: var(--shadow);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
     gap: 1em;
-    width: 100%;
-    margin-bottom: 1em;
+    z-index: 20;
 }
 
 .score-item {
@@ -260,7 +257,9 @@ body {
     align-items: center;
     justify-content: center;
     gap: 1em;
-    width: 100%;
+    width: 95%;
+    max-width: 800px;
+    margin-top: 80px; /* Espaço para a barra de status fixa */
 }
 
 h1 { font-size: 1.8em; font-weight: 700; margin: 0; }
@@ -279,20 +278,27 @@ h1 { font-size: 1.8em; font-weight: 700; margin: 0; }
     animation: pulse 1s infinite;
 }
 
-#dica-container {
-    width: 100%;
+#game-content {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    gap: 1em;
+    flex-grow: 1;
+    width: 100%;
 }
 
-#dica {
+#dica-area, #personagem-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.dica-text {
     font-size: 1em;
     line-height: 1.5;
     max-width: 90%;
-    color: var(--primary-color);
     opacity: 0.9;
     animation: fade-in-up 0.5s ease-out;
 }
@@ -315,15 +321,8 @@ h1 { font-size: 1.8em; font-weight: 700; margin: 0; }
 .progresso-dot.active { background-color: var(--warning-color); transform: scale(1.2); }
 .progresso-dot.used { background-color: var(--accent-color); transform: scale(0.9); }
 
-#personagem-feedback {
+#personagem-area {
     position: relative;
-    width: 100%;
-    max-width: 250px;
-    max-height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1em;
 }
 
 #personagem-imagem {
@@ -346,7 +345,15 @@ h1 { font-size: 1.8em; font-weight: 700; margin: 0; }
 #feedback-icon.correct { color: var(--success-color); }
 #feedback-icon.incorrect { color: var(--danger-color); }
 
-.controls {
+#controls-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8em;
+    width: 100%;
+}
+
+.controls-action {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -475,7 +482,7 @@ button:disabled { cursor: not-allowed; opacity: 0.6; }
 @media (max-width: 500px) {
     .intro-container, .difficulty-container, .game-container, .end-container { padding: 2em 1em; }
     h1 { font-size: 1.5em; }
-    .controls { flex-direction: column; }
+    .controls-action { flex-direction: column; }
     input, button { width: 100%; box-sizing: border-box; }
 }
 

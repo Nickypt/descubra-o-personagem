@@ -67,6 +67,7 @@ const metaTexto = document.getElementById('meta');
 const playerNameDisplay = document.getElementById('player-name-display');
 const timerDisplay = document.getElementById('timer-display');
 const dificuldadeDisplay = document.getElementById('dificuldade-display');
+const controlsAction = document.querySelector('.controls-action');
 
 // Elementos para o novo feedback visual
 const dicaDots = [
@@ -74,7 +75,6 @@ const dicaDots = [
     document.getElementById('dica2-dot'),
     document.getElementById('dica3-dot')
 ];
-const personagemFeedback = document.getElementById('personagem-feedback');
 const feedbackIcon = document.getElementById('feedback-icon');
 
 // Elementos da tela de fim de jogo
@@ -116,12 +116,11 @@ function iniciarNovaRodada() {
     inputPalpite.value = '';
     mensagem.textContent = '';
     mensagem.className = '';
-    btnEnviar.disabled = false;
-    btnPedirDica.style.display = 'inline-block';
-    btnPedirDica.disabled = false;
+    controlsAction.classList.remove('hidden');
     btnReiniciar.classList.add('hidden');
+    btnPedirDica.disabled = false;
+    
     divDica.innerHTML = '<p>Toque em "Pedir Dica" para começar!</p>';
-    personagemImagem.src = '';
     personagemImagem.classList.add('hidden');
     feedbackIcon.classList.add('hidden');
     atualizarIndicadorDicas();
@@ -149,15 +148,13 @@ function verificarPalpite() {
     if (palpite === personagemSecreto.nome.toLowerCase()) {
         const pontosGanhos = calcularPontos();
         const bonusTempo = calcularBonusTempo(tempoRestante);
-
-        // Aumenta a sequência de acertos
         sequenciaAcertos++;
         let bonusSequencia = 0;
         let mensagemSequencia = "";
 
         if (sequenciaAcertos >= 3) {
             bonusSequencia = 10 * sequenciaAcertos;
-            mensagemSequencia = `Você está em uma sequência de ${sequenciaAcertos} acertos e ganhou um bônus de ${bonusSequencia} pontos!`;
+            mensagemSequencia = `<br>Você está em uma sequência de ${sequenciaAcertos} acertos e ganhou um bônus de ${bonusSequencia} pontos!`;
         }
         
         const totalPontos = pontosGanhos + bonusTempo + bonusSequencia;
@@ -180,6 +177,8 @@ function verificarPalpite() {
         feedbackIcon.classList.add('correct', 'fa-check');
         personagemImagem.src = personagemSecreto.imagemUrl;
         personagemImagem.classList.remove('hidden');
+        divDica.innerHTML = '';
+
 
         fimDeRodada();
     } else {
@@ -205,7 +204,7 @@ function verificarPalpite() {
             // Mostra a imagem mesmo se o jogador errar 3 vezes
             personagemImagem.src = personagemSecreto.imagemUrl;
             personagemImagem.classList.remove('hidden');
-
+            divDica.innerHTML = '';
             fimDeRodada();
         }
     }
@@ -268,9 +267,7 @@ function calcularBonusTempo(tempo) {
 }
 
 function fimDeRodada() {
-    btnEnviar.disabled = true;
-    btnPedirDica.disabled = true;
-    btnPedirDica.style.display = 'none';
+    controlsAction.classList.add('hidden');
     btnReiniciar.classList.remove('hidden');
 
     if (pontuacao >= META_PONTOS) {
@@ -382,13 +379,17 @@ function iniciarNovoJogoCompleto() {
 }
 
 btnReiniciar.addEventListener('click', () => {
-    if (btnReiniciar.textContent === 'Reiniciar Jogo') {
+    if (pontuacao >= META_PONTOS || tentativas >= 3) {
         endScreen.classList.add('hidden');
         difficultyScreen.classList.remove('hidden');
+        pontuacao = 0; // Zera a pontuação para um novo jogo
+        sequenciaAcertos = 0;
+        pontuacaoTexto.textContent = `Pontos: ${pontuacao}`;
     } else {
         iniciarNovaRodada();
     }
 });
+
 
 btnEnviar.addEventListener('click', verificarPalpite);
 btnPedirDica.addEventListener('click', mostrarDica);
