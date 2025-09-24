@@ -328,11 +328,6 @@ function iniciarCronometro() {
 // --- Event Listeners ---
 startBtn.addEventListener('click', () => {
     nomeJogador = nameInput.value.trim() || "Jogador";
-    
-    // Remove a classe "hidden" do body para que o CSS de tela cheia seja aplicado
-    document.body.classList.remove('hidden'); 
-    
-    // Esconde a tela de início e mostra a de dificuldade
     startScreen.classList.add('hidden');
     difficultyScreen.classList.remove('hidden');
 });
@@ -367,12 +362,8 @@ function iniciarNovoJogoCompleto() {
 }
 
 btnReiniciar.addEventListener('click', () => {
-    if (pontuacao >= META_PONTOS) {
-        iniciarNovaRodada();
-    } else {
-        gameScreen.classList.add('hidden');
-        difficultyScreen.classList.remove('hidden');
-    }
+    // CORREÇÃO: Ação do botão "Próximo Personagem" agora inicia uma nova rodada diretamente
+    iniciarNovaRodada();
 });
 
 btnEnviar.addEventListener('click', verificarPalpite);
@@ -385,8 +376,10 @@ inputPalpite.addEventListener('keydown', (event) => {
 
 playAgainBtn.addEventListener('click', () => {
     endScreen.classList.add('hidden');
-    gameScreen.classList.remove('hidden');
-    iniciarNovoJogoCompleto();
+    startScreen.classList.remove('hidden');
+    // Reinicia o jogo por completo ao voltar para a tela de início
+    pontuacao = 0;
+    sequenciaAcertos = 0;
 });
 
 changeDifficultyBtn.addEventListener('click', () => {
