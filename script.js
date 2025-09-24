@@ -328,6 +328,11 @@ function iniciarCronometro() {
 // --- Event Listeners ---
 startBtn.addEventListener('click', () => {
     nomeJogador = nameInput.value.trim() || "Jogador";
+    
+    // Remove a classe "hidden" do body para que o CSS de tela cheia seja aplicado
+    document.body.classList.remove('hidden'); 
+    
+    // Esconde a tela de início e mostra a de dificuldade
     startScreen.classList.add('hidden');
     difficultyScreen.classList.remove('hidden');
 });
