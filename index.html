@@ -1,128 +1,119 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adivinhe o Personagem</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhe o Personagem</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <audio id="somAcerto" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-    <audio id="somErro" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
-    <audio id="somVitoria" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"></audio>
+    <audio id="somAcerto" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    <audio id="somErro" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
+    <audio id="somVitoria" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"></audio>
 
-    <div id="start-screen" class="screen">
-        <div class="background-decorations">
-            <i class="fas fa-question-circle decoration-icon top-left"></i>
-            <i class="fas fa-question-circle decoration-icon bottom-right"></i>
-            <i class="fas fa-question-circle decoration-icon top-right"></i>
-            <i class="fas fa-question-circle decoration-icon bottom-left"></i>
-        </div>
-        <div class="intro-container">
-            <i class="fas fa-question-circle intro-icon"></i>
-            <h1>Bem-vindo ao <br>Adivinhe o Personagem</h1>
-            <p>Sua missão é descobrir o personagem secreto com a menor quantidade de dicas possível.</p>
-            <input type="text" id="name-input" placeholder="Digite seu nome...">
-            <button id="start-btn">Começar Jogo</button>
-        </div>
-    </div>
+    <div id="start-screen" class="screen">
+        <div class="background-decorations"></div>
+        <div class="intro-container">
+            <i class="fas fa-question-circle intro-icon"></i>
+            <h1>Adivinhe o <br>Personagem</h1>
+            <p>Sua missão é descobrir o personagem secreto com a menor quantidade de dicas possível.</p>
+            <input type="text" id="name-input" placeholder="Digite seu nome...">
+            <button id="start-btn">Começar Jogo</button>
+        </div>
+    </div>
 
-    <div id="difficulty-screen" class="screen hidden">
-        <div class="difficulty-container">
-            <h2>Escolha a Dificuldade</h2>
-            <p class="difficulty-subtitle">Personagens mais obscuros valem mais pontos!</p>
-            <div class="difficulty-options">
-                <div class="difficulty-card" id="easy-btn">
-                    <i class="fas fa-brain card-icon easy"></i>
-                    <h3>Fácil</h3>
-                    <p>Personagens icônicos e mundialmente conhecidos. Ideal para começar.</p>
-                </div>
-                <div class="difficulty-card" id="medium-btn">
-                    <i class="fas fa-gem card-icon medium"></i>
-                    <h3>Médio</h3>
-                    <p>Personagens populares, mas que exigem um pouco mais de reflexão.</p>
-                </div>
-                <div class="difficulty-card" id="hard-btn">
-                    <i class="fas fa-skull card-icon hard"></i>
-                    <h3>Difícil</h3>
-                    <p>Personagens de nicho que vão testar seu conhecimento. Máxima pontuação!</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div id="difficulty-screen" class="screen hidden">
+        <div class="background-decorations"></div>
+        <div class="difficulty-container">
+            <h2>Escolha a Dificuldade</h2>
+            <p class="difficulty-subtitle">Personagens mais obscuros valem mais pontos!</p>
+            <div class="difficulty-options">
+                <div class="difficulty-card" id="easy-btn">
+                    <i class="fas fa-brain card-icon easy"></i>
+                    <h3>Fácil</h3>
+                    <p>Personagens icônicos e mundialmente conhecidos. Ideal para começar.</p>
+                </div>
+                <div class="difficulty-card" id="medium-btn">
+                    <i class="fas fa-gem card-icon medium"></i>
+                    <h3>Médio</h3>
+                    <p>Personagens populares, mas que exigem um pouco mais de reflexão.</p>
+                </div>
+                <div class="difficulty-card" id="hard-btn">
+                    <i class="fas fa-skull card-icon hard"></i>
+                    <h3>Difícil</h3>
+                    <p>Personagens de nicho que vão testar seu conhecimento. Máxima pontuação!</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div id="game-screen" class="screen hidden">
-        <div class="background-decorations">
-            <i class="fas fa-question-circle decoration-icon top-left"></i>
-            <i class="fas fa-question-circle decoration-icon bottom-right"></i>
-            <i class="fas fa-question-circle decoration-icon top-right"></i>
-            <i class="fas fa-question-circle decoration-icon bottom-left"></i>
-        </div>
-        
-        <div class="game-stats-bar">
-            <div class="score-item">
-                <i class="fas fa-trophy"></i>
-                <p id="pontuacao">Pontos: 0</p>
-            </div>
-            <div class="score-item">
-                <i class="fas fa-star"></i>
-                <p id="meta">Meta: 30</p>
-            </div>
-            <div class="score-item">
-                <i class="fas fa-brain"></i>
-                <p id="dificuldade-display">Nível: Fácil</p>
-            </div>
-            <div class="score-item">
-                <i class="fas fa-clock"></i>
-                <p id="timer-display">Tempo: 60s</p>
-            </div>
-        </div>
-        
-        <main class="game-container">
-            <header class="game-header">
-                <h1 id="player-name-display">Adivinhe o Personagem</h1>
-                <p>Descubra quem é a figura misteriosa!</p>
-            </header>
-            
-            <div id="game-content">
-                <div id="dica-area">
-                    <div id="dica-progresso" class="progresso-container">
-                        <div id="dica1-dot" class="progresso-dot active"></div>
-                        <div id="dica2-dot" class="progresso-dot"></div>
-                        <div id="dica3-dot" class="progresso-dot"></div>
-                    </div>
-                    <div id="dica" class="dica-text"></div>
-                </div>
-                <div id="personagem-area">
-                    <img id="personagem-imagem" src="" alt="Imagem do Personagem" class="hidden">
-                    <i id="feedback-icon" class="fas hidden"></i>
-                </div>
-            </div>
-            
-            <div id="controls-container">
-                <div class="controls-action">
-                    <button id="pedirDicaBtn">Pedir Dica</button>
-                    <input type="text" id="adivinhaInput" placeholder="Digite seu palpite...">
-                    <button id="enviarPalpiteBtn">Adivinhar</button>
-                </div>
-                <button id="reiniciarBtn" class="hidden">Próximo Personagem</button>
-            </div>
-            <p id="mensagem"></p>
-        </main>
-    </div>
+    <div id="game-screen" class="screen hidden">
+        <div class="background-decorations"></div>
+        <div class="game-stats-bar">
+            <div class="score-item">
+                <i class="fas fa-trophy"></i>
+                <p id="pontuacao">Pontos: 0</p>
+            </div>
+            <div class="score-item">
+                <i class="fas fa-star"></i>
+                <p id="meta">Meta: 30</p>
+            </div>
+            <div class="score-item">
+                <i class="fas fa-brain"></i>
+                <p id="dificuldade-display">Nível: Fácil</p>
+            </div>
+            <div class="score-item">
+                <i class="fas fa-clock"></i>
+                <p id="timer-display">Tempo: 60s</p>
+            </div>
+        </div>
+        
+        <main class="game-container">
+            <header class="game-header">
+                <h1 id="player-name-display">Adivinhe o Personagem</h1>
+                <p>Descubra quem é a figura misteriosa!</p>
+            </header>
+            
+            <div id="game-content">
+                <div id="dica-area">
+                    <div id="dica-progresso" class="progresso-container">
+                        <div id="dica1-dot" class="progresso-dot active"></div>
+                        <div id="dica2-dot" class="progresso-dot"></div>
+                        <div id="dica3-dot" class="progresso-dot"></div>
+                    </div>
+                    <div id="dica" class="dica-text"></div>
+                </div>
+                <div id="personagem-area">
+                    <img id="personagem-imagem" src="" alt="Imagem do Personagem" class="hidden">
+                    <i id="feedback-icon" class="fas hidden"></i>
+                </div>
+            </div>
+            
+            <div id="controls-container">
+                <div class="controls-action">
+                    <button id="pedirDicaBtn">Pedir Dica</button>
+                    <input type="text" id="adivinhaInput" placeholder="Digite seu palpite...">
+                    <button id="enviarPalpiteBtn">Adivinhar</button>
+                </div>
+                <button id="reiniciarBtn" class="hidden">Próximo Personagem</button>
+            </div>
+            <p id="mensagem"></p>
+        </main>
+    </div>
 
-    <div id="end-screen" class="screen hidden">
-        <div id="end-container" class="end-container">
-            <i id="end-icon" class="end-icon fas"></i>
-            <h1 id="end-title">Fim de Jogo!</h1>
-            <p id="end-message"></p>
-            <button id="play-again-btn">Jogar Novamente</button>
-        </div>
-    </div>
+    <div id="end-screen" class="screen hidden">
+        <div class="background-decorations"></div>
+        <div id="end-container" class="end-container">
+            <i id="end-icon" class="end-icon fas"></i>
+            <h1 id="end-title">Fim de Jogo!</h1>
+            <p id="end-message"></p>
+            <button id="play-again-btn">Jogar Novamente</button>
+        </div>
+    </div>
 
-    <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
