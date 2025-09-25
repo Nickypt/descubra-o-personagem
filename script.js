@@ -125,7 +125,11 @@ function iniciarNovaRodada() {
     divDica.innerHTML = '<p>Toque em "Pedir Dica" para começar!</p>';
     personagemImagem.src = '';
     personagemImagem.classList.add('hidden');
+    
+    // CORREÇÃO: Limpar o feedback visual na nova rodada
     feedbackIcon.classList.add('hidden');
+    feedbackIcon.classList.remove('fa-check', 'fa-times', 'correct', 'incorrect');
+    
     atualizarIndicadorDicas();
     playerNameDisplay.textContent = `Olá, ${nomeJogador}!`;
     dificuldadeDisplay.textContent = `Nível: ${nivelDificuldade.charAt(0).toUpperCase() + nivelDificuldade.slice(1)}`;
@@ -146,6 +150,10 @@ function verificarPalpite() {
         mensagem.textContent = 'Por favor, digite um nome de personagem.';
         return;
     }
+
+    // CORREÇÃO: Limpar o feedback visual anterior antes de aplicar um novo
+    feedbackIcon.classList.add('hidden'); 
+    feedbackIcon.classList.remove('fa-check', 'fa-times', 'correct', 'incorrect');
 
     tentativas++;
 
@@ -174,8 +182,10 @@ function verificarPalpite() {
         mensagem.className = 'win-message';
         playSound(somAcerto);
         
-        feedbackIcon.classList.remove('hidden', 'incorrect');
+        // Exibe o ícone de ACERTO
+        feedbackIcon.classList.remove('hidden');
         feedbackIcon.classList.add('correct', 'fa-check');
+
         personagemImagem.src = personagemSecreto.imagemUrl;
         personagemImagem.classList.remove('hidden');
 
@@ -186,12 +196,16 @@ function verificarPalpite() {
         playSound(somErro);
         sequenciaAcertos = 0;
         
-        feedbackIcon.classList.remove('hidden', 'correct');
+        // Exibe o ícone de ERRO temporariamente
+        feedbackIcon.classList.remove('hidden');
         feedbackIcon.classList.add('incorrect', 'fa-times');
 
         setTimeout(() => {
             mensagem.classList.remove('shake');
-        }, 500);
+            // Esconde o ícone de erro após um breve tempo para não interferir na próxima dica
+            feedbackIcon.classList.add('hidden'); 
+            feedbackIcon.classList.remove('incorrect', 'fa-times');
+        }, 800);
 
         if (tentativas >= 3) {
             mensagem.textContent = `Você errou 3 vezes, ${nomeJogador}. O personagem era "${personagemSecreto.nome}".`;
@@ -205,6 +219,11 @@ function verificarPalpite() {
 
 function mostrarDica() {
     dicaAtual++;
+    
+    // Esconde o feedback visual de erro, caso esteja ativo, antes de mostrar a dica
+    feedbackIcon.classList.add('hidden');
+    feedbackIcon.classList.remove('fa-check', 'fa-times', 'correct', 'incorrect');
+    
     if (dicaAtual < personagemSecreto.dicas.length) {
         divDica.innerHTML = `<p>${personagemSecreto.dicas[dicaAtual]}</p>`;
         atualizarIndicadorDicas();
@@ -233,7 +252,12 @@ function calcularPontos() {
     }
     const penalidadeDica = dicaAtual * 2;
     pontos = Math.max(0, pontos - penalidadeDica);
-    return pontos;
+    
+    // Bônus de Dificuldade
+    if (nivelDificuldade === 'medio') pontos *= 1.5;
+    if (nivelDificuldade === 'dificil') pontos *= 2;
+
+    return Math.round(pontos);
 }
 
 function calcularBonusTempo(tempo) {
@@ -362,7 +386,6 @@ function iniciarNovoJogoCompleto() {
 }
 
 btnReiniciar.addEventListener('click', () => {
-    // CORREÇÃO: Ação do botão "Próximo Personagem" agora inicia uma nova rodada diretamente
     iniciarNovaRodada();
 });
 

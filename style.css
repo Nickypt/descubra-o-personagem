@@ -112,20 +112,20 @@ button:disabled {
 }
 
 .difficulty-container {
-    max-width: 900px; /* Aumente a largura máxima para acomodar os cards */
+    max-width: 900px;
 }
 
 .difficulty-options {
     display: flex;
-    flex-direction: row; /* Altera a direção para linha */
-    justify-content: center; /* Centraliza os itens horizontalmente */
-    align-items: center; /* Centraliza os itens verticalmente */
-    flex-wrap: wrap; /* Permite que os cards quebrem para a próxima linha */
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     gap: 20px;
 }
 
 .difficulty-card {
-    flex: 1 1 250px; /* Cada card terá pelo menos 250px de largura e poderá crescer */
+    flex: 1 1 250px;
     max-width: 300px;
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: 15px;
@@ -274,6 +274,29 @@ button:disabled {
     transition: opacity 0.5s ease;
 }
 
+/* ESTILOS DE FEEDBACK CORRIGIDOS */
+#feedback-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px; 
+    z-index: 10;
+    opacity: 0.9;
+    animation: scaleIn 0.5s ease-out;
+}
+
+#feedback-icon.correct {
+    color: #4CAF50; /* Cor verde para acerto */
+    text-shadow: 0 0 15px rgba(76, 175, 80, 0.7);
+}
+
+#feedback-icon.incorrect {
+    color: #f44336; /* Cor vermelha para erro */
+    text-shadow: 0 0 15px rgba(244, 67, 54, 0.7);
+}
+/* FIM DOS ESTILOS DE FEEDBACK CORRIGIDOS */
+
 .controls {
     display: flex;
     flex-direction: column;
@@ -400,19 +423,9 @@ button:disabled {
     100% { transform: translateY(0px) rotate(0deg); }
 }
 
-#feedback-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 80px;
-    z-index: 10;
-    animation: scaleIn 0.5s ease-out;
-}
-
 @keyframes scaleIn {
     from { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
-    to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    to { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
 }
 
 @keyframes confettiFall {
@@ -459,10 +472,13 @@ button:active {
     animation: bounceIn 1s ease-out;
 }
 
+/* MEDIA QUERY CORRIGIDA PARA DESKTOP */
 @media (min-width: 768px) {
     .main-container {
         flex-direction: row;
         gap: 30px;
+        max-width: 1200px;
+        height: 80vh; 
     }
     .score-sidebar {
         flex-direction: column;
@@ -470,14 +486,24 @@ button:active {
         align-items: flex-start;
         width: 250px;
         padding: 30px;
+        box-sizing: border-box; 
     }
     .game-container {
+        flex-grow: 1;
         padding: 30px;
+        max-width: 600px; 
     }
     .controls {
         flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
     }
-    .controls button, .controls input {
+    .controls button {
+        width: auto;
+        flex-grow: 0;
+    }
+    #adivinhaInput {
+        flex-grow: 1;
         width: auto;
     }
 }
