@@ -145,9 +145,9 @@ button:disabled {
     margin-bottom: 10px;
 }
 
-.card-icon.easy { color: #940404; }
-.card-icon.medium { color: #3bd1ff; }
-.card-icon.hard { color: #4336f4; }
+.card-icon.easy { color: #19ff04; }
+.card-icon.medium { color: #ffeb3b; }
+.card-icon.hard { color: #fc2626; }
 
 /* Tela de Jogo */
 .game-screen {
