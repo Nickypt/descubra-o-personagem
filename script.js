@@ -1,4 +1,4 @@
-// Dicionário de personagens por nível de dificuldade
+// Dicionário de personagens por nível de dificuldade (Expandido com 12 por nível)
 const personagens = {
     facil: [
         { nome: "Mario", dicas: ["Ele é um encanador italiano do Reino Cogumelo.", "Ele pula em inimigos e come cogumelos para crescer."], imagemUrl: "https://i.imgur.com/7gK5J5S.jpeg" },
@@ -19,7 +19,7 @@ const personagens = {
         { nome: "Jack Sparrow", dicas: ["Ele é um pirata carismático, com um jeito de andar e falar únicos.", "Capitão do navio Pérola Negra, ele está sempre procurando tesouros e evitando a Companhia das Índias Orientais."], imagemUrl: "https://i.imgur.com/gK1kFpY.jpeg" },
         { nome: "Elsa", dicas: ["Ela é uma rainha que nasceu com poderes de gelo e neve.", "Sua música tema mais famosa é 'Let it Go', e seu castelo é feito de gelo."], imagemUrl: "https://i.imgur.com/39wF4y8.jpeg" },
         { nome: "Mulher Maravilha", dicas: ["Ela é uma princesa guerreira de Themyscira, uma ilha oculta.", "Seu principal acessório é o Laço da Verdade, que força as pessoas a dizerem a verdade."], imagemUrl: "https://i.imgur.com/z0J6t8Y.jpeg" },
-        { nome: "Bob esponja", dicas: ["É uma criatura amarela que mora em um abacaxi, no fundo do mar.", "Seu melhor amigo é uma estrela do mar, e ele trabalha no Siri Cascudo."], imagemUrl: "https://i.imgur.com/q7N6y0w.jpeg" },
+        { nome: "SpongeBob SquarePants", dicas: ["É uma criatura amarela que mora em um abacaxi, no fundo do mar.", "Seu melhor amigo é uma estrela do mar, e ele trabalha no Siri Cascudo."], imagemUrl: "https://i.imgur.com/q7N6y0w.jpeg" },
         { nome: "Optimus Prime", dicas: ["Ele é o líder dos Autobots.", "Seu corpo se transforma em um caminhão, e sua frase mais famosa é 'Autobots, roll out!'."], imagemUrl: "https://i.imgur.com/p8b6Q1c.jpeg" },
         { nome: "Lara Croft", dicas: ["Ela é uma arqueóloga britânica aventureira.", "Frequentemente usa duas pistolas e explora tumbas perigosas ao redor do mundo."], imagemUrl: "https://i.imgur.com/A6j4X4G.jpeg" },
         { nome: "Sonic", dicas: ["Ele é um ouriço azul super-rápido.", "Seu objetivo principal é deter o Dr. Eggman e coletar anéis de ouro."], imagemUrl: "https://i.imgur.com/B9tE9lP.jpeg" },
@@ -83,7 +83,10 @@ const personagemImagem = document.getElementById('personagem-imagem');
 const pontuacaoTexto = document.getElementById('pontuacao');
 const metaTexto = document.getElementById('meta');
 const playerNameDisplay = document.getElementById('player-name-display');
-const timerDisplay = document.getElementById('timer-display');
+
+// ELEMENTOS DO TIMER CIRCULAR
+const circularTimer = document.getElementById('circular-timer');
+const timerDisplay = document.getElementById('timer-display'); 
 const dificuldadeDisplay = document.getElementById('dificuldade-display');
 
 // Elementos para o novo feedback visual
@@ -144,7 +147,7 @@ function iniciarNovaRodada() {
     personagemImagem.src = '';
     personagemImagem.classList.add('hidden');
     
-    // CORREÇÃO: Limpar o feedback visual na nova rodada
+    // Limpar o feedback visual na nova rodada
     feedbackIcon.classList.add('hidden');
     feedbackIcon.classList.remove('fa-check', 'fa-times', 'correct', 'incorrect');
     
@@ -169,7 +172,7 @@ function verificarPalpite() {
         return;
     }
 
-    // CORREÇÃO: Limpar o feedback visual anterior antes de aplicar um novo
+    // Limpar o feedback visual anterior antes de aplicar um novo
     feedbackIcon.classList.add('hidden'); 
     feedbackIcon.classList.remove('fa-check', 'fa-times', 'correct', 'incorrect');
 
@@ -220,7 +223,7 @@ function verificarPalpite() {
 
         setTimeout(() => {
             mensagem.classList.remove('shake');
-            // Esconde o ícone de erro após um breve tempo para não interferir na próxima dica
+            // Esconde o ícone de erro após um breve tempo
             feedbackIcon.classList.add('hidden'); 
             feedbackIcon.classList.remove('incorrect', 'fa-times');
         }, 800);
@@ -230,6 +233,9 @@ function verificarPalpite() {
             mensagem.className = 'lose-message';
             personagemImagem.src = personagemSecreto.imagemUrl;
             personagemImagem.classList.remove('hidden');
+            // Garante que o ícone de acerto/erro esteja limpo antes de ir para o fim da rodada
+            feedbackIcon.classList.add('hidden');
+            feedbackIcon.classList.remove('incorrect', 'fa-times');
             fimDeRodada("erro");
         }
     }
@@ -268,6 +274,7 @@ function calcularPontos() {
     } else if (tentativas >= 3) {
         pontos = 2;
     }
+    
     const penalidadeDica = dicaAtual * 2;
     pontos = Math.max(0, pontos - penalidadeDica);
     
@@ -309,8 +316,9 @@ function fimDeJogoTotal(resultado) {
     endScreen.classList.remove('hidden');
     
     endContainer.classList.remove('win', 'lose');
-    endIcon.classList.remove('fa-trophy', 'fa-sad-cry');
+    endIcon.classList.remove('fa-trophy', 'fa-sad-cry', 'fa-clock');
     
+    // Remove confetes anteriores
     document.querySelectorAll('.confetti-piece').forEach(confetti => confetti.remove());
 
     if (resultado === "vitoria") {
@@ -319,6 +327,8 @@ function fimDeJogoTotal(resultado) {
         endContainer.classList.add('win');
         endMessage.textContent = `Você atingiu a meta de ${META_PONTOS} pontos e terminou com ${pontuacao} pontos.`;
         playSound(somVitoria);
+        
+        // Lógica dos confetes
         for (let i = 0; i < 50; i++) {
             const confetti = document.createElement('div');
             confetti.classList.add('confetti-piece');
@@ -328,10 +338,22 @@ function fimDeJogoTotal(resultado) {
             endScreen.appendChild(confetti);
         }
     } else {
+        // DERROTA PADRÃO (por errar 3 vezes)
         endTitle.textContent = "Fim de Jogo!";
         endIcon.classList.add('fa-sad-cry', 'lose');
         endContainer.classList.add('lose');
         endMessage.textContent = `O personagem era "${personagemSecreto.nome}". Você terminou com ${pontuacao} pontos. Tente novamente!`;
+        
+        if (resultado === "time-up") {
+            // Lógica para derrota por tempo
+            endTitle.innerHTML = `Tempo Esgotado! <i class="fas fa-hourglass-end time-up-icon"></i>`;
+            endIcon.classList.remove('fa-sad-cry');
+            endIcon.classList.add('fa-clock', 'lose'); // Mudamos o ícone principal para um relógio
+            
+            // Adicionando relógios vibrantes à mensagem
+            const iconHTML = `<i class="fas fa-clock time-up-icon"></i><i class="fas fa-hourglass-half time-up-icon"></i>`;
+            endMessage.innerHTML = `${iconHTML} Você não conseguiu adivinhar a tempo. O personagem era "${personagemSecreto.nome}". ${iconHTML} Você terminou com ${pontuacao} pontos.`;
+        }
     }
 }
 
@@ -341,17 +363,36 @@ function perderPorTempo() {
     personagemImagem.classList.remove('hidden');
     feedbackIcon.classList.add('hidden');
     mensagem.textContent = `O tempo acabou! O personagem era "${personagemSecreto.nome}".`;
-    fimDeJogoTotal("derrota");
+    mensagem.className = 'lose-message';
+    
+    // Passa "time-up" como argumento para personalizar a tela final
+    fimDeJogoTotal("time-up"); 
 }
 
+
+// NOVO CÓDIGO DE TIMER CIRCULAR
 function atualizarCronometro() {
     tempoRestante--;
-    timerDisplay.textContent = `Tempo: ${tempoRestante}s`;
+    
+    // Calcula a porcentagem de tempo USADO (de 0 a 100%)
+    const porcentagemUsada = ((TEMPO_MAXIMO - tempoRestante) / TEMPO_MAXIMO) * 100;
+    // O gradiente cônico é definido em graus (360 graus = 100%)
+    const graus = porcentagemUsada * 3.6; 
+    
+    // Atualiza o CSS para preencher o círculo
+    const corDeFundo = (tempoRestante <= 10) ? '#ff0000' : '#b11010';
+
+    circularTimer.style.background = `conic-gradient(
+        #303030 ${graus}deg,
+        ${corDeFundo} ${graus}deg
+    )`;
+
+    timerDisplay.textContent = tempoRestante;
     
     if (tempoRestante <= 10) {
-        timerDisplay.classList.add('danger');
+        circularTimer.classList.add('danger');
     } else {
-        timerDisplay.classList.remove('danger');
+        circularTimer.classList.remove('danger');
     }
 
     if (tempoRestante <= 0) {
@@ -362,8 +403,15 @@ function atualizarCronometro() {
 function iniciarCronometro() {
     clearInterval(timer);
     tempoRestante = TEMPO_MAXIMO;
-    timerDisplay.textContent = `Tempo: ${tempoRestante}s`;
-    timerDisplay.classList.remove('danger');
+    timerDisplay.textContent = tempoRestante;
+    
+    // Reinicia o visual do relógio para 100% preenchido (tempo restante)
+    circularTimer.style.background = `conic-gradient(
+        #303030 0deg,
+        #b11010 0deg
+    )`;
+    
+    circularTimer.classList.remove('danger');
     timer = setInterval(atualizarCronometro, 1000);
 }
 
@@ -418,7 +466,6 @@ inputPalpite.addEventListener('keydown', (event) => {
 playAgainBtn.addEventListener('click', () => {
     endScreen.classList.add('hidden');
     startScreen.classList.remove('hidden');
-    // Reinicia o jogo por completo ao voltar para a tela de início
     pontuacao = 0;
     sequenciaAcertos = 0;
 });

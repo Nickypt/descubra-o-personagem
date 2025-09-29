@@ -507,3 +507,28 @@ button:active {
         width: auto;
     }
 }
+
+
+/* ESTILOS PARA OS ÍCONES DE RELÓGIO VIBRANTE NA TELA FINAL */
+
+/* Animação de Vibração (Shake) */
+@keyframes time-shake {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    10% { transform: translateX(-5px) rotate(-2deg); }
+    20% { transform: translateX(5px) rotate(2deg); }
+    30% { transform: translateX(-5px) rotate(-1deg); }
+    40% { transform: translateX(5px) rotate(1deg); }
+    50% { transform: translateX(-5px) rotate(-2deg); }
+    60% { transform: translateX(5px) rotate(2deg); }
+    70% { transform: translateX(-3px) rotate(-1deg); }
+    80% { transform: translateX(3px) rotate(1deg); }
+    90% { transform: translateX(-3px) rotate(-1deg); }
+}
+
+.time-up-icon {
+    display: inline-block;
+    color: #f44336; /* Cor vermelha de aviso */
+    font-size: 1.2em; /* Tamanho ligeiramente maior que o texto */
+    margin: 0 5px;
+    animation: time-shake 0.3s infinite; /* Aplica a animação contínua */
+}
