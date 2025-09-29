@@ -26,7 +26,7 @@ const personagens = {
     ]
 };
 
-const META_PONTOS = 30;
+const META_PONTOS = 100;
 const TEMPO_MAXIMO = 60;
 
 let personagemSecreto = {};
