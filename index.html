@@ -13,6 +13,8 @@
     <audio id="somAcerto" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
     <audio id="somErro" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
     <audio id="somVitoria" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"></audio>
+    <audio id="somTimerAcelerado" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"></audio>
+    <audio id="somSequencia" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"></audio>
 
     <div id="start-screen" class="screen">
         <div class="intro-container animate__fade-in-up">
@@ -78,12 +80,16 @@
                     <p>Descubra quem é a figura misteriosa!</p>
                 </header>
                 
+                <div id="streak-feedback" class="streak-feedback hidden"></div>
+                
                 <div id="timer-container" class="timer-container">
                     <div id="circular-timer" class="circular-timer">
                         <p id="timer-display">60</p>
                     </div>
                 </div>
                 <div id="dica-container">
+                    <i id="streak-icon" class="fas fa-fire hidden streak-icon"></i>
+                    
                     <div id="dica-progresso" class="progresso-container">
                         <div id="dica1-dot" class="progresso-dot active"></div>
                         <div id="dica2-dot" class="progresso-dot"></div>
@@ -100,6 +106,7 @@
                     <button id="pedirDicaBtn">Pedir Dica</button>
                     <input type="text" id="adivinhaInput" placeholder="Digite seu palpite...">
                     <button id="enviarPalpiteBtn">Adivinhar</button>
+                    <button id="pularBtn" class="pular-btn">Pular Rodada (-10 Pontos)</button>
                 </div>
                 
                 <p id="mensagem"></p>

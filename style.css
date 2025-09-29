@@ -195,17 +195,88 @@ button:disabled {
     margin-bottom: 20px;
 }
 
-#timer-display {
-    font-size: 1.5em;
-    font-weight: 600;
-    color: #c70000;
-    margin-bottom: 10px;
-    transition: color 0.5s ease;
+/* --- MELHORIAS NO RELÓGIO CIRCULAR --- */
+.timer-container {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    position: relative;
 }
 
-#timer-display.danger {
-    color: #f44336;
-    animation: pulse 1s infinite;
+.circular-timer {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: conic-gradient(#b11010 0%, #303030 0%);
+    transition: background 1s linear;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra interna e externa */
+    border: 5px solid #1f2f51; /* Borda mais espessa */
+}
+
+.circular-timer #timer-display {
+    font-size: 2.5em; /* Número maior */
+    font-weight: 700;
+    color: #fff;
+    position: absolute;
+    background-color: #2b3b5c; /* Fundo sólido mais claro */
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    margin: 0;
+    border: 2px solid #1a2744; /* Borda sutil */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* Estado de Perigo Aprimorado (menos de 10 segundos) */
+.circular-timer.danger {
+    border-color: #ff0000; /* Borda vermelha no perigo */
+    animation: pulse-timer 0.8s infinite alternate; 
+}
+
+@keyframes pulse-timer {
+    from { box-shadow: 0 0 10px #ff0000; transform: scale(1); }
+    to { box-shadow: 0 0 20px #ff0000; transform: scale(1.03); }
+}
+
+/* --- ESTILOS DE SEQUÊNCIA DE ACERTOS (STREAK) --- */
+#streak-icon {
+    position: absolute;
+    top: -10px; 
+    right: 10px; 
+    font-size: 2em;
+    color: #ff8c00; /* Cor de fogo */
+    animation: bounce 0.5s ease-out;
+    z-index: 25;
+}
+
+/* Animação de Feedback de Sequência (Ótimo Acerto!) */
+.streak-feedback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3em;
+    font-weight: 900;
+    color: #ffd700;
+    text-shadow: 0 0 20px #ff0000, 0 0 10px #ff8c00;
+    opacity: 0;
+    z-index: 50;
+    pointer-events: none;
+    animation: popUpAndFade 1.5s forwards;
+}
+
+@keyframes popUpAndFade {
+    0% { transform: translate(-50%, 0) scale(0.5); opacity: 0; }
+    20% { transform: translate(-50%, -20%) scale(1.1); opacity: 1; }
+    80% { transform: translate(-50%, -20%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -40%) scale(0.9); opacity: 0; }
 }
 
 #dica-container {
@@ -274,7 +345,7 @@ button:disabled {
     transition: opacity 0.5s ease;
 }
 
-/* ESTILOS DE FEEDBACK CORRIGIDOS */
+/* ESTILOS DE FEEDBACK (ACERTO/ERRO) */
 #feedback-icon {
     position: absolute;
     top: 50%;
@@ -295,7 +366,6 @@ button:disabled {
     color: #f44336; /* Cor vermelha para erro */
     text-shadow: 0 0 15px rgba(244, 67, 54, 0.7);
 }
-/* FIM DOS ESTILOS DE FEEDBACK CORRIGIDOS */
 
 .controls {
     display: flex;
@@ -311,6 +381,15 @@ button:disabled {
 
 .controls input {
     width: calc(100% - 40px);
+}
+
+/* --- ESTILO PARA O BOTÃO PULAR --- */
+.pular-btn {
+    background-color: #3f51b5; /* Azul diferente para destacar a função */
+}
+
+.pular-btn:hover {
+    background-color: #303f9f;
 }
 
 #mensagem {
@@ -362,7 +441,29 @@ button:disabled {
     margin-bottom: 30px;
 }
 
-/* Animações e Decorações */
+/* ANIMAÇÃO DE RELÓGIO VIBRANDO (DERROTA POR TEMPO) */
+@keyframes time-shake {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    10% { transform: translateX(-5px) rotate(-2deg); }
+    20% { transform: translateX(5px) rotate(2deg); }
+    30% { transform: translateX(-5px) rotate(-1deg); }
+    40% { transform: translateX(5px) rotate(1deg); }
+    50% { transform: translateX(-5px) rotate(-2deg); }
+    60% { transform: translateX(5px) rotate(2deg); }
+    70% { transform: translateX(-3px) rotate(-1deg); }
+    80% { transform: translateX(3px) rotate(1deg); }
+    90% { transform: translateX(-3px) rotate(-1deg); }
+}
+
+.time-up-icon {
+    display: inline-block;
+    color: #f44336; 
+    font-size: 1.2em; 
+    margin: 0 5px;
+    animation: time-shake 0.3s infinite; 
+}
+
+/* Animações e Decorações (Mantidas) */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -438,97 +539,5 @@ button:disabled {
     width: 10px;
     height: 10px;
     background-color: #f00;
-    animation: confettiFall 5s linear forwards;
-    pointer-events: none;
-}
-
-button, .difficulty-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-button:hover, .difficulty-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-}
-
-button:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-@keyframes bounceIn {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-30px);
-    }
-    60% {
-        transform: translateY(-15px);
-    }
-}
-
-.end-icon {
-    animation: bounceIn 1s ease-out;
-}
-
-/* MEDIA QUERY CORRIGIDA PARA DESKTOP */
-@media (min-width: 768px) {
-    .main-container {
-        flex-direction: row;
-        gap: 30px;
-        max-width: 1200px;
-        height: 80vh; 
-    }
-    .score-sidebar {
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-        width: 250px;
-        padding: 30px;
-        box-sizing: border-box; 
-    }
-    .game-container {
-        flex-grow: 1;
-        padding: 30px;
-        max-width: 600px; 
-    }
-    .controls {
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-    }
-    .controls button {
-        width: auto;
-        flex-grow: 0;
-    }
-    #adivinhaInput {
-        flex-grow: 1;
-        width: auto;
-    }
-}
-
-
-/* ESTILOS PARA OS ÍCONES DE RELÓGIO VIBRANTE NA TELA FINAL */
-
-/* Animação de Vibração (Shake) */
-@keyframes time-shake {
-    0%, 100% { transform: translateX(0) rotate(0deg); }
-    10% { transform: translateX(-5px) rotate(-2deg); }
-    20% { transform: translateX(5px) rotate(2deg); }
-    30% { transform: translateX(-5px) rotate(-1deg); }
-    40% { transform: translateX(5px) rotate(1deg); }
-    50% { transform: translateX(-5px) rotate(-2deg); }
-    60% { transform: translateX(5px) rotate(2deg); }
-    70% { transform: translateX(-3px) rotate(-1deg); }
-    80% { transform: translateX(3px) rotate(1deg); }
-    90% { transform: translateX(-3px) rotate(-1deg); }
-}
-
-.time-up-icon {
-    display: inline-block;
-    color: #f44336; /* Cor vermelha de aviso */
-    font-size: 1.2em; /* Tamanho ligeiramente maior que o texto */
-    margin: 0 5px;
-    animation: time-shake 0.3s infinite; /* Aplica a animação contínua */
+    animation: confettiFall 5s infinite;
 }
