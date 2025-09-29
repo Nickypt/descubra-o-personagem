@@ -1,4 +1,4 @@
-// Dicionário de personagens por nível de dificuldade (Expandido com 12 por nível)
+// Dicionário de personagens por nível de dificuldade (Mantido)
 const personagens = {
     facil: [
         { nome: "Mario", dicas: ["Ele é um encanador italiano do Reino Cogumelo.", "Ele pula em inimigos e come cogumelos para crescer."], imagemUrl: "https://i.imgur.com/7gK5J5S.jpeg" },
@@ -75,9 +75,9 @@ const hardBtn = document.getElementById('hard-btn');
 
 // Elementos da tela de jogo
 const inputPalpite = document.getElementById('adivinhaInput');
-const btnEnviar = document.getElementById('enviarPalpiteBtn');
+const btnEnviar = document.getElementById('enviarPalpiteBtn'); // Botão Adivinhar
 const mensagem = document.getElementById('mensagem');
-const btnReiniciar = document.getElementById('reiniciarBtn');
+const btnReiniciar = document.getElementById('reiniciarBtn'); // Botão Próximo Personagem
 const btnPedirDica = document.getElementById('pedirDicaBtn');
 const divDica = document.getElementById('dica');
 const personagemImagem = document.getElementById('personagem-imagem');
@@ -89,9 +89,9 @@ const playerNameDisplay = document.getElementById('player-name-display');
 const circularTimer = document.getElementById('circular-timer');
 const timerDisplay = document.getElementById('timer-display'); 
 const dificuldadeDisplay = document.getElementById('dificuldade-display');
-const pularBtn = document.getElementById('pularBtn'); // NOVO BOTÃO PULAR
-const streakIcon = document.getElementById('streak-icon'); // ÍCONE FOGO
-const streakFeedback = document.getElementById('streak-feedback'); // POPUP TEXTO
+const pularBtn = document.getElementById('pularBtn'); 
+const streakIcon = document.getElementById('streak-icon'); 
+const streakFeedback = document.getElementById('streak-feedback'); 
 
 // Elementos para o novo feedback visual
 const dicaDots = [
@@ -116,13 +116,12 @@ endContainer.appendChild(changeDifficultyBtn);
 const somAcerto = document.getElementById('somAcerto');
 const somErro = document.getElementById('somErro');
 const somVitoria = document.getElementById('somVitoria');
-const somTimerAcelerado = document.getElementById('somTimerAcelerado'); // NOVO
-const somSequencia = document.getElementById('somSequencia'); // NOVO
+const somTimerAcelerado = document.getElementById('somTimerAcelerado'); 
+const somSequencia = document.getElementById('somSequencia'); 
 
 
 function playSound(sound) {
     sound.currentTime = 0;
-    // Tenta tocar, ignorando erros de "NotAllowedError" (autoplay bloqueado)
     sound.play().catch(e => console.error("Erro ao tocar áudio:", e)); 
 }
 
@@ -147,20 +146,23 @@ function iniciarNovaRodada() {
     inputPalpite.value = '';
     mensagem.textContent = '';
     mensagem.className = '';
+    
+    // NOVO: Esconde o botão de Próximo e mostra o de Adivinhar
+    btnEnviar.classList.remove('hidden');
+    btnReiniciar.classList.add('hidden');
+    
     btnEnviar.disabled = false;
     btnPedirDica.style.display = 'inline-block';
     btnPedirDica.disabled = false;
-    btnReiniciar.classList.add('hidden');
-    pularBtn.disabled = false; // Habilita o pular
+    
+    pularBtn.disabled = false; 
     divDica.innerHTML = '<p>Toque em "Pedir Dica" para começar!</p>';
     personagemImagem.src = '';
     personagemImagem.classList.add('hidden');
     
-    // Limpar o feedback visual na nova rodada
     feedbackIcon.classList.add('hidden');
     feedbackIcon.classList.remove('fa-check', 'fa-times', 'correct', 'incorrect');
 
-    // NOVO: Mostra o ícone de sequência se o jogador tiver 2 ou mais acertos
     if (sequenciaAcertos >= 2) {
         streakIcon.classList.remove('hidden');
         streakIcon.textContent = `🔥 x${sequenciaAcertos}`;
@@ -176,7 +178,7 @@ function iniciarNovaRodada() {
 }
 
 function atualizarPontuacao(pontosGanhos) {
-    pontuacao = Math.max(0, pontuacao + pontosGanhos); // Garante que a pontuação nunca seja negativa
+    pontuacao = Math.max(0, pontuacao + pontosGanhos);
     pontuacaoTexto.textContent = `Pontos: ${pontuacao}`;
 }
 
@@ -189,7 +191,6 @@ function verificarPalpite() {
         return;
     }
 
-    // Limpar o feedback visual anterior antes de aplicar um novo
     feedbackIcon.classList.add('hidden'); 
     feedbackIcon.classList.remove('fa-check', 'fa-times', 'correct', 'incorrect');
 
@@ -203,7 +204,7 @@ function verificarPalpite() {
         let mensagemSequencia = "";
 
         if (sequenciaAcertos >= 2) {
-            bonusSequencia = 5 * sequenciaAcertos; // Bônus menor para sequência (além dos pontos da rodada)
+            bonusSequencia = 5 * sequenciaAcertos;
             mensagemSequencia = `Você está em uma sequência de ${sequenciaAcertos} acertos! Bônus: ${bonusSequencia} pontos.`;
         }
         
@@ -219,7 +220,6 @@ function verificarPalpite() {
         
         if (bonusSequencia > 0) {
             mensagem.innerHTML += `<br>${mensagemSequencia}`;
-            // NOVO: Feedback visual de sequência
             streakFeedback.textContent = "ÓTIMO ACERTO!";
             streakFeedback.classList.remove('hidden');
             setTimeout(() => { streakFeedback.classList.add('hidden'); }, 1500);
@@ -230,7 +230,6 @@ function verificarPalpite() {
         mensagem.className = 'win-message';
         playSound(somAcerto);
         
-        // Exibe o ícone de ACERTO
         feedbackIcon.classList.remove('hidden');
         feedbackIcon.classList.add('correct', 'fa-check');
 
@@ -242,12 +241,10 @@ function verificarPalpite() {
         mensagem.textContent = 'Incorreto. Tente novamente!';
         mensagem.className = 'lose-message shake';
         playSound(somErro);
-        sequenciaAcertos = 0; // Sequência quebrada
+        sequenciaAcertos = 0; 
         
-        // Esconde o ícone de fogo
         streakIcon.classList.add('hidden');
         
-        // Exibe o ícone de ERRO temporariamente
         feedbackIcon.classList.remove('hidden');
         feedbackIcon.classList.add('incorrect', 'fa-times');
 
@@ -325,9 +322,13 @@ function fimDeRodada(resultado) {
     btnEnviar.disabled = true;
     btnPedirDica.disabled = true;
     btnPedirDica.style.display = 'none';
+    pularBtn.disabled = true;
+
+    // NOVO: Esconde o botão de Adivinhar e mostra o de Próximo
+    btnEnviar.classList.add('hidden');
     btnReiniciar.classList.remove('hidden');
-    pularBtn.disabled = true; // Desabilita o pular
-    streakIcon.classList.add('hidden'); // Esconde o ícone de fogo ao final da rodada
+
+    streakIcon.classList.add('hidden'); 
 
     if (pontuacao >= META_PONTOS) {
         fimDeJogoTotal("vitoria");
@@ -370,7 +371,6 @@ function fimDeJogoTotal(resultado) {
         endMessage.textContent = `O personagem era "${personagemSecreto.nome}". Você terminou com ${pontuacao} pontos. Tente novamente!`;
         
         if (resultado === "time-up") {
-            // NOVO: Mensagem de derrota por tempo aprimorada
             endTitle.innerHTML = `Tempo Esgotado! <i class="fas fa-hourglass-end time-up-icon"></i>`;
             endIcon.classList.remove('fa-sad-cry');
             endIcon.classList.add('fa-clock', 'lose'); 
@@ -387,7 +387,6 @@ function perderPorTempo() {
     personagemImagem.classList.remove('hidden');
     feedbackIcon.classList.add('hidden');
     
-    // NOVO: Mensagem de derrota mais dramática
     mensagem.textContent = `Acelera, ${nomeJogador}! O tempo esgotou antes que você conseguisse adivinhar. O personagem era "${personagemSecreto.nome}".`;
     mensagem.className = 'lose-message';
     
@@ -395,21 +394,20 @@ function perderPorTempo() {
 }
 
 
-// --- LÓGICA DO TIMER CIRCULAR ---
+// --- LÓGICA DO TIMER CIRCULAR (Mantida) ---
 function atualizarCronometro() {
     tempoRestante--;
     
     const porcentagemUsada = ((TEMPO_MAXIMO - tempoRestante) / TEMPO_MAXIMO) * 100;
     const graus = porcentagemUsada * 3.6; 
     
-    let corPrimaria = '#b11010'; // Vermelho Padrão
-    let corSecundaria = '#303030'; // Cinza Escuro (Gasto)
+    let corPrimaria = '#b11010'; 
+    let corSecundaria = '#303030'; 
 
     if (tempoRestante <= 10) {
-        corPrimaria = '#ff0000'; // Vermelho vivo
+        corPrimaria = '#ff0000'; 
         circularTimer.classList.add('danger');
         
-        // NOVO: Tocar som acelerado
         if (tempoRestante === 9) { 
             playSound(somTimerAcelerado);
         }
@@ -417,7 +415,6 @@ function atualizarCronometro() {
         circularTimer.classList.remove('danger');
     }
 
-    // O gradiente usa a corSecundaria para preencher o tempo gasto
     circularTimer.style.background = `conic-gradient(
         ${corSecundaria} ${graus}deg,
         ${corPrimaria} ${graus}deg
@@ -480,6 +477,7 @@ function iniciarNovoJogoCompleto() {
     iniciarNovaRodada();
 }
 
+// BOTÃO REINICIAR/PRÓXIMO PERSONAGEM agora chama iniciarNovaRodada
 btnReiniciar.addEventListener('click', () => {
     iniciarNovaRodada();
 });
@@ -487,14 +485,17 @@ btnReiniciar.addEventListener('click', () => {
 btnEnviar.addEventListener('click', verificarPalpite);
 btnPedirDica.addEventListener('click', mostrarDica);
 
-// NOVO: Event Listener para Pular Rodada
+// CORREÇÃO: LÓGICA DO BOTÃO PULAR RODADA
 pularBtn.addEventListener('click', () => {
-    clearInterval(timer);
+    if (timer) {
+        clearInterval(timer);
+    }
     
-    const pontosPerdidos = PENALIDADE_PULAR;
+    const pontosPerdidos = PENALIDADE_PULAR; 
     
     atualizarPontuacao(-pontosPerdidos);
-    sequenciaAcertos = 0;
+    sequenciaAcertos = 0; 
+    streakIcon.classList.add('hidden');
     
     personagemImagem.src = personagemSecreto.imagemUrl;
     personagemImagem.classList.remove('hidden');
@@ -509,7 +510,10 @@ pularBtn.addEventListener('click', () => {
 
 inputPalpite.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
-        verificarPalpite();
+        // Garante que só verifica se o botão 'Adivinhar' está visível
+        if (!btnEnviar.classList.contains('hidden')) {
+            verificarPalpite();
+        }
     }
 });
 

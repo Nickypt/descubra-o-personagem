@@ -541,3 +541,42 @@ button:disabled {
     background-color: #f00;
     animation: confettiFall 5s infinite;
 }
+
+
+/* --- NOVA ESTRUTURA PARA TROCAR BOTÕES --- */
+.action-swap-container {
+    position: relative;
+    width: 100%; /* Ocupa a largura total na coluna de controles */
+    height: 50px; /* Altura padrão de um botão */
+}
+
+/* Garante que os botões dentro do contêiner ocupem o espaço todo */
+.action-swap-container button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    transition: opacity 0.3s ease;
+}
+
+/* Estilo para o botão de Próximo Personagem (Substituição) */
+#reiniciarBtn.swap-btn {
+    background-color: #4CAF50; /* Verde de avanço */
+}
+
+#reiniciarBtn.swap-btn:hover {
+    background-color: #45a049;
+}
+
+/* --- MELHORIA ESTÉTICA DO BOTÃO PULAR --- */
+.pular-btn {
+    background-color: #ff9800; /* Laranja para indicar custo/alternativa */
+    border: 2px solid #e65100;
+    font-weight: 700;
+}
+
+.pular-btn:hover {
+    background-color: #e65100;
+}

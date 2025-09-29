@@ -105,13 +105,17 @@
                 <div class="controls">
                     <button id="pedirDicaBtn">Pedir Dica</button>
                     <input type="text" id="adivinhaInput" placeholder="Digite seu palpite...">
-                    <button id="enviarPalpiteBtn">Adivinhar</button>
-                    <button id="pularBtn" class="pular-btn">Pular Rodada (-10 Pontos)</button>
+                    
+                    <div class="action-swap-container">
+                        <button id="enviarPalpiteBtn">Adivinhar</button>
+                        <button id="reiniciarBtn" class="hidden swap-btn">Próximo Personagem</button>
+                    </div>
+                    
+                    <button id="pularBtn" class="pular-btn">Pular Rodada (-10)</button>
                 </div>
                 
                 <p id="mensagem"></p>
-                <button id="reiniciarBtn" class="hidden">Próximo Personagem</button>
-            </main>
+                </main>
         </div>
     </div>
 
