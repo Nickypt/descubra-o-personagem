@@ -92,6 +92,8 @@ const dificuldadeDisplay = document.getElementById('dificuldade-display');
 const pularBtn = document.getElementById('pularBtn'); 
 const streakIcon = document.getElementById('streak-icon'); 
 const streakFeedback = document.getElementById('streak-feedback'); 
+// NOVO: Exibir contagem numérica de sequência de acertos
+const sequenciaVitoriasDisplay = document.getElementById('sequencia-vitorias-display');
 
 // Elementos para o novo feedback visual
 const dicaDots = [
@@ -107,10 +109,8 @@ const endIcon = document.getElementById('end-icon');
 const endMessage = document.getElementById('end-message');
 const endContainer = document.getElementById('end-container');
 const playAgainBtn = document.getElementById('play-again-btn');
-const changeDifficultyBtn = document.createElement('button');
-changeDifficultyBtn.id = 'change-difficulty-btn';
-changeDifficultyBtn.textContent = 'Mudar Dificuldade';
-endContainer.appendChild(changeDifficultyBtn);
+const changeDifficultyBtn = document.getElementById('change-difficulty-btn'); // O botão é pego do HTML
+// O botão de dificuldade já foi adicionado no HTML, então não precisamos criá-lo aqui
 
 // Efeitos Sonoros
 const somAcerto = document.getElementById('somAcerto');
@@ -170,6 +170,9 @@ function iniciarNovaRodada() {
         streakIcon.classList.add('hidden');
     }
     
+    // ATUALIZADO: Exibe a sequência de acertos atualizada no placar
+    sequenciaVitoriasDisplay.textContent = `Sequência: ${sequenciaAcertos}`; 
+
     atualizarIndicadorDicas();
     playerNameDisplay.textContent = `Olá, ${nomeJogador}!`;
     dificuldadeDisplay.textContent = `Nível: ${nivelDificuldade.charAt(0).toUpperCase() + nivelDificuldade.slice(1)}`;
@@ -212,6 +215,9 @@ function verificarPalpite() {
         
         atualizarPontuacao(totalPontos);
         
+        // ATUALIZADO: Atualiza a contagem no placar após um acerto
+        sequenciaVitoriasDisplay.textContent = `Sequência: ${sequenciaAcertos}`; 
+
         mensagem.innerHTML = `Parabéns, ${nomeJogador}! Você acertou em ${tentativas} tentativa(s) e ganhou ${pontosGanhos} pontos.`;
         
         if (bonusTempo > 0) {
@@ -242,6 +248,9 @@ function verificarPalpite() {
         mensagem.className = 'lose-message shake';
         playSound(somErro);
         sequenciaAcertos = 0; 
+        
+        // ATUALIZADO: Zera a contagem no placar após um erro
+        sequenciaVitoriasDisplay.textContent = `Sequência: 0`; 
         
         streakIcon.classList.add('hidden');
         
@@ -474,6 +483,8 @@ function iniciarNovoJogoCompleto() {
     sequenciaAcertos = 0;
     metaTexto.textContent = `Meta: ${META_PONTOS}`;
     pontuacaoTexto.textContent = `Pontos: ${pontuacao}`;
+    // ATUALIZADO: Resetar a sequência no placar ao iniciar um jogo novo
+    sequenciaVitoriasDisplay.textContent = `Sequência: 0`; 
     iniciarNovaRodada();
 }
 
@@ -497,6 +508,9 @@ pularBtn.addEventListener('click', () => {
     sequenciaAcertos = 0; 
     streakIcon.classList.add('hidden');
     
+    // ATUALIZADO: Zera a contagem no placar após pular
+    sequenciaVitoriasDisplay.textContent = `Sequência: 0`; 
+    
     personagemImagem.src = personagemSecreto.imagemUrl;
     personagemImagem.classList.remove('hidden');
     
@@ -510,8 +524,12 @@ pularBtn.addEventListener('click', () => {
 
 inputPalpite.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
-        // Garante que só verifica se o botão 'Adivinhar' está visível
-        if (!btnEnviar.classList.contains('hidden')) {
+        // Se o botão 'Próximo Personagem' estiver visível (após acerto/erro), clique nele
+        if (!btnReiniciar.classList.contains('hidden')) {
+            btnReiniciar.click(); 
+        } 
+        // Se o botão 'Adivinhar' estiver visível, chame a função verificarPalpite
+        else if (!btnEnviar.classList.contains('hidden')) {
             verificarPalpite();
         }
     }
