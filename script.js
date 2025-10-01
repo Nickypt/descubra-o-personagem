@@ -16,7 +16,7 @@ const personagens = {
     ],
     medio: [
         { nome: "Capitão América", dicas: ["Ele é um super-soldado da Segunda Guerra Mundial, que foi congelado no tempo.", "Seu principal acessório é um escudo indestrutível feito de vibranium."], imagemUrl: "https://i.imgur.com/J8Yl00H.jpeg" },
-        { nome: "Jack Sparrow", dicas: ["Ele é um pirata carismático, com um jeito de andar e falar únicos.", "Capitão do navio Pérola Negra, ele está sempre procurando tesouros e evitando a Companhia das Índias Orientais."], imagemUrl: "https://i.com/gK1kFpY.jpeg" },
+        { nome: "Jack Sparrow", dicas: ["Ele é um pirata carismático, com um jeito de andar e falar únicos.", "Capitão do navio Pérola Negra, ele está sempre procurando tesouros e evitando a Companhia das Índias Orientais."], imagemUrl: "https://i.imgur.com/gK1kFpY.jpeg" },
         { nome: "Elsa", dicas: ["Ela é uma rainha que nasceu com poderes de gelo e neve.", "Sua música tema mais famosa é 'Let it Go', e seu castelo é feito de gelo."], imagemUrl: "https://i.imgur.com/39wF4y8.jpeg" },
         { nome: "Mulher Maravilha", dicas: ["Ela é uma princesa guerreira de Themyscira, uma ilha oculta.", "Seu principal acessório é o Laço da Verdade, que força as pessoas a dizerem a verdade."], imagemUrl: "https://i.imgur.com/z0J6t8Y.jpeg" },
         { nome: "SpongeBob SquarePants", dicas: ["É uma criatura amarela que mora em um abacaxi, no fundo do mar.", "Seu melhor amigo é uma estrela do mar, e ele trabalha no Siri Cascudo."], imagemUrl: "https://i.imgur.com/q7N6y0w.jpeg" },
@@ -48,18 +48,6 @@ const META_PONTOS = 100;
 const TEMPO_MAXIMO = 60;
 const PENALIDADE_PULAR = 10; 
 
-// NOVO: CUSTO DAS DICAS (ponto de custo para cada dica)
-// A primeira dica (dicaAtual=0) tem o custo da posição 0 no array, que é 0.
-const CUSTO_DICAS = [0, 5, 15]; // Custo da 1ª, 2ª, 3ª dica
-
-// NOVO: CONQUISTAS DO JOGO
-const CONQUISTAS = {
-    firstWin: { id: 'firstWin', nome: 'Primeira Vitória', descricao: 'Vencer o jogo pela primeira vez.', icon: '🏆' },
-    speedster: { id: 'speedster', nome: 'Velocista', descricao: 'Acertar um personagem em 1 tentativa.', icon: '⚡' },
-    streakMaster: { id: 'streakMaster', nome: 'Mestre da Sequência', descricao: 'Alcançar 3 ou mais acertos seguidos.', icon: '🔥' },
-    hardcore: { id: 'hardcore', nome: 'Hardcore', descricao: 'Vencer o jogo na dificuldade Difícil.', icon: '💀' }
-};
-
 let personagemSecreto = {};
 let tentativas = 0;
 let pontuacao = 0;
@@ -70,13 +58,9 @@ let timer;
 let nivelDificuldade = "";
 let sequenciaAcertos = 0;
 
-// Variáveis para controle de repetição
-let personagensDisponiveis = {};
-let personagensUsados = {};
-
-// NOVO: Variável para rastrear as conquistas desbloqueadas
-let conquistasDesbloqueadas = {};
-
+// NOVAS VARIÁVEIS PARA CONTROLE DE REPETIÇÃO
+let personagensDisponiveis = {}; // Armazena a lista de personagens a serem usados
+let personagensUsados = {};     // Armazena os personagens já usados (por nível)
 
 // Elementos das telas
 const startScreen = document.getElementById('start-screen');
@@ -95,9 +79,9 @@ const hardBtn = document.getElementById('hard-btn');
 
 // Elementos da tela de jogo
 const inputPalpite = document.getElementById('adivinhaInput');
-const btnEnviar = document.getElementById('enviarPalpiteBtn'); 
+const btnEnviar = document.getElementById('enviarPalpiteBtn'); // Botão Adivinhar
 const mensagem = document.getElementById('mensagem');
-const btnReiniciar = document.getElementById('reiniciarBtn'); 
+const btnReiniciar = document.getElementById('reiniciarBtn'); // Botão Próximo Personagem
 const btnPedirDica = document.getElementById('pedirDicaBtn');
 const divDica = document.getElementById('dica');
 const personagemImagem = document.getElementById('personagem-imagem');
@@ -113,10 +97,6 @@ const pularBtn = document.getElementById('pularBtn');
 const streakIcon = document.getElementById('streak-icon'); 
 const streakFeedback = document.getElementById('streak-feedback'); 
 const sequenciaVitoriasDisplay = document.getElementById('sequencia-vitorias-display');
-
-// Novos elementos do Leaderboard e Conquistas
-const leaderboardList = document.getElementById('leaderboard-list');
-const badgesContainer = document.getElementById('badges-container');
 
 // Elementos para o novo feedback visual
 const dicaDots = [
@@ -134,7 +114,7 @@ const endContainer = document.getElementById('end-container');
 const playAgainBtn = document.getElementById('play-again-btn');
 const changeDifficultyBtn = document.getElementById('change-difficulty-btn'); 
 
-// Efeitos Sonoros (Certifique-se de ter os arquivos)
+// Efeitos Sonoros
 const somAcerto = document.getElementById('somAcerto');
 const somErro = document.getElementById('somErro');
 const somVitoria = document.getElementById('somVitoria');
@@ -143,135 +123,9 @@ const somSequencia = document.getElementById('somSequencia');
 
 
 function playSound(sound) {
-    // Tenta carregar e tocar o som, ignorando erros se o arquivo não existir
     sound.currentTime = 0;
-    sound.play().catch(e => { /* console.error("Erro ao tocar áudio:", e); */ }); 
+    sound.play().catch(e => console.error("Erro ao tocar áudio:", e)); 
 }
-
-// --- FUNÇÕES DE UTENSÍLIO ---
-
-// Algoritmo para verificar proximidade de palavras (Distância de Levenshtein)
-function levenshteinDistance(a, b) {
-    if (a.length === 0) return b.length;
-    if (b.length === 0) return a.length;
-    let matrix = [];
-    for (let i = 0; i <= b.length; i++) {
-        matrix[i] = [i];
-    }
-    for (let j = 0; j <= a.length; j++) {
-        matrix[0][j] = j;
-    }
-    for (let i = 1; i <= b.length; i++) {
-        for (let j = 1; j <= a.length; j++) {
-            if (b.charAt(i - 1) === a.charAt(j - 1)) {
-                matrix[i][j] = matrix[i - 1][j - 1];
-            } else {
-                matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, 
-                                        Math.min(matrix[i][j - 1] + 1, 
-                                                 matrix[i - 1][j] + 1));
-            }
-        }
-    }
-    return matrix[b.length][a.length];
-}
-
-// --- LÓGICA DE CONQUISTAS ---
-function carregarConquistas() {
-    try {
-        const stored = localStorage.getItem('playerConquistas');
-        conquistasDesbloqueadas = stored ? JSON.parse(stored) : {};
-        renderizarConquistas();
-    } catch (e) {
-        conquistasDesbloqueadas = {};
-    }
-}
-
-function desbloquearConquista(id) {
-    if (!conquistasDesbloqueadas[id]) {
-        conquistasDesbloqueadas[id] = true;
-        localStorage.setItem('playerConquistas', JSON.stringify(conquistasDesbloqueadas));
-        renderizarConquistas();
-        alert(`🏆 CONQUISTA DESBLOQUEADA: ${CONQUISTAS[id].nome}!`);
-    }
-}
-
-function renderizarConquistas() {
-    // Garante que o elemento existe antes de tentar manipular
-    if (!badgesContainer) return; 
-    
-    badgesContainer.innerHTML = '<h3>Suas Conquistas</h3>';
-    let count = 0;
-    for (const id in CONQUISTAS) {
-        if (conquistasDesbloqueadas[id]) {
-            const badge = document.createElement('span');
-            badge.className = 'badge';
-            badge.title = CONQUISTAS[id].descricao;
-            // Usando ícone do Font Awesome, pois o HTML não renderiza emojis no alert
-            badge.innerHTML = `<i class="fas fa-medal"></i> ${CONQUISTAS[id].nome}`; 
-            badgesContainer.appendChild(badge);
-            count++;
-        }
-    }
-    if (count === 0) {
-        badgesContainer.innerHTML += '<p style="font-size:0.9em; color:#aaa;">Nenhuma conquista ainda. Jogue para desbloquear!</p>';
-    }
-}
-
-// --- LÓGICA DE LEADERBOARD ---
-function carregarLeaderboard() {
-    try {
-        const stored = localStorage.getItem('gameLeaderboard');
-        return stored ? JSON.parse(stored) : [];
-    } catch (e) {
-        return [];
-    }
-}
-
-function salvarPontuacao(nome, pontos, dificuldade) {
-    // Só salva pontuações positivas
-    if (pontos <= 0) return; 
-    
-    let leaderboard = carregarLeaderboard();
-    leaderboard.push({ nome, pontos, dificuldade, data: new Date().toLocaleDateString() });
-    
-    // Filtra e classifica por pontos (maior para menor)
-    leaderboard.sort((a, b) => b.pontos - a.pontos);
-    
-    // Mantém apenas o Top 100 para evitar sobrecarregar o localStorage
-    const topLeaderboard = leaderboard.slice(0, 100); 
-
-    localStorage.setItem('gameLeaderboard', JSON.stringify(topLeaderboard));
-}
-
-function renderizarLeaderboard() {
-    // Garante que o elemento existe antes de tentar manipular
-    if (!leaderboardList) return; 
-    
-    const leaderboard = carregarLeaderboard();
-    leaderboardList.innerHTML = '';
-    
-    // Top 5 global para exibição
-    const top5 = leaderboard.slice(0, 5); 
-
-    if (top5.length === 0) {
-        leaderboardList.innerHTML = '<li>Nenhuma pontuação registrada ainda.</li>';
-        return;
-    }
-
-    top5.forEach((item, index) => {
-        const li = document.createElement('li');
-        // Usa a primeira letra da dificuldade
-        const diffChar = item.dificuldade.toUpperCase().charAt(0);
-        li.innerHTML = `
-            <span>#${index + 1} ${item.nome} (${diffChar})</span>
-            <span>${item.pontos} PONTOS</span>
-        `;
-        leaderboardList.appendChild(li);
-    });
-}
-
-
-// --- FUNÇÕES PRINCIPAIS DO JOGO ---
 
 function atualizarIndicadorDicas() {
     dicaDots.forEach((dot, index) => {
@@ -286,36 +140,42 @@ function atualizarIndicadorDicas() {
 
 function iniciarNovaRodada() {
     // --- LÓGICA DE NÃO REPETIÇÃO INÍCIO ---
+    // 1. Verifica se há personagens disponíveis no nível atual
     if (!personagensDisponiveis[nivelDificuldade] || personagensDisponiveis[nivelDificuldade].length === 0) {
+        // Se a lista está vazia, move todos os usados de volta para disponíveis
         personagensDisponiveis[nivelDificuldade] = personagensUsados[nivelDificuldade] || [];
+        // Se ainda estiver vazia (primeira rodada de um novo nível), carrega do objeto principal
         if (personagensDisponiveis[nivelDificuldade].length === 0) {
             personagensDisponiveis[nivelDificuldade] = [...personagens[nivelDificuldade]];
         }
         personagensUsados[nivelDificuldade] = [];
+        console.log(`Lista de personagens recarregada para o nível ${nivelDificuldade}.`);
     }
 
+    // 2. Seleção aleatória
     const personagensDoNivel = personagensDisponiveis[nivelDificuldade];
     const indiceAleatorio = Math.floor(Math.random() * personagensDoNivel.length);
     
+    // 3. Pega o personagem e o remove da lista de disponíveis (splice retorna um array, pegamos o [0])
     personagemSecreto = personagensDoNivel.splice(indiceAleatorio, 1)[0];
+    
+    // 4. Adiciona o personagem selecionado à lista de usados
     personagensUsados[nivelDificuldade].push(personagemSecreto);
     // --- LÓGICA DE NÃO REPETIÇÃO FIM ---
 
     tentativas = 0;
     dicaAtual = -1;
     inputPalpite.value = '';
-    
-    // Limpeza de feedback visual
-    inputPalpite.classList.remove('close-guess', 'correct-guess');
     mensagem.textContent = '';
     mensagem.className = '';
     
+    // NOVO: Esconde o botão de Próximo e mostra o de Adivinhar
     btnEnviar.classList.remove('hidden');
     btnReiniciar.classList.add('hidden');
-    btnEnviar.disabled = false;
     
+    btnEnviar.disabled = false;
     btnPedirDica.style.display = 'inline-block';
-    btnPedirDica.disabled = false; // Reabilita o botão para a nova rodada
+    btnPedirDica.disabled = false;
     
     pularBtn.disabled = false; 
     divDica.innerHTML = '<p>Toque em "Pedir Dica" para começar!</p>';
@@ -332,6 +192,7 @@ function iniciarNovaRodada() {
         streakIcon.classList.add('hidden');
     }
     
+    // ATUALIZADO: Exibe a sequência de acertos atualizada no placar
     sequenciaVitoriasDisplay.textContent = `Sequência: ${sequenciaAcertos}`; 
 
     atualizarIndicadorDicas();
@@ -348,10 +209,7 @@ function atualizarPontuacao(pontosGanhos) {
 
 function verificarPalpite() {
     const palpite = inputPalpite.value.trim().toLowerCase();
-    const nomeSecreto = personagemSecreto.nome.toLowerCase();
-    
-    // Limpa classes de feedback de acerto/quase acerto
-    inputPalpite.classList.remove('close-guess', 'correct-guess');
+    inputPalpite.value = '';
 
     if (palpite === '') {
         mensagem.textContent = 'Por favor, digite um nome de personagem.';
@@ -363,21 +221,12 @@ function verificarPalpite() {
 
     tentativas++;
 
-    if (palpite === nomeSecreto) {
+    if (palpite === personagemSecreto.nome.toLowerCase()) {
         const pontosGanhos = calcularPontos();
         const bonusTempo = calcularBonusTempo(tempoRestante);
         sequenciaAcertos++;
         let bonusSequencia = 0;
         let mensagemSequencia = "";
-
-        // --- NOVO: VERIFICAÇÃO DE CONQUISTAS (NO ACERTO) ---
-        if (tentativas === 1) {
-            desbloquearConquista('speedster');
-        }
-        if (sequenciaAcertos >= 3) {
-            desbloquearConquista('streakMaster');
-        }
-        // --- FIM VERIFICAÇÃO DE CONQUISTAS ---
 
         if (sequenciaAcertos >= 2) {
             bonusSequencia = 5 * sequenciaAcertos;
@@ -388,6 +237,7 @@ function verificarPalpite() {
         
         atualizarPontuacao(totalPontos);
         
+        // ATUALIZADO: Atualiza a contagem no placar após um acerto
         sequenciaVitoriasDisplay.textContent = `Sequência: ${sequenciaAcertos}`; 
 
         mensagem.innerHTML = `Parabéns, ${nomeJogador}! Você acertou em ${tentativas} tentativa(s) e ganhou ${pontosGanhos} pontos.`;
@@ -410,34 +260,24 @@ function verificarPalpite() {
         
         feedbackIcon.classList.remove('hidden');
         feedbackIcon.classList.add('correct', 'fa-check');
-        inputPalpite.classList.add('correct-guess'); // Feedback visual de acerto
 
         personagemImagem.src = personagemSecreto.imagemUrl;
         personagemImagem.classList.remove('hidden');
-        
-        inputPalpite.value = ''; // Limpa o input após o acerto
 
         fimDeRodada("acerto");
     } else {
+        mensagem.textContent = 'Incorreto. Tente novamente!';
+        mensagem.className = 'lose-message shake';
+        playSound(somErro);
         sequenciaAcertos = 0; 
+        
+        // ATUALIZADO: Zera a contagem no placar após um erro
         sequenciaVitoriasDisplay.textContent = `Sequência: 0`; 
+        
         streakIcon.classList.add('hidden');
         
         feedbackIcon.classList.remove('hidden');
         feedbackIcon.classList.add('incorrect', 'fa-times');
-        
-        mensagem.textContent = 'Incorreto. Tente novamente!';
-        mensagem.className = 'lose-message shake';
-        playSound(somErro);
-
-        // --- NOVO: EFEITO DE "DIGITE CERTO" (QUASE ACERTO) ---
-        const distancia = levenshteinDistance(palpite, nomeSecreto);
-        // Distância <= 2 E o nome deve ter pelo menos 4 letras para ser relevante
-        if (distancia <= 2 && nomeSecreto.length > 3) { 
-            mensagem.textContent = `Palpite Incorreto. Mas você está no caminho certo!`;
-            inputPalpite.classList.add('close-guess');
-        }
-        // --- FIM EFEITO "DIGITE CERTO" ---
 
         setTimeout(() => {
             mensagem.classList.remove('shake');
@@ -451,40 +291,13 @@ function verificarPalpite() {
             personagemImagem.src = personagemSecreto.imagemUrl;
             personagemImagem.classList.remove('hidden');
             feedbackIcon.classList.add('hidden');
-            inputPalpite.value = '';
+            feedbackIcon.classList.remove('incorrect', 'fa-times');
             fimDeRodada("erro");
         }
     }
 }
 
 function mostrarDica() {
-    
-    // O próximo índice de dica é dicaAtual + 1. Se for 0, é a primeira (custo 0).
-    const proximoIndiceDica = dicaAtual + 1;
-    
-    if (proximoIndiceDica >= CUSTO_DICAS.length) {
-        btnPedirDica.disabled = true;
-        mensagem.textContent = 'Todas as dicas foram usadas!';
-        mensagem.className = 'lose-message';
-        return;
-    }
-    
-    // --- NOVO: VERIFICAÇÃO DE CUSTO ---
-    const custo = CUSTO_DICAS[proximoIndiceDica];
-    
-    if (custo > 0 && pontuacao < custo) {
-        mensagem.textContent = `Pontuação insuficiente! Você precisa de ${custo} pontos para a próxima dica.`;
-        mensagem.className = 'lose-message';
-        return;
-    }
-    
-    if (custo > 0) {
-        atualizarPontuacao(-custo); // Deduz o custo
-        mensagem.textContent = `Dica comprada! ${custo} pontos deduzidos.`;
-        mensagem.className = 'lose-message';
-    }
-    // --- FIM DA VERIFICAÇÃO DE CUSTO ---
-
     dicaAtual++;
     
     feedbackIcon.classList.add('hidden');
@@ -493,21 +306,16 @@ function mostrarDica() {
     if (dicaAtual < personagemSecreto.dicas.length) {
         divDica.innerHTML = `<p>${personagemSecreto.dicas[dicaAtual]}</p>`;
         atualizarIndicadorDicas();
-        
-        // Desabilita o botão se for a ÚLTIMA DICA E NÃO TIVER MAIS CUSTOS DEFINIDOS
-        if (dicaAtual === personagemSecreto.dicas.length - 1 || proximoIndiceDica >= CUSTO_DICAS.length - 1) {
-            btnPedirDica.disabled = true;
-            mensagem.textContent = 'Última dica, agora é sua chance!';
-            mensagem.className = '';
-        } else {
-             btnPedirDica.disabled = false;
-        }
-
     } else {
-        // Isso não deve ser atingido se a verificação de custo for bem feita, mas é um fallback
         divDica.innerHTML = '';
+        personagemImagem.src = personagemSecreto.imagemUrl;
+        personagemImagem.classList.remove('hidden');
+        personagemImagem.onerror = function() {
+            this.src = 'https://i.imgur.com/kYq3Q0L.jpeg';
+            mensagem.textContent = "A imagem não foi carregada. Tente adivinhar com as dicas!";
+        };
         btnPedirDica.disabled = true;
-        mensagem.textContent = 'Nenhuma dica disponível.';
+        mensagem.textContent = 'Última dica, agora é sua chance!';
         mensagem.className = '';
     }
 }
@@ -522,8 +330,7 @@ function calcularPontos() {
         pontos = 2;
     }
     
-    // A penalidade é baseada em quantas DICAS foram reveladas (dicaAtual + 1)
-    const penalidadeDica = (dicaAtual + 1) * 2; 
+    const penalidadeDica = dicaAtual * 2;
     pontos = Math.max(0, pontos - penalidadeDica);
     
     if (nivelDificuldade === 'medio') pontos *= 1.5;
@@ -548,22 +355,20 @@ function fimDeRodada(resultado) {
     btnPedirDica.style.display = 'none';
     pularBtn.disabled = true;
 
+    // NOVO: Esconde o botão de Adivinhar e mostra o de Próximo
     btnEnviar.classList.add('hidden');
     btnReiniciar.classList.remove('hidden');
-    
-    // Remove o feedback visual do input
-    inputPalpite.classList.remove('close-guess', 'correct-guess');
 
     streakIcon.classList.add('hidden'); 
 
     if (pontuacao >= META_PONTOS) {
         fimDeJogoTotal("vitoria");
     } else if (resultado === "erro" && tentativas >= 3) {
+        // Se a rodada acabou por erro, mas a pontuação ainda não atingiu a meta, continuamos
         btnReiniciar.textContent = 'Próximo Personagem';
     } else if (resultado === "acerto" || resultado === "pulado") {
          btnReiniciar.textContent = 'Próximo Personagem';
     } else {
-        // Se pontuação não atingiu a meta e foi por tempo, chama fimDeJogoTotal
         fimDeJogoTotal("derrota");
     }
 }
@@ -578,24 +383,13 @@ function fimDeJogoTotal(resultado) {
     
     document.querySelectorAll('.confetti-piece').forEach(confetti => confetti.remove());
 
-    // --- NOVO: LÓGICA DE PLACAR E CONQUISTAS NA TELA FINAL ---
-    salvarPontuacao(nomeJogador, pontuacao, nivelDificuldade);
-    renderizarLeaderboard();
-
     if (resultado === "vitoria") {
         endTitle.textContent = "Parabéns, Você Venceu!";
         endIcon.classList.add('fa-trophy', 'win');
         endContainer.classList.add('win');
-        endMessage.textContent = `Você atingiu a meta de ${META_PONTOS} pontos e terminou com ${pontuacao} pontos!`;
+        endMessage.textContent = `Você atingiu a meta de ${META_PONTOS} pontos e terminou com ${pontuacao} pontos.`;
         playSound(somVitoria);
         
-        // Desbloqueia a conquista de vitória
-        desbloquearConquista('firstWin');
-        if (nivelDificuldade === 'dificil') {
-            desbloquearConquista('hardcore');
-        }
-        
-        // Efeito Confetti
         for (let i = 0; i < 50; i++) {
             const confetti = document.createElement('div');
             confetti.classList.add('confetti-piece');
@@ -615,8 +409,8 @@ function fimDeJogoTotal(resultado) {
             endIcon.classList.remove('fa-sad-cry');
             endIcon.classList.add('fa-clock', 'lose'); 
             
-            const iconHTML = `<i class="fas fa-clock time-up-icon"></i>`;
-            endMessage.innerHTML = `${iconHTML} O tempo esgotou! O personagem era "${personagemSecreto.nome}". ${iconHTML} Você terminou com ${pontuacao} pontos.`;
+            const iconHTML = `<i class="fas fa-clock time-up-icon"></i><i class="fas fa-hourglass-half time-up-icon"></i>`;
+            endMessage.innerHTML = `${iconHTML} O relógio não perdoa! Você não conseguiu adivinhar a tempo. O personagem era "${personagemSecreto.nome}". ${iconHTML} Você terminou com ${pontuacao} pontos.`;
         }
     }
 }
@@ -681,20 +475,6 @@ function iniciarCronometro() {
     timer = setInterval(atualizarCronometro, 1000);
 }
 
-function iniciarNovoJogoCompleto() {
-    pontuacao = 0;
-    sequenciaAcertos = 0;
-    
-    personagensDisponiveis[nivelDificuldade] = [...personagens[nivelDificuldade]];
-    personagensUsados[nivelDificuldade] = [];
-    
-    metaTexto.textContent = `Meta: ${META_PONTOS}`;
-    pontuacaoTexto.textContent = `Pontos: ${pontuacao}`;
-    sequenciaVitoriasDisplay.textContent = `Sequência: 0`; 
-    iniciarNovaRodada();
-}
-
-
 // --- Event Listeners ---
 startBtn.addEventListener('click', () => {
     nomeJogador = nameInput.value.trim() || "Jogador";
@@ -723,6 +503,21 @@ hardBtn.addEventListener('click', () => {
     iniciarNovoJogoCompleto(); 
 });
 
+function iniciarNovoJogoCompleto() {
+    pontuacao = 0;
+    sequenciaAcertos = 0;
+    
+    // NOVO: RESETAR AS LISTAS DE PERSONAGENS E PREENCHER A LISTA DE DISPONÍVEIS
+    personagensDisponiveis[nivelDificuldade] = [...personagens[nivelDificuldade]];
+    personagensUsados[nivelDificuldade] = [];
+    
+    metaTexto.textContent = `Meta: ${META_PONTOS}`;
+    pontuacaoTexto.textContent = `Pontos: ${pontuacao}`;
+    sequenciaVitoriasDisplay.textContent = `Sequência: 0`; 
+    iniciarNovaRodada();
+}
+
+// BOTÃO REINICIAR/PRÓXIMO PERSONAGEM agora chama iniciarNovaRodada
 btnReiniciar.addEventListener('click', () => {
     iniciarNovaRodada();
 });
@@ -742,6 +537,7 @@ pularBtn.addEventListener('click', () => {
     sequenciaAcertos = 0; 
     streakIcon.classList.add('hidden');
     
+    // ATUALIZADO: Zera a contagem no placar após pular
     sequenciaVitoriasDisplay.textContent = `Sequência: 0`; 
     
     personagemImagem.src = personagemSecreto.imagemUrl;
@@ -757,9 +553,11 @@ pularBtn.addEventListener('click', () => {
 
 inputPalpite.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
+        // Se o botão 'Próximo Personagem' estiver visível (após acerto/erro), clique nele
         if (!btnReiniciar.classList.contains('hidden')) {
             btnReiniciar.click(); 
         } 
+        // Se o botão 'Adivinhar' estiver visível, chame a função verificarPalpite
         else if (!btnEnviar.classList.contains('hidden')) {
             verificarPalpite();
         }
@@ -772,6 +570,7 @@ playAgainBtn.addEventListener('click', () => {
     pontuacao = 0;
     sequenciaAcertos = 0;
     
+    // NOVO: Reseta o controle de repetição ao voltar para o início
     personagensDisponiveis = {};
     personagensUsados = {};
 });
@@ -782,33 +581,7 @@ changeDifficultyBtn.addEventListener('click', () => {
     pontuacao = 0;
     sequenciaAcertos = 0;
     
+    // NOVO: Reseta o controle de repetição ao mudar a dificuldade
     personagensDisponiveis = {};
     personagensUsados = {};
-});
-
-
-// Inicialização ao carregar o DOM
-document.addEventListener('DOMContentLoaded', () => {
-    // Carrega as conquistas salvas do jogador
-    carregarConquistas();
-    // Adiciona o listener para o feedback visual enquanto o usuário digita
-    inputPalpite.addEventListener('input', () => {
-        const palpite = inputPalpite.value.trim().toLowerCase();
-        const nomeSecreto = personagemSecreto.nome ? personagemSecreto.nome.toLowerCase() : '';
-        
-        // Limpa a classe de acerto, pois o input mudou
-        inputPalpite.classList.remove('correct-guess'); 
-
-        if (nomeSecreto && palpite.length >= 2) {
-            const distancia = levenshteinDistance(palpite, nomeSecreto);
-            // Verifica se está muito próximo, mas ainda não acertou
-            if (distancia <= 2 && palpite !== nomeSecreto) { 
-                inputPalpite.classList.add('close-guess');
-            } else {
-                inputPalpite.classList.remove('close-guess');
-            }
-        } else {
-            inputPalpite.classList.remove('close-guess');
-        }
-    });
 });
