@@ -1,9 +1,38 @@
-/* Estilos Gerais */
+/* =======================================
+   VARIÁVEIS GLOBAIS
+   ======================================= */
+:root {
+    --primary-color: #b11010; /* Vermelho principal para ações e destaques */
+    --primary-dark: #8c0d0d;
+    --secondary-color: #303030; /* Cinza escuro para fundos de containers */
+    --text-color: #f0f0f0;
+    --background-color: #1e1e1e; /* Fundo principal */
+    --win-color: #00b894; /* Verde para acerto/vitória */
+    --lose-color: #d63031; /* Vermelho para erro/derrota */
+    --easy-color: #55efc4;
+    --medium-color: #ffeaa7;
+    --hard-color: #fab1a0;
+
+    /* Novas variáveis para o tema Sci-Fi */
+    --font-elegant: 'Orbitron', sans-serif;
+    --font-tech: 'Rajdhani', sans-serif;
+    --tech-blue: #00e0ff; /* Azul ciano futurista */
+    --grid-color: rgba(0, 224, 255, 0.1);
+}
+
+/* =======================================
+   ESTILOS GLOBAIS E RESET
+   ======================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body, html {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
-    /* Fundo degradê para efeito moderno */
     background: linear-gradient(135deg, #0f1c3f, #000000);
     color: #ffffff;
     height: 100%;
@@ -17,7 +46,7 @@ body, html {
     height: 100%;
     display: flex;
     justify-content: center; /* Centraliza horizontalmente */
-    align-items: center;     /* Centraliza verticalmente (padrão) */
+    align-items: center;     /* Centraliza verticalmente */
     flex-direction: column;
     text-align: center;
     transition: opacity 0.5s ease;
@@ -25,7 +54,7 @@ body, html {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
     opacity: 0;
 }
 
@@ -40,28 +69,21 @@ body, html {
     position: relative;
     z-index: 20;
     width: 90%;
-    /* Altura definida pelo conteúdo. Isto garante a centralização vertical! */
 }
 
-/* Telas de Introdução, Dificuldade e Fim */
+/* Telas de Introdução, Dificuldade e Fim (Mais Compactas) */
 .intro-container, .difficulty-container, .end-container {
     max-width: 600px;
 }
 
-/* Contêiner Principal do Jogo (GAME-SCREEN) */
+/* Contêiner Principal do Jogo (GAME-SCREEN) - CENTRALIZADO */
 .main-container {
-    display: flex; /* Mantém o display flex para o layout interno */
-    flex-direction: column; /* Mantém o layout de coluna */
+    display: flex;
+    flex-direction: column;
     gap: 20px;
     max-width: 900px; /* Largura máxima para centralização horizontal */
     box-sizing: border-box;
-    /* REMOVIDO: height: 90vh; - A remoção garante a centralização vertical */
-}
-
-.intro-icon {
-    font-size: 80px;
-    color: #b32a2a;
-    margin-bottom: 20px;
+    /* REMOVIDO: height: 90vh; para permitir a centralização vertical */
 }
 
 h1 {
@@ -118,16 +140,148 @@ button:disabled {
     cursor: not-allowed;
 }
 
-/* Tela de Dificuldade */
+/* =======================================
+   ESTILOS TELA INICIAL (MISTÉRIO CÓSMICO)
+   ======================================= */
+
+/* 1. Efeito de Campo Estelar e Grade (Fundo) */
+.star-field {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Estrelas com sombra para parecerem luzes distantes */
+    background: radial-gradient(2px 2px at 20% 30%, #fff, rgba(0,0,0,0)), 
+                radial-gradient(2px 2px at 50% 10%, #fff, rgba(0,0,0,0)), 
+                radial-gradient(3px 3px at 90% 40%, #fff, rgba(0,0,0,0)), 
+                radial-gradient(1px 1px at 10% 80%, #fff, rgba(0,0,0,0));
+    background-size: 200px 200px;
+    opacity: 0.2;
+    z-index: 1;
+    animation: starScroll 100s linear infinite;
+}
+
+/* Animação de estrelas movendo-se lentamente */
+@keyframes starScroll {
+    from { background-position: 0 0; }
+    to { background-position: 100% 100%; }
+}
+
+/* Adicionando uma grade sutil na tela */
+#start-screen::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.1;
+}
+
+/* 2. Contêiner de Introdução (HUD) */
+.intro-container {
+    max-width: 600px;
+    padding: 50px;
+    border: 2px solid var(--tech-blue); /* Borda de energia */
+    box-shadow: 0 0 40px rgba(0, 224, 255, 0.4); /* Brilho azul */
+    animation: fadeIn 1.5s ease-out;
+}
+
+/* 3. Tipografia Elegante e Atual */
+.elegant-title {
+    font-family: var(--font-elegant); /* Fonte Sci-Fi impactante */
+    font-size: 3em;
+    color: var(--tech-blue);
+    text-shadow: 0 0 10px var(--tech-blue), 0 0 5px rgba(255, 255, 255, 0.5);
+    letter-spacing: 5px;
+    margin-bottom: 25px;
+}
+
+p.description-text, 
+.version-info {
+    font-family: var(--font-tech); /* Fonte legível e tecnológica */
+    color: #c9e6ff;
+    font-size: 1.1em;
+    line-height: 1.8;
+}
+
+/* 4. Ícone de Mistério/Satélite */
+.intro-icon {
+    font-size: 100px;
+    color: var(--tech-blue);
+    margin-bottom: 30px;
+    animation: pulse 2s infinite, spin 10s linear infinite; /* Animação dupla */
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 5. Estilo do Input */
+.input-group input[type="text"] {
+    font-family: var(--font-tech);
+    border: 1px solid var(--tech-blue);
+    background-color: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 8px rgba(0, 224, 255, 0.3);
+    padding: 18px 25px;
+    font-size: 1.2em;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+}
+
+.input-group input[type="text"]:focus {
+    border-color: #fff;
+    box-shadow: 0 0 15px var(--tech-blue), 0 0 5px #fff;
+}
+
+/* 6. Estilo do Botão Principal */
+#start-btn {
+    background-color: var(--primary-color); 
+    font-family: var(--font-tech);
+    padding: 15px 40px;
+    font-size: 1.2em;
+    letter-spacing: 2px;
+}
+
+#start-btn:hover {
+    background-color: var(--primary-dark);
+    box-shadow: 0 0 15px var(--primary-color);
+}
+
+#start-btn i {
+    margin-right: 10px;
+}
+
+#start-btn:disabled {
+    background-color: #333;
+    color: #888;
+    box-shadow: none;
+}
+
+/* 7. Detalhe de Informação de Versão */
+.version-info {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    font-size: 0.7em;
+    opacity: 0.6;
+}
+
+/* =======================================
+   TELA DE DIFICULDADE
+   ======================================= */
 .difficulty-subtitle {
     font-size: 0.9em;
     margin-top: -10px;
     margin-bottom: 30px;
     color: #aaa;
-}
-
-.difficulty-container {
-    max-width: 900px;
 }
 
 .difficulty-options {
@@ -164,7 +318,9 @@ button:disabled {
 .card-icon.medium { color: #ffeb3b; }
 .card-icon.hard { color: #fc2626; }
 
-/* Tela de Jogo */
+/* =======================================
+   TELA DE JOGO (GAME-SCREEN)
+   ======================================= */
 .game-screen {
     display: flex;
     flex-direction: column;
@@ -188,7 +344,6 @@ button:disabled {
     font-size: 1.1em;
 }
 
-/* Estilo para o ícone de sequência no placar */
 #streak-score-item i.fa-fire {
     color: #ff8c00; 
 }
@@ -205,7 +360,7 @@ button:disabled {
     margin-bottom: 20px;
 }
 
-/* --- MELHORIAS NO RELÓGIO CIRCULAR --- */
+/* --- RELÓGIO CIRCULAR --- */
 .timer-container {
     width: 100px;
     height: 100px;
@@ -244,7 +399,6 @@ button:disabled {
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
-/* Estado de Perigo Aprimorado (menos de 10 segundos) */
 .circular-timer.danger {
     border-color: #ff0000;
     animation: pulse-timer 0.8s infinite alternate; 
@@ -255,7 +409,7 @@ button:disabled {
     to { box-shadow: 0 0 20px #ff0000; transform: scale(1.03); }
 }
 
-/* --- ESTILOS DE SEQUÊNCIA DE ACERTOS (STREAK) --- */
+/* --- ESTILOS DE SEQUÊNCIA (STREAK) --- */
 #streak-icon {
     position: absolute;
     top: -10px; 
@@ -266,7 +420,6 @@ button:disabled {
     z-index: 25;
 }
 
-/* Animação de Feedback de Sequência (Ótimo Acerto!) */
 .streak-feedback {
     position: absolute;
     top: 50%;
@@ -368,12 +521,12 @@ button:disabled {
 }
 
 #feedback-icon.correct {
-    color: #4CAF50; /* Cor verde para acerto */
+    color: #4CAF50;
     text-shadow: 0 0 15px rgba(76, 175, 80, 0.7);
 }
 
 #feedback-icon.incorrect {
-    color: #f44336; /* Cor vermelha para erro */
+    color: #f44336;
     text-shadow: 0 0 15px rgba(244, 67, 54, 0.7);
 }
 
@@ -393,9 +546,9 @@ button:disabled {
     width: calc(100% - 40px);
 }
 
-/* --- ESTILO PARA O BOTÃO PULAR --- */
+/* --- BOTÃO PULAR --- */
 .pular-btn {
-    background-color: #ff9800; /* Laranja para indicar custo/alternativa */
+    background-color: #ff9800;
     border: 2px solid #e65100;
     font-weight: 700;
 }
@@ -418,7 +571,7 @@ button:disabled {
     color: #f44336;
 }
 
-/* Tela Final */
+/* --- TELA FINAL --- */
 .end-container {
     background: linear-gradient(135deg, #1a2a47, #000000);
     padding: 50px;
@@ -453,20 +606,6 @@ button:disabled {
     margin-bottom: 30px;
 }
 
-/* ANIMAÇÃO DE RELÓGIO VIBRANDO (DERROTA POR TEMPO) */
-@keyframes time-shake {
-    0%, 100% { transform: translateX(0) rotate(0deg); }
-    10% { transform: translateX(-5px) rotate(-2deg); }
-    20% { transform: translateX(5px) rotate(2deg); }
-    30% { transform: translateX(-5px) rotate(-1deg); }
-    40% { transform: translateX(5px) rotate(1deg); }
-    50% { transform: translateX(-5px) rotate(-2deg); }
-    60% { transform: translateX(5px) rotate(2deg); }
-    70% { transform: translateX(-3px) rotate(-1deg); }
-    80% { transform: translateX(3px) rotate(1deg); }
-    90% { transform: translateX(-3px) rotate(-1deg); }
-}
-
 .time-up-icon {
     display: inline-block;
     color: #f44336; 
@@ -475,30 +614,29 @@ button:disabled {
     animation: time-shake 0.3s infinite; 
 }
 
-/* Animações e Decorações (Mantidas) */
+/* Animações e Decorações */
+@keyframes time-shake {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    10% { transform: translateX(-5px) rotate(-2deg); }
+    /* ... (restante dos keyframes) ... */
+    90% { transform: translateX(-3px) rotate(-1deg); }
+}
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
-
 .animate__fade-in { animation: fadeIn 0.8s ease-out; }
-.animate__fade-in-up { animation: fadeIn 0.8s ease-out; }
-
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
 }
-
 .animate__pulse { animation: pulse 2s infinite; }
-
 @keyframes zoomIn {
     from { opacity: 0; transform: scale(0.8); }
     to { opacity: 1; transform: scale(1); }
 }
-
 .animate__zoom-in { animation: zoomIn 0.5s ease-out; }
-
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-5px); }
@@ -541,28 +679,12 @@ button:disabled {
     to { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
 }
 
-@keyframes confettiFall {
-    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-}
-
-.confetti-piece {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #f00;
-    animation: confettiFall 5s infinite;
-}
-
-
-/* --- NOVA ESTRUTURA PARA TROCAR BOTÕES --- */
 .action-swap-container {
     position: relative;
-    width: 100%; /* Ocupa a largura total na coluna de controles */
-    height: 50px; /* Altura padrão de um botão */
+    width: 100%;
+    height: 50px;
 }
 
-/* Garante que os botões dentro do contêiner ocupem o espaço todo */
 .action-swap-container button {
     position: absolute;
     top: 0;
@@ -573,18 +695,16 @@ button:disabled {
     transition: opacity 0.3s ease;
 }
 
-/* Estilo para o botão de Próximo Personagem (Substituição) */
 #reiniciarBtn.swap-btn {
-    background-color: #4CAF50; /* Verde de avanço */
+    background-color: #4CAF50;
 }
 
 #reiniciarBtn.swap-btn:hover {
     background-color: #45a049;
 }
 
-/* NOVO ESTILO PARA O BOTÃO ADICIONAL NA TELA FINAL */
 #change-difficulty-btn {
-    background-color: #0d47a1; /* Azul escuro */
+    background-color: #0d47a1;
     margin-top: 10px;
     padding: 12px 25px;
     font-size: 1em;
@@ -603,20 +723,25 @@ button:disabled {
         padding: 20px;
         margin-top: 5vh; 
     }
+    
+    .elegant-title {
+        font-size: 2.2em;
+        letter-spacing: 3px;
+    }
 
     /* Otimiza a visualização das cartas de dificuldade em mobile */
     .difficulty-options {
-        flex-direction: column; /* Empilha as cartas verticalmente */
+        flex-direction: column;
         gap: 15px;
     }
     
     .difficulty-card {
-        max-width: 100%; /* Permite que cada carta ocupe a largura total */
+        max-width: 100%;
         flex: 1 1 auto;
     }
 
     h1 {
-        font-size: 2em; /* Reduz o tamanho do título em mobile */
+        font-size: 2em;
     }
     
     /* Garante que os itens de pontuação fiquem empilhados em telas pequenas */
@@ -627,7 +752,7 @@ button:disabled {
         padding: 10px;
     }
     .score-item {
-        font-size: 1em; /* Ajuste de fonte para economizar espaço */
+        font-size: 1em;
     }
     .timer-container {
         width: 80px;
