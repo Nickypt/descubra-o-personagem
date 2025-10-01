@@ -4,7 +4,7 @@ body, html {
     padding: 0;
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #0f1c3f, #000000);
-    color: #0f0939;
+    color: #ffffff;
     /* ALTERAÇÃO AQUI: 'overflow: hidden' removido para garantir centralização e evitar cortes */
     height: 100%;
 }
