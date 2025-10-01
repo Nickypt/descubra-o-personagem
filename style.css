@@ -3,9 +3,9 @@ body, html {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
+    /* Fundo degradê para efeito moderno */
     background: linear-gradient(135deg, #0f1c3f, #000000);
     color: #ffffff;
-    /* ALTERAÇÃO AQUI: 'overflow: hidden' removido para garantir centralização e evitar cortes */
     height: 100%;
 }
 
@@ -17,7 +17,7 @@ body, html {
     height: 100%;
     display: flex;
     justify-content: center; /* Centraliza horizontalmente */
-    align-items: center;     /* Centraliza verticalmente */
+    align-items: center;     /* Centraliza verticalmente (padrão) */
     flex-direction: column;
     text-align: center;
     transition: opacity 0.5s ease;
@@ -29,7 +29,7 @@ body, html {
     opacity: 0;
 }
 
-/* Telas de Jogo */
+/* Telas de Jogo e Contêineres Principais (Glassmorphism) */
 .intro-container, .difficulty-container, .end-container, .main-container {
     background-color: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
@@ -40,7 +40,22 @@ body, html {
     position: relative;
     z-index: 20;
     width: 90%;
+    /* Altura definida pelo conteúdo. Isto garante a centralização vertical! */
+}
+
+/* Telas de Introdução, Dificuldade e Fim */
+.intro-container, .difficulty-container, .end-container {
     max-width: 600px;
+}
+
+/* Contêiner Principal do Jogo (GAME-SCREEN) */
+.main-container {
+    display: flex; /* Mantém o display flex para o layout interno */
+    flex-direction: column; /* Mantém o layout de coluna */
+    gap: 20px;
+    max-width: 900px; /* Largura máxima para centralização horizontal */
+    box-sizing: border-box;
+    /* REMOVIDO: height: 90vh; - A remoção garante a centralização vertical */
 }
 
 .intro-icon {
@@ -155,16 +170,6 @@ button:disabled {
     flex-direction: column;
 }
 
-.main-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 90%;
-    max-width: 900px;
-    height: 90vh;
-    box-sizing: border-box;
-}
-
 .score-sidebar {
     background-color: rgba(0, 0, 0, 0.2);
     padding: 15px;
@@ -183,9 +188,9 @@ button:disabled {
     font-size: 1.1em;
 }
 
-/* NOVO: Estilo para o ícone de sequência no placar */
+/* Estilo para o ícone de sequência no placar */
 #streak-score-item i.fa-fire {
-    color: #ff8c00; 
+    color: #ff8c00; 
 }
 
 .game-container {
@@ -217,16 +222,16 @@ button:disabled {
     align-items: center;
     background: conic-gradient(#b11010 0%, #303030 0%);
     transition: background 1s linear;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra interna e externa */
-    border: 5px solid #1f2f51; /* Borda mais espessa */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.5); 
+    border: 5px solid #1f2f51; 
 }
 
 .circular-timer #timer-display {
-    font-size: 2.5em; /* Número maior */
+    font-size: 2.5em;
     font-weight: 700;
     color: #fff;
     position: absolute;
-    background-color: #2b3b5c; /* Fundo sólido mais claro */
+    background-color: #2b3b5c; 
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -235,14 +240,14 @@ button:disabled {
     align-items: center;
     z-index: 2;
     margin: 0;
-    border: 2px solid #1a2744; /* Borda sutil */
+    border: 2px solid #1a2744;
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
 /* Estado de Perigo Aprimorado (menos de 10 segundos) */
 .circular-timer.danger {
-    border-color: #ff0000; /* Borda vermelha no perigo */
-    animation: pulse-timer 0.8s infinite alternate; 
+    border-color: #ff0000;
+    animation: pulse-timer 0.8s infinite alternate; 
 }
 
 @keyframes pulse-timer {
@@ -253,10 +258,10 @@ button:disabled {
 /* --- ESTILOS DE SEQUÊNCIA DE ACERTOS (STREAK) --- */
 #streak-icon {
     position: absolute;
-    top: -10px; 
-    right: 10px; 
+    top: -10px; 
+    right: 10px; 
     font-size: 2em;
-    color: #ff8c00; /* Cor de fogo */
+    color: #ff8c00;
     animation: bounce 0.5s ease-out;
     z-index: 25;
 }
@@ -356,8 +361,8 @@ button:disabled {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 80px; 
-    z-index: 50; 
+    font-size: 80px; 
+    z-index: 50; 
     opacity: 0.9;
     animation: scaleIn 0.5s ease-out;
 }
@@ -464,10 +469,10 @@ button:disabled {
 
 .time-up-icon {
     display: inline-block;
-    color: #f44336; 
-    font-size: 1.2em; 
+    color: #f44336; 
+    font-size: 1.2em; 
     margin: 0 5px;
-    animation: time-shake 0.3s infinite; 
+    animation: time-shake 0.3s infinite; 
 }
 
 /* Animações e Decorações (Mantidas) */
@@ -596,7 +601,7 @@ button:disabled {
     /* Ajusta a margem e padding do container principal em telas menores */
     .intro-container, .difficulty-container, .end-container, .main-container {
         padding: 20px;
-        margin-top: 5vh; 
+        margin-top: 5vh; 
     }
 
     /* Otimiza a visualização das cartas de dificuldade em mobile */
