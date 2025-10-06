@@ -3,48 +3,48 @@
 // ===============================================
 
 const personagens = {
-    facil: [
-        { nome: "Mario", dicas: ["Ele é um encanador italiano do Reino Cogumelo.", "Ele pula em inimigos e come cogumelos para crescer."], imagemUrl: "https://i.imgur.com/7gK5J5S.jpeg" },
-        { nome: "Homem de Ferro", dicas: ["Ele é um inventor e bilionário excêntrico.", "Usa uma armadura de alta tecnologia para combater o crime e salvar o mundo."], imagemUrl: "https://i.imgur.com/mRzR28g.jpeg" },
-        { nome: "Goku", dicas: ["É um dos últimos Saiyajins, um guerreiro do Planeta Vegeta.", "Sua técnica principal é o Kamehameha, e ele pode se transformar em Super Saiyajin."], imagemUrl: "https://i.imgur.com/fVq6X0k.jpeg" },
-        { nome: "Darth Vader", dicas: ["É um dos vilões mais icônicos do cinema, com uma respiração pesada e robótica.", "Ele é um Lorde Sith, conhecido por ser o principal executor do Império Galáctico."], imagemUrl: "https://i.imgur.com/rS2a88U.jpeg" },
-        { nome: "Homem Aranha", dicas: ["Ele é um jovem fotógrafo que foi picado por um aracnídeo radioativo.", "Seus poderes incluem teias que ele atira dos pulsos e um 'sentido aranha' que o alerta sobre perigos."], imagemUrl: "https://i.imgur.com/bWkQ2oZ.jpeg" },
-        { nome: "Batman", dicas: ["Ele é um bilionário que combate o crime em Gotham City.", "Não tem superpoderes, mas usa tecnologia e gadgets avançados."], imagemUrl: "https://i.imgur.com/Kx3u45L.jpeg" },
-        { nome: "Mickey Mouse", dicas: ["Ele é um rato falante e o mascote principal da Disney.", "Sua namorada é a Minnie e ele é frequentemente visto com luvas brancas grandes."], imagemUrl: "https://i.imgur.com/8Q9l27o.jpeg" },
-        { nome: "Pikachu", dicas: ["Ele é um rato elétrico de cor amarela, e a criatura mais famosa de sua franquia.", "Seu ataque mais conhecido é o Choque do Trovão."], imagemUrl: "https://i.imgur.com/qR8Wn9T.jpeg" },
-        { nome: "Harry Potter", dicas: ["Ele é um bruxo que sobreviveu à Maldição da Morte quando bebê, deixando uma cicatriz em forma de raio.", "Ele estuda em Hogwarts e seu patrono é um cervo."], imagemUrl: "https://i.imgur.com/7y3x8pY.jpeg" },
-        { nome: "Homer Simpson", dicas: ["Ele é um pai de família gordo e careca, que trabalha em uma usina nuclear.", "Suas frases mais famosas são 'D'oh!' e 'Mmm, donuts...'."], imagemUrl: "https://i.imgur.com/d9j3L5x.jpeg" },
-        { nome: "Superman", dicas: ["Ele é um alienígena do planeta Krypton que usa uma capa vermelha e uma roupa azul.", "Seus poderes incluem voar, super força e visão de calor."], imagemUrl: "https://i.imgur.com/w2Yv19X.jpeg" },
-        { nome: "Woody", dicas: ["Ele é um caubói de brinquedo com uma cordinha nas costas.", "Ele é o brinquedo favorito de Andy e sempre lidera os outros brinquedos."], imagemUrl: "https://i.imgur.com/0iK0Z5r.jpeg" },
-    ],
-    medio: [
-        { nome: "Capitão América", dicas: ["Ele é um super-soldado da Segunda Guerra Mundial, que foi congelado no tempo.", "Seu principal acessório é um escudo indestrutível feito de vibranium."], imagemUrl: "https://i.imgur.com/J8Yl00H.jpeg" },
-        { nome: "Jack Sparrow", dicas: ["Ele é um pirata carismático, com um jeito de andar e falar únicos.", "Capitão do navio Pérola Negra, ele está sempre procurando tesouros e evitando a Companhia das Índias Orientais."], imagemUrl: "https://i.imgur.com/gK1kFpY.jpeg" },
-        { nome: "Elsa", dicas: ["Ela é uma rainha que nasceu com poderes de gelo e neve.", "Sua música tema mais famosa é 'Let it Go', e seu castelo é feito de gelo."], imagemUrl: "https://i.imgur.com/39wF4y8.jpeg" },
-        { nome: "Mulher Maravilha", dicas: ["Ela é uma princesa guerreira de Themyscira, uma ilha oculta.", "Seu principal acessório é o Laço da Verdade, que força as pessoas a dizerem a verdade."], imagemUrl: "https://i.imgur.com/z0J6t8Y.jpeg" },
-        { nome: "SpongeBob SquarePants", dicas: ["É uma criatura amarela que mora em um abacaxi, no fundo do mar.", "Seu melhor amigo é uma estrela do mar, e ele trabalha no Siri Cascudo."], imagemUrl: "https://i.imgur.com/q7N6y0w.jpeg" },
-        { nome: "Optimus Prime", dicas: ["Ele é o líder dos Autobots.", "Seu corpo se transforma em um caminhão, e sua frase mais famosa é 'Autobots, roll out!'."], imagemUrl: "https://i.imgur.com/p8b6Q1c.jpeg" },
-        { nome: "Lara Croft", dicas: ["Ela é uma arqueóloga britânica aventureira.", "Frequentemente usa duas pistolas e explora tumbas perigosas ao redor do mundo."], imagemUrl: "https://i.imgur.com/A6j4X4G.jpeg" },
-        { nome: "Sonic", dicas: ["Ele é um ouriço azul super-rápido.", "Seu objetivo principal é deter o Dr. Eggman e coletar anéis de ouro."], imagemUrl: "https://i.imgur.com/B9tE9lP.jpeg" },
-        { nome: "Deadpool", dicas: ["Ele é um anti-herói mercenário com um uniforme vermelho e preto, que fala sem parar.", "Ele tem a capacidade de quebrar a quarta parede e tem um fator de cura regenerativo."], imagemUrl: "https://i.imgur.com/gO0w1yL.jpeg" },
-        { nome: "Zelda", dicas: ["Ela é a princesa do Reino de Hyrule, frequentemente alvo do vilão Ganon.", "Ela usa a Triforce da Sabedoria, e muitas vezes é quem orienta o herói Link."], imagemUrl: "https://i.imgur.com/n1x2u8M.jpeg" },
-        { nome: "Sub-Zero", dicas: ["Ele é um lutador de Mortal Kombat, conhecido por sua roupa azul e por ter poderes gélidos.", "Seu ataque mais famoso é congelar seus oponentes."], imagemUrl: "https://i.imgur.com/5J3k8wP.jpeg" },
-        { nome: "Buzz Lightyear", dicas: ["Ele é um patrulheiro espacial de brinquedo que inicialmente pensava ser real.", "Sua frase de efeito é 'Ao infinito e além!'."], imagemUrl: "https://i.imgur.com/q8y4R1P.jpeg" },
-    ],
-    dificil: [
-        { nome: "Frodo Bolseiro", dicas: ["Ele é um hobbit, uma criatura pequena que vive em um lugar chamado o Condado.", "Sua missão é destruir um anel mágico e poderoso em uma montanha de fogo."], imagemUrl: "https://i.imgur.com/QhXoB2i.jpeg" },
-        { nome: "Luffy", dicas: ["Ele é o capitão do bando do Chapéu de Palha.", "Seu corpo se tornou de borracha após ele comer uma fruta do diabo."], imagemUrl: "https://i.imgur.com/p1zPq1L.jpeg" },
-        { nome: "Link", dicas: ["Ele é um herói da série 'The Legend of Zelda'.", "Normalmente usa uma túnica verde e carrega uma espada e um escudo, sendo o portador da Triforce da Coragem."], imagemUrl: "https://i.imgur.com/3h8Q45z.jpeg" },
-        { nome: "Sherlock Holmes", dicas: ["É um detetive particular britânico, conhecido por sua grande inteligência e observação.", "Vive na Rua Baker, 221B, em Londres, e é acompanhado por seu amigo Dr. Watson."], imagemUrl: "https://i.imgur.com/dK3f0bS.jpeg" },
-        { nome: "Gandalf", dicas: ["Ele é um mago poderoso, membro da Ordem de Istari.", "Guia os hobbits, anões e humanos em uma missão para derrotar um grande mal."], imagemUrl: "https://i.imgur.com/lM3Lp8U.jpeg" },
-        { nome: "Peter Pan", dicas: ["Ele é um menino que se recusa a crescer e mora em uma ilha mágica.", "Voa com a ajuda de pó de fada e é amigo de uma pequena fada chamada Sininho."], imagemUrl: "https://i.imgur.com/e2N6B4l.jpeg" },
-        { nome: "Kratos", dicas: ["Ele é um guerreiro espartano que se tornou o Deus da Guerra.", "Originalmente, ele buscava vingança contra os deuses gregos, usando as Lâminas do Caos."], imagemUrl: "https://i.imgur.com/K0g9n0N.jpeg" },
-        { nome: "Ellen Ripley", dicas: ["É uma sobrevivente e tenente que se tornou heroína em um filme de ficção científica espacial.", "Ela é conhecida por lutar contra criaturas alienígenas hostis usando um Power Loader."], imagemUrl: "https://i.imgur.com/4qJgL3e.jpeg" },
-        { nome: "Geralt de Rivia", dicas: ["Ele é um mutante conhecido como Lobo Branco, que caça monstros por dinheiro.", "Ele carrega duas espadas nas costas, uma de aço e outra de prata, e usa 'Sinais' (magias).."], imagemUrl: "https://i.imgur.com/Xw0z2gA.jpeg" },
-        { nome: "Aloy", dicas: ["Ela é uma caçadora pária em um mundo pós-apocalíptico dominado por máquinas animais.", "Ela usa um dispositivo chamado 'Foco' para escanear inimigos e é uma arqueira habilidosa."], imagemUrl: "https://i.imgur.com/7j8Gz2d.jpeg" },
-        { nome: "Coragem", dicas: ["Ele é um cachorro rosa e medroso que mora com seus donos em um lugar chamado 'Lugar Nenhum'.", "Apesar do medo, ele sempre salva seus donos de ameaças sobrenaturais."], imagemUrl: "https://i.imgur.com/2s3F4qI.jpeg" },
-        { nome: "T-800", dicas: ["É um ciborgue assassino com esqueleto de metal e coberto por tecido vivo.", "Sua missão original era exterminar uma mulher chamada Sarah Connor. Sua frase de efeito é 'I'll be back'."], imagemUrl: "https://i.imgur.com/uF9dJ7v.jpeg" },
-    ]
+    facil: [
+        { nome: "Mario", dicas: ["Ele é um encanador italiano do Reino Cogumelo.", "Ele pula em inimigos e come cogumelos para crescer."], imagemUrl: "https://i.imgur.com/7gK5J5S.jpeg" },
+        { nome: "Homem de Ferro", dicas: ["Ele é um inventor e bilionário excêntrico.", "Usa uma armadura de alta tecnologia para combater o crime e salvar o mundo."], imagemUrl: "https://i.imgur.com/mRzR28g.jpeg" },
+        { nome: "Goku", dicas: ["É um dos últimos Saiyajins, um guerreiro do Planeta Vegeta.", "Sua técnica principal é o Kamehameha, e ele pode se transformar em Super Saiyajin."], imagemUrl: "https://i.imgur.com/fVq6X0k.jpeg" },
+        { nome: "Darth Vader", dicas: ["É um dos vilões mais icônicos do cinema, com uma respiração pesada e robótica.", "Ele é um Lorde Sith, conhecido por ser o principal executor do Império Galáctico."], imagemUrl: "https://i.imgur.com/rS2a88U.jpeg" },
+        { nome: "Homem Aranha", dicas: ["Ele é um jovem fotógrafo que foi picado por um aracnídeo radioativo.", "Seus poderes incluem teias que ele atira dos pulsos e um 'sentido aranha' que o alerta sobre perigos."], imagemUrl: "https://i.imgur.com/bWkQ2oZ.jpeg" },
+        { nome: "Batman", dicas: ["Ele é um bilionário que combate o crime em Gotham City.", "Não tem superpoderes, mas usa tecnologia e gadgets avançados."], imagemUrl: "https://i.imgur.com/Kx3u45L.jpeg" },
+        { nome: "Mickey Mouse", dicas: ["Ele é um rato falante e o mascote principal da Disney.", "Sua namorada é a Minnie e ele é frequentemente visto com luvas brancas grandes."], imagemUrl: "https://i.imgur.com/8Q9l27o.jpeg" },
+        { nome: "Pikachu", dicas: ["Ele é um rato elétrico de cor amarela, e a criatura mais famosa de sua franquia.", "Seu ataque mais conhecido é o Choque do Trovão."], imagemUrl: "https://i.imgur.com/qR8Wn9T.jpeg" },
+        { nome: "Harry Potter", dicas: ["Ele é um bruxo que sobreviveu à Maldição da Morte quando bebê, deixando uma cicatriz em forma de raio.", "Ele estuda em Hogwarts e seu patrono é um cervo."], imagemUrl: "https://i.imgur.com/7y3x8pY.jpeg" },
+        { nome: "Homer Simpson", dicas: ["Ele é um pai de família gordo e careca, que trabalha em uma usina nuclear.", "Suas frases mais famosas são 'D'oh!' e 'Mmm, donuts...'."], imagemUrl: "https://i.imgur.com/d9j3L5x.jpeg" },
+        { nome: "Superman", dicas: ["Ele é um alienígena do planeta Krypton que usa uma capa vermelha e uma roupa azul.", "Seus poderes incluem voar, super força e visão de calor."], imagemUrl: "https://i.imgur.com/w2Yv19X.jpeg" },
+        { nome: "Woody", dicas: ["Ele é um caubói de brinquedo com uma cordinha nas costas.", "Ele é o brinquedo favorito de Andy e sempre lidera os outros brinquedos."], imagemUrl: "https://i.imgur.com/0iK0Z5r.jpeg" },
+    ],
+    medio: [
+        { nome: "Capitão América", dicas: ["Ele é um super-soldado da Segunda Guerra Mundial, que foi congelado no tempo.", "Seu principal acessório é um escudo indestrutível feito de vibranium."], imagemUrl: "https://i.imgur.com/J8Yl00H.jpeg" },
+        { nome: "Jack Sparrow", dicas: ["Ele é um pirata carismático, com um jeito de andar e falar únicos.", "Capitão do navio Pérola Negra, ele está sempre procurando tesouros e evitando a Companhia das Índias Orientais."], imagemUrl: "https://i.imgur.com/gK1kFpY.jpeg" },
+        { nome: "Elsa", dicas: ["Ela é uma rainha que nasceu com poderes de gelo e neve.", "Sua música tema mais famosa é 'Let it Go', e seu castelo é feito de gelo."], imagemUrl: "https://i.imgur.com/39wF4y8.jpeg" },
+        { nome: "Mulher Maravilha", dicas: ["Ela é uma princesa guerreira de Themyscira, uma ilha oculta.", "Seu principal acessório é o Laço da Verdade, que força as pessoas a dizerem a verdade."], imagemUrl: "https://i.imgur.com/z0J6t8Y.jpeg" },
+        { nome: "SpongeBob SquarePants", dicas: ["É uma criatura amarela que mora em um abacaxi, no fundo do mar.", "Seu melhor amigo é uma estrela do mar, e ele trabalha no Siri Cascudo."], imagemUrl: "https://i.imgur.com/q7N6y0w.jpeg" },
+        { nome: "Optimus Prime", dicas: ["Ele é o líder dos Autobots.", "Seu corpo se transforma em um caminhão, e sua frase mais famosa é 'Autobots, roll out!'."], imagemUrl: "https://i.imgur.com/p8b6Q1c.jpeg" },
+        { nome: "Lara Croft", dicas: ["Ela é uma arqueóloga britânica aventureira.", "Frequentemente usa duas pistolas e explora tumbas perigosas ao redor do mundo."], imagemUrl: "https://i.imgur.com/A6j4X4G.jpeg" },
+        { nome: "Sonic", dicas: ["Ele é um ouriço azul super-rápido.", "Seu objetivo principal é deter o Dr. Eggman e coletar anéis de ouro."], imagemUrl: "https://i.imgur.com/B9tE9lP.jpeg" },
+        { nome: "Deadpool", dicas: ["Ele é um anti-herói mercenário com um uniforme vermelho e preto, que fala sem parar.", "Ele tem a capacidade de quebrar a quarta parede e tem um fator de cura regenerativo."], imagemUrl: "https://i.imgur.com/gO0w1yL.jpeg" },
+        { nome: "Zelda", dicas: ["Ela é a princesa do Reino de Hyrule, frequentemente alvo do vilão Ganon.", "Ela usa a Triforce da Sabedoria, e muitas vezes é quem orienta o herói Link."], imagemUrl: "https://i.imgur.com/n1x2u8M.jpeg" },
+        { nome: "Sub-Zero", dicas: ["Ele é um lutador de Mortal Kombat, conhecido por sua roupa azul e por ter poderes gélidos.", "Seu ataque mais famoso é congelar seus oponentes."], imagemUrl: "https://i.imgur.com/5J3k8wP.jpeg" },
+        { nome: "Buzz Lightyear", dicas: ["Ele é um patrulheiro espacial de brinquedo que inicialmente pensava ser real.", "Sua frase de efeito é 'Ao infinito e além!'."], imagemUrl: "https://i.imgur.com/q8y4R1P.jpeg" },
+    ],
+    dificil: [
+        { nome: "Frodo Bolseiro", dicas: ["Ele é um hobbit, uma criatura pequena que vive em um lugar chamado o Condado.", "Sua missão é destruir um anel mágico e poderoso em uma montanha de fogo."], imagemUrl: "https://i.imgur.com/QhXoB2i.jpeg" },
+        { nome: "Luffy", dicas: ["Ele é o capitão do bando do Chapéu de Palha.", "Seu corpo se tornou de borracha após ele comer uma fruta do diabo."], imagemUrl: "https://i.imgur.com/p1zPq1L.jpeg" },
+        { nome: "Link", dicas: ["Ele é um herói da série 'The Legend of Zelda'.", "Normalmente usa uma túnica verde e carrega uma espada e um escudo, sendo o portador da Triforce da Coragem."], imagemUrl: "https://i.imgur.com/3h8Q45z.jpeg" },
+        { nome: "Sherlock Holmes", dicas: ["É um detetive particular britânico, conhecido por sua grande inteligência e observação.", "Vive na Rua Baker, 221B, em Londres, e é acompanhado por seu amigo Dr. Watson."], imagemUrl: "https://i.imgur.com/dK3f0bS.jpeg" },
+        { nome: "Gandalf", dicas: ["Ele é um mago poderoso, membro da Ordem de Istari.", "Guia os hobbits, anões e humanos em uma missão para derrotar um grande mal."], imagemUrl: "https://i.imgur.com/lM3Lp8U.jpeg" },
+        { nome: "Peter Pan", dicas: ["Ele é um menino que se recusa a crescer e mora em uma ilha mágica.", "Voa com a ajuda de pó de fada e é amigo de uma pequena fada chamada Sininho."], imagemUrl: "https://i.imgur.com/e2N6B4l.jpeg" },
+        { nome: "Kratos", dicas: ["Ele é um guerreiro espartano que se tornou o Deus da Guerra.", "Originalmente, ele buscava vingança contra os deuses gregos, usando as Lâminas do Caos."], imagemUrl: "https://i.imgur.com/K0g9n0N.jpeg" },
+        { nome: "Ellen Ripley", dicas: ["É uma sobrevivente e tenente que se tornou heroína em um filme de ficção científica espacial.", "Ela é conhecida por lutar contra criaturas alienígenas hostis usando um Power Loader."], imagemUrl: "https://i.imgur.com/4qJgL3e.jpeg" },
+        { nome: "Geralt de Rivia", dicas: ["Ele é um mutante conhecido como Lobo Branco, que caça monstros por dinheiro.", "Ele carrega duas espadas nas costas, uma de aço e outra de prata, e usa 'Sinais' (magias).."], imagemUrl: "https://i.imgur.com/Xw0z2gA.jpeg" },
+        { nome: "Aloy", dicas: ["Ela é uma caçadora pária em um mundo pós-apocalíptico dominado por máquinas animais.", "Ela usa um dispositivo chamado 'Foco' para escanear inimigos e é uma arqueira habilidosa."], imagemUrl: "https://i.imgur.com/7j8Gz2d.jpeg" },
+        { nome: "Coragem", dicas: ["Ele é um cachorro rosa e medroso que mora com seus donos em um lugar chamado 'Lugar Nenhum'.", "Apesar do medo, ele sempre salva seus donos de ameaças sobrenaturais."], imagemUrl: "https://i.imgur.com/2s3F4qI.jpeg" },
+        { nome: "T-800", dicas: ["É um ciborgue assassino com esqueleto de metal e coberto por tecido vivo.", "Sua missão original era exterminar uma mulher chamada Sarah Connor. Sua frase de efeito é 'I'll be back'."], imagemUrl: "https://i.imgur.com/uF9dJ7v.jpeg" },
+    ]
 };
 
 const META_PONTOS = 100;
@@ -65,7 +65,7 @@ let maiorSequencia = 0;
 let personagensDisponiveis = {}; 
 let personagensUsados = {}; 
 
-// Mock de Áudio (se quiser sons reais, substitua por tags <audio>)
+// Mock de Áudio 
 const somAcerto = { play: () => console.log("Sound: Acerto"), currentTime: 0 };
 const somErro = { play: () => console.log("Sound: Erro"), currentTime: 0 };
 const somVitoria = { play: () => console.log("Sound: Vitória"), currentTime: 0 };
@@ -74,7 +74,7 @@ const somSequencia = { play: () => console.log("Sound: Sequência"), currentTime
 
 
 // ===============================================
-// ELEMENTOS DO DOM (MAPEAMENTO CORRIGIDO)
+// ELEMENTOS DO DOM
 // ===============================================
 
 // Elementos das telas
@@ -85,7 +85,7 @@ const endScreen = document.getElementById('end-screen');
 
 // Elementos da tela de início
 const startBtn = document.getElementById('start-btn');
-const nameInput = document.getElementById('player-name-input'); // CORRETO
+const nameInput = document.getElementById('player-name-input');
 const difficultyOptions = document.querySelectorAll('.difficulty-card');
 
 // Elementos da tela de dificuldade
@@ -127,254 +127,266 @@ const changeDifficultyBtn = document.getElementById('change-difficulty-btn');
 // ===============================================
 
 function playSound(sound) {
-    sound.currentTime = 0;
-    try {
-        // sound.play(); 
-    } catch(e) {
-        console.error("Erro ao tocar áudio (mock):", e);
-    }
+    sound.currentTime = 0;
+    try {
+        // sound.play(); 
+    } catch(e) {
+        console.error("Erro ao tocar áudio (mock):", e);
+    }
 }
 
 function getTempoMaximo(nivel) {
-    switch(nivel) {
-        case 'facil': return TEMPO_BASE * 2; // 60 segundos
-        case 'medio': return TEMPO_BASE * 1.5; // 45 segundos
-        case 'dificil': return TEMPO_BASE; // 30 segundos
-        default: return TEMPO_BASE * 1.5;
-    }
+    switch(nivel) {
+        case 'facil': return TEMPO_BASE * 2; // 60 segundos
+        case 'medio': return TEMPO_BASE * 1.5; // 45 segundos
+        case 'dificil': return TEMPO_BASE; // 30 segundos
+        default: return TEMPO_BASE * 1.5;
+    }
 }
 
 function atualizarIndicadorDicas() {
-    const maxDicas = personagemSecreto.dicas ? personagemSecreto.dicas.length : 3;
+    const maxDicas = personagemSecreto.dicas ? personagemSecreto.dicas.length : 3;
 
-    dicaDots.forEach((dot, index) => {
-        dot.classList.remove('active', 'used');
-        dot.style.display = index < maxDicas ? 'inline-block' : 'none';
+    dicaDots.forEach((dot, index) => {
+        dot.classList.remove('active', 'used');
+        dot.style.display = index < maxDicas ? 'inline-block' : 'none';
 
-        if (index < dicaAtual) {
-            dot.classList.add('used');
-        } else if (index === dicaAtual) {
-            dot.classList.add('active');
-        }
-    });
+        if (index < dicaAtual) {
+            dot.classList.add('used');
+        } else if (index === dicaAtual) {
+            dot.classList.add('active');
+        }
+    });
+
+    // Desabilita o botão se não houver mais dicas
+    pedirDicaBtn.disabled = dicaAtual >= (maxDicas - 1);
 }
 
+function mostrarDica() {
+    if (!personagemSecreto.dicas) return;
+
+    dicaAtual++;
+    
+    if (dicaAtual < personagemSecreto.dicas.length) {
+        dicaDisplay.textContent = `Pista ${dicaAtual + 1}: ${personagemSecreto.dicas[dicaAtual]}`;
+        atualizarIndicadorDicas();
+    } 
+}
 
 // ===============================================
 // LÓGICA DO JOGO PRINCIPAL
 // ===============================================
 
 function iniciarNovaRodada() {
-    // 1. Controle de Repetição
-    if (!personagensDisponiveis[nivelDificuldade] || personagensDisponiveis[nivelDificuldade].length === 0) {
-        personagensDisponiveis[nivelDificuldade] = personagensUsados[nivelDificuldade] || [];
-        if (personagensDisponiveis[nivelDificuldade].length === 0) {
-            personagensDisponiveis[nivelDificuldade] = [...personagens[nivelDificuldade]];
-        }
-        personagensUsados[nivelDificuldade] = [];
-    }
+    // 1. Controle de Repetição (Garante que todos os personagens sejam usados antes de repetir)
+    if (!personagensDisponiveis[nivelDificuldade] || personagensDisponiveis[nivelDificuldade].length === 0) {
+        personagensDisponiveis[nivelDificuldade] = personagensUsados[nivelDificuldade] || [];
+        if (personagensDisponiveis[nivelDificuldade].length === 0) {
+            personagensDisponiveis[nivelDificuldade] = [...personagens[nivelDificuldade]];
+        }
+        personagensUsados[nivelDificuldade] = [];
+    }
 
-    const personagensDoNivel = personagensDisponiveis[nivelDificuldade];
-    const indiceAleatorio = Math.floor(Math.random() * personagensDoNivel.length);
-    personagemSecreto = personagensDoNivel.splice(indiceAleatorio, 1)[0];
-    personagensUsados[nivelDificuldade].push(personagemSecreto);
+    const personagensDoNivel = personagensDisponiveis[nivelDificuldade];
+    const indiceAleatorio = Math.floor(Math.random() * personagensDoNivel.length);
+    personagemSecreto = personagensDoNivel.splice(indiceAleatorio, 1)[0];
+    personagensUsados[nivelDificuldade].push(personagemSecreto);
 
-    // 2. Reset de Variáveis
-    tentativas = 0;
-    dicaAtual = -1;
-    guessInput.value = '';
-    mensagem.textContent = '';
-    mensagem.className = '';
-    
-    // 3. Reset de Visuais e Botões
-    guessBtn.classList.remove('hidden');
-    reiniciarBtn.classList.add('hidden');
-    guessBtn.disabled = false;
-    pedirDicaBtn.style.display = 'inline-block';
-    pedirDicaBtn.disabled = false;
-    pularBtn.disabled = false; 
-    
-    dicaDisplay.textContent = 'Pista: Pressione "Pedir Dica" para iniciar a decodificação.';
-    personagemImagem.src = '';
-    personagemImagem.classList.add('hidden');
-    
-    feedbackIcon.classList.add('hidden');
-    feedbackIcon.classList.remove('fa-check', 'fa-times', 'correct', 'incorrect');
-    streakFeedback.classList.add('hidden');
+    // 2. Reset de Variáveis e UI
+    tentativas = 0;
+    dicaAtual = -1;
+    guessInput.value = '';
+    mensagem.textContent = '';
+    mensagem.className = '';
+    
+    // 3. Reset de Visuais e Botões
+    guessBtn.classList.remove('hidden');
+    reiniciarBtn.classList.add('hidden');
+    guessBtn.disabled = false;
+    pedirDicaBtn.style.display = 'inline-block';
+    pedirDicaBtn.disabled = false; // Habilita para pedir a primeira dica
+    pularBtn.disabled = false; 
+    
+    dicaDisplay.textContent = 'Pista: Pressione "Pedir Dica" para iniciar a decodificação.';
+    personagemImagem.src = '';
+    personagemImagem.classList.add('hidden');
+    
+    feedbackIcon.classList.add('hidden');
+    feedbackIcon.classList.remove('fa-check', 'fa-times', 'correct', 'incorrect');
+    streakFeedback.classList.add('hidden');
 
-    // 4. Atualização do Placar
-    if (sequenciaAcertos >= 2) {
-        streakScoreItem.classList.remove('hidden');
-        streakDisplay.textContent = sequenciaAcertos;
-    } else {
-        streakScoreItem.classList.add('hidden');
-        streakDisplay.textContent = '0';
-    }
-    
-    playerNameDisplay.textContent = nomeJogador;
-    difficultyDisplay.textContent = nivelDificuldade.charAt(0).toUpperCase() + nivelDificuldade.slice(1);
-    
-    atualizarIndicadorDicas();
-    guessInput.focus();
-    iniciarCronometro();
+    // 4. Atualização do Placar
+    if (sequenciaAcertos >= 2) {
+        streakScoreItem.classList.remove('hidden');
+        streakDisplay.textContent = sequenciaAcertos;
+    } else {
+        streakScoreItem.classList.add('hidden');
+        streakDisplay.textContent = '0';
+    }
+    
+    playerNameDisplay.textContent = nomeJogador;
+    difficultyDisplay.textContent = nivelDificuldade.charAt(0).toUpperCase() + nivelDificuldade.slice(1);
+    
+    atualizarIndicadorDicas();
+    guessInput.focus();
+    iniciarCronometro();
 }
 
 function atualizarPontuacao(pontosGanhos) {
-    pontuacao = Math.max(0, pontuacao + pontosGanhos);
-    scoreDisplay.textContent = pontuacao;
+    pontuacao = Math.max(0, pontuacao + pontosGanhos);
+    scoreDisplay.textContent = pontuacao;
 }
 
 function verificarPalpite() {
-    const palpite = guessInput.value.trim().toLowerCase();
-    guessInput.value = '';
+    const palpite = guessInput.value.trim().toLowerCase();
+    guessInput.value = '';
 
-    if (palpite === '') {
-        mensagem.textContent = 'Por favor, digite um nome de personagem.';
-        return;
-    }
+    if (palpite === '') {
+        mensagem.textContent = 'Por favor, digite um nome de personagem.';
+        return;
+    }
 
-    feedbackIcon.classList.add('hidden'); 
-    tentativas++;
+    feedbackIcon.classList.add('hidden'); 
+    tentativas++;
 
-    if (palpite === personagemSecreto.nome.toLowerCase()) {
-        const pontosGanhos = calcularPontos();
-        const bonusTempo = calcularBonusTempo(tempoRestante);
-        sequenciaAcertos++;
-        maiorSequencia = Math.max(maiorSequencia, sequenciaAcertos);
-        
-        let bonusSequencia = 0;
-        if (sequenciaAcertos >= 2) {
-            bonusSequencia = 5 * sequenciaAcertos;
-        }
-        
-        const totalPontos = pontosGanhos + bonusTempo + bonusSequencia;
-        atualizarPontuacao(totalPontos);
-        
-        mensagem.innerHTML = `Parabéns! Você acertou em ${tentativas} tentativa(s) e ganhou ${pontosGanhos} pontos.`;
-        if (bonusTempo > 0) { mensagem.innerHTML += `<br>Bônus de tempo: +${bonusTempo} pontos!`; }
-        if (bonusSequencia > 0) {
-            mensagem.innerHTML += `<br>**SEQUÊNCIA X${sequenciaAcertos}**: +${bonusSequencia} pontos!`;
-            streakFeedback.textContent = `+${bonusSequencia} BÔNUS DE SEQUÊNCIA!`;
-            streakFeedback.classList.remove('hidden');
-            setTimeout(() => { streakFeedback.classList.add('hidden'); }, 1500);
-            playSound(somSequencia);
-        }
-        
-        mensagem.innerHTML += `<br>Total: **${totalPontos}** pontos.`;
-        mensagem.className = 'win-message';
-        playSound(somAcerto);
-        
-        feedbackIcon.classList.remove('hidden');
-        feedbackIcon.classList.add('correct', 'fa-check');
+    if (palpite === personagemSecreto.nome.toLowerCase()) {
+        const pontosGanhos = calcularPontos();
+        const bonusTempo = calcularBonusTempo(tempoRestante);
+        sequenciaAcertos++;
+        maiorSequencia = Math.max(maiorSequencia, sequenciaAcertos);
+        
+        let bonusSequencia = 0;
+        if (sequenciaAcertos >= 2) {
+            bonusSequencia = 5 * sequenciaAcertos;
+        }
+        
+        const totalPontos = pontosGanhos + bonusTempo + bonusSequencia;
+        atualizarPontuacao(totalPontos);
+        
+        mensagem.innerHTML = `Parabéns! Você acertou em ${tentativas} tentativa(s) e ganhou ${pontosGanhos} pontos.`;
+        if (bonusTempo > 0) { mensagem.innerHTML += `<br>Bônus de tempo: +${bonusTempo} pontos!`; }
+        if (bonusSequencia > 0) {
+            mensagem.innerHTML += `<br>**SEQUÊNCIA X${sequenciaAcertos}**: +${bonusSequencia} pontos!`;
+            streakFeedback.textContent = `+${bonusSequencia} BÔNUS DE SEQUÊNCIA!`;
+            streakFeedback.classList.remove('hidden');
+            setTimeout(() => { streakFeedback.classList.add('hidden'); }, 1500);
+            playSound(somSequencia);
+        }
+        
+        mensagem.innerHTML += `<br>Total: **${totalPontos}** pontos.`;
+        mensagem.className = 'win-message';
+        playSound(somAcerto);
+        
+        feedbackIcon.classList.remove('hidden');
+        feedbackIcon.classList.add('correct', 'fa-check');
 
-        personagemImagem.src = personagemSecreto.imagemUrl;
-        personagemImagem.classList.remove('hidden');
+        personagemImagem.src = personagemSecreto.imagemUrl;
+        personagemImagem.classList.remove('hidden');
 
-        fimDeRodada("acerto");
-    } else {
-        mensagem.textContent = 'Incorreto. Tente novamente!';
-        mensagem.className = 'lose-message shake';
-        playSound(somErro);
-        sequenciaAcertos = 0; 
-        
-        feedbackIcon.classList.remove('hidden');
-        feedbackIcon.classList.add('incorrect', 'fa-times');
-        streakScoreItem.classList.add('hidden');
-        
-        setTimeout(() => {
-            mensagem.classList.remove('shake');
-            feedbackIcon.classList.add('hidden'); 
-        }, 800);
+        fimDeRodada("acerto");
+    } else {
+        // Lógica para palpite incorreto
+        mensagem.textContent = 'Incorreto. Tente novamente!';
+        mensagem.className = 'lose-message shake';
+        playSound(somErro);
+        sequenciaAcertos = 0; 
+        
+        feedbackIcon.classList.remove('hidden');
+        feedbackIcon.classList.add('incorrect', 'fa-times');
+        streakScoreItem.classList.add('hidden');
+        
+        setTimeout(() => {
+            mensagem.classList.remove('shake');
+            feedbackIcon.classList.add('hidden'); 
+        }, 800);
 
-        if (tentativas >= 3) {
-            mensagem.textContent = `Você esgotou suas 3 tentativas. O personagem era "${personagemSecreto.nome}".`;
-            mensagem.className = 'lose-message';
-            personagemImagem.src = personagemSecreto.imagemUrl;
-            personagemImagem.classList.remove('hidden');
-            feedbackIcon.classList.add('hidden');
-            fimDeRodada("erro");
-        }
-    }
+        if (tentativas >= 3) {
+            // Fim da rodada por esgotar tentativas
+            mensagem.textContent = `Você esgotou suas 3 tentativas. O personagem era "${personagemSecreto.nome}".`;
+            mensagem.className = 'lose-message';
+            personagemImagem.src = personagemSecreto.imagemUrl;
+            personagemImagem.classList.remove('hidden');
+            feedbackIcon.classList.add('hidden');
+            fimDeRodada("erro");
+        }
+    }
 }
 
 function calcularPontos() {
-    let pontosBase = 20; 
-    const penalidadeTentativa = (tentativas - 1) * 5; 
-    const penalidadeDica = (dicaAtual + 1) * 3;
-    
-    let pontos = Math.max(5, pontosBase - penalidadeTentativa - penalidadeDica);
-    
-    if (nivelDificuldade === 'medio') pontos *= 1.5;
-    if (nivelDificuldade === 'dificil') pontos *= 2;
+    let pontosBase = 20; 
+    const penalidadeTentativa = (tentativas - 1) * 5; 
+    const penalidadeDica = (dicaAtual + 1) * 3;
+    
+    let pontos = Math.max(5, pontosBase - penalidadeTentativa - penalidadeDica);
+    
+    if (nivelDificuldade === 'medio') pontos *= 1.5;
+    if (nivelDificuldade === 'dificil') pontos *= 2;
 
-    return Math.round(pontos);
+    return Math.round(pontos);
 }
 
 function calcularBonusTempo(tempo) {
-    const maxTempo = getTempoMaximo(nivelDificuldade);
-    if (tempo >= maxTempo * 0.8) return 10;
-    if (tempo >= maxTempo * 0.6) return 8;
-    if (tempo >= maxTempo * 0.4) return 5;
-    if (tempo >= maxTempo * 0.2) return 2;
-    return 0;
+    const maxTempo = getTempoMaximo(nivelDificuldade);
+    if (tempo >= maxTempo * 0.8) return 10;
+    if (tempo >= maxTempo * 0.6) return 8;
+    if (tempo >= maxTempo * 0.4) return 5;
+    if (tempo >= maxTempo * 0.2) return 2;
+    return 0;
 }
 
 function fimDeRodada(resultado) {
-    clearInterval(timer);
-    guessBtn.disabled = true;
-    pedirDicaBtn.disabled = true;
-    pedirDicaBtn.style.display = 'none';
-    pularBtn.disabled = true;
+    clearInterval(timer);
+    guessBtn.disabled = true;
+    pedirDicaBtn.disabled = true;
+    pedirDicaBtn.style.display = 'none';
+    pularBtn.disabled = true;
 
-    guessBtn.classList.add('hidden');
-    reiniciarBtn.classList.remove('hidden');
+    guessBtn.classList.add('hidden');
+    reiniciarBtn.classList.remove('hidden');
 
-    if (pontuacao >= META_PONTOS) {
-        fimDeJogoTotal("vitoria");
-    } else if (resultado === "erro" || resultado === "acerto" || resultado === "pulado") {
-        reiniciarBtn.textContent = 'PRÓXIMO MISTÉRIO';
-    } else {
-         // Se for derrota por erro com menos de 3 tentativas, apenas inicia a próxima rodada
-        // Mas como só chamamos fimDeRodada em erro >= 3 ou acerto, isso é redundante aqui.
-    }
+    if (pontuacao >= META_PONTOS) {
+        fimDeJogoTotal("vitoria");
+    } else if (resultado === "erro" || resultado === "acerto" || resultado === "pulado") {
+        reiniciarBtn.textContent = 'PRÓXIMO MISTÉRIO';
+    }
 }
 
 function fimDeJogoTotal(resultado) {
-    clearInterval(timer);
-    gameScreen.classList.add('hidden');
-    endScreen.classList.remove('hidden');
-    
-    endContainer.classList.remove('victory', 'defeat');
-    endIcon.className = 'end-icon fas';
-    
-    finalScore.textContent = pontuacao;
-    finalStreak.textContent = maiorSequencia; 
+    clearInterval(timer);
+    gameScreen.classList.add('hidden');
+    endScreen.classList.remove('hidden');
+    
+    endContainer.classList.remove('victory', 'defeat');
+    endIcon.className = 'end-icon fas';
+    
+    finalScore.textContent = pontuacao;
+    finalStreak.textContent = maiorSequencia; 
 
-    if (resultado === "vitoria") {
-        endTitle.textContent = "MISSSÃO CUMPRIDA! VITÓRIA!";
-        endIcon.classList.add('fa-trophy');
-        endContainer.classList.add('victory');
-        endMessage.textContent = `Você decifrou o Mistério Cósmico e superou a meta de ${META_PONTOS} pontos!`;
-        playSound(somVitoria);
-        
-    } else if (resultado === "time-up") {
-        endTitle.textContent = "TEMPO ESGOTADO!";
-        endIcon.classList.add('fa-clock');
-        endContainer.classList.add('defeat');
-        endMessage.textContent = `O relógio não perdoa! O personagem era "${personagemSecreto.nome}".`;
-    } else {
-        endTitle.textContent = "FIM DE JOGO!";
-        endIcon.classList.add('fa-sad-cry');
-        endContainer.classList.add('defeat');
-        endMessage.textContent = `Você não alcançou a meta de ${META_PONTOS} pontos. Tente novamente!`;
-    }
+    if (resultado === "vitoria") {
+        endTitle.textContent = "MISSSÃO CUMPRIDA! VITÓRIA!";
+        endIcon.classList.add('fa-trophy');
+        endContainer.classList.add('victory');
+        endMessage.textContent = `Você decifrou o Mistério Cósmico e superou a meta de ${META_PONTOS} pontos!`;
+        playSound(somVitoria);
+        
+    } else if (resultado === "time-up") {
+        endTitle.textContent = "TEMPO ESGOTADO!";
+        endIcon.classList.add('fa-clock');
+        endContainer.classList.add('defeat');
+        endMessage.textContent = `O relógio não perdoa! O personagem era "${personagemSecreto.nome}".`;
+    } else {
+        endTitle.textContent = "FIM DE JOGO!";
+        endIcon.classList.add('fa-sad-cry');
+        endContainer.classList.add('defeat');
+        endMessage.textContent = `Você não alcançou a meta de ${META_PONTOS} pontos. Tente novamente!`;
+    }
 }
 
 function perderPorTempo() {
-    clearInterval(timer);
-    personagemImagem.src = personagemSecreto.imagemUrl;
-    personagemImagem.classList.remove('hidden');
-    fimDeJogoTotal("time-up"); 
+    clearInterval(timer);
+    personagemImagem.src = personagemSecreto.imagemUrl;
+    personagemImagem.classList.remove('hidden');
+    fimDeJogoTotal("time-up"); 
 }
 
 
@@ -383,50 +395,51 @@ function perderPorTempo() {
 // ===============================================
 
 function atualizarCronometro() {
-    tempoRestante--;
-    
-    const maxTempo = getTempoMaximo(nivelDificuldade);
-    const porcentagemUsada = ((maxTempo - tempoRestante) / maxTempo) * 100;
-    const graus = porcentagemUsada * 3.6; 
-    
-    let corPrimaria = 'var(--color-primary)'; 
-    let corSecundaria = 'rgba(0, 0, 0, 0.4)'; 
+    tempoRestante--;
+    
+    const maxTempo = getTempoMaximo(nivelDificuldade);
+    const porcentagemUsada = ((maxTempo - tempoRestante) / maxTempo) * 100;
+    const graus = porcentagemUsada * 3.6; 
+    
+    let corPrimaria = 'var(--color-primary)'; 
+    let corSecundaria = 'rgba(0, 0, 0, 0.4)'; 
 
-    if (tempoRestante <= maxTempo * 0.3) {
-        corPrimaria = 'var(--color-secondary)'; 
-        timerRing.classList.add('danger');
-        
-        if (tempoRestante === Math.floor(maxTempo * 0.3)) { 
-            playSound(somTimerAcelerado);
-        }
-    } else {
-        timerRing.classList.remove('danger');
-    }
-    
-    timerRing.style.background = `conic-gradient(
-        ${corPrimaria} ${360 - graus}deg,
-        ${corSecundaria} ${360 - graus}deg
-    )`;
+    if (tempoRestante <= maxTempo * 0.3) {
+        corPrimaria = 'var(--color-secondary)'; 
+        timerRing.classList.add('danger');
+        
+        if (tempoRestante === Math.floor(maxTempo * 0.3)) { 
+            playSound(somTimerAcelerado);
+        }
+    } else {
+        timerRing.classList.remove('danger');
+    }
+    
+    timerRing.style.background = `conic-gradient(
+        ${corPrimaria} ${360 - graus}deg,
+        ${corSecundaria} ${360 - graus}deg
+    )`;
 
-    timerDisplay.textContent = tempoRestante;
+    timerDisplay.textContent = tempoRestante;
 
-    if (tempoRestante <= 0) {
-        perderPorTempo();
-    }
+    if (tempoRestante <= 0) {
+        perderPorTempo();
+    }
 }
 
 function iniciarCronometro() {
-    clearInterval(timer);
-    tempoRestante = getTempoMaximo(nivelDificuldade);
-    timerDisplay.textContent = tempoRestante;
-    
-    timerRing.style.background = `conic-gradient(
-        var(--color-primary) 360deg,
-        rgba(0, 0, 0, 0.4) 360deg
-    )`;
-    
-    timerRing.classList.remove('danger');
-    timer = setInterval(atualizarCronometro, 1000);
+    clearInterval(timer);
+    tempoRestante = getTempoMaximo(nivelDificuldade);
+    timerDisplay.textContent = tempoRestante;
+    
+    // Reset da aparência do anel do cronômetro
+    timerRing.style.background = `conic-gradient(
+        var(--color-primary) 360deg,
+        rgba(0, 0, 0, 0.4) 360deg
+    )`;
+    
+    timerRing.classList.remove('danger');
+    timer = setInterval(atualizarCronometro, 1000);
 }
 
 
@@ -435,46 +448,51 @@ function iniciarCronometro() {
 // ===============================================
 
 function iniciarNovoJogoCompleto() {
-    pontuacao = 0;
-    sequenciaAcertos = 0;
-    maiorSequencia = 0;
-    
-    personagensDisponiveis = {};
-    personagensUsados = {};
-    personagensDisponiveis[nivelDificuldade] = [...personagens[nivelDificuldade]];
-    
-    scoreDisplay.textContent = pontuacao;
-    streakDisplay.textContent = '0';
-    
-    iniciarNovaRodada();
+    pontuacao = 0;
+    sequenciaAcertos = 0;
+    maiorSequencia = 0;
+    
+    personagensDisponiveis = {};
+    personagensUsados = {};
+    // Popula a lista de disponíveis com todos os personagens do nível escolhido
+    personagensDisponiveis[nivelDificuldade] = [...personagens[nivelDificuldade]];
+    
+    scoreDisplay.textContent = pontuacao;
+    streakDisplay.textContent = '0';
+    
+    iniciarNovaRodada();
 }
 
-// --- Tela Inicial (A CORREÇÃO ESTÁ AQUI!) ---
+// --- Tela Inicial ---
 nameInput.addEventListener('input', () => {
-    // Habilita o botão 'start-btn' apenas se houver texto
-    startBtn.disabled = nameInput.value.trim().length === 0;
+    // Habilita o botão 'start-btn' apenas se houver texto
+    startBtn.disabled = nameInput.value.trim().length === 0;
 });
 
 startBtn.addEventListener('click', () => {
-    nomeJogador = nameInput.value.trim() || "Agente X";
-    startScreen.classList.add('hidden');
-    difficultyScreen.classList.remove('hidden');
+    nomeJogador = nameInput.value.trim() || "Agente X";
+    startScreen.classList.add('hidden');
+    difficultyScreen.classList.remove('hidden');
+    // Reinicia o estado de seleção da dificuldade
+    difficultyOptions.forEach(c => c.classList.remove('selected'));
+    selectDifficultyBtn.disabled = true;
+    nivelDificuldade = "";
 });
 
 // --- Tela de Dificuldade ---
 difficultyOptions.forEach(card => {
-    card.addEventListener('click', () => {
-        difficultyOptions.forEach(c => c.classList.remove('selected'));
-        card.classList.add('selected');
-        nivelDificuldade = card.getAttribute('data-difficulty');
-        selectDifficultyBtn.disabled = false;
-    });
+    card.addEventListener('click', () => {
+        difficultyOptions.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        nivelDificuldade = card.getAttribute('data-difficulty');
+        selectDifficultyBtn.disabled = false;
+    });
 });
 
 selectDifficultyBtn.addEventListener('click', () => {
-    difficultyScreen.classList.add('hidden');
-    gameScreen.classList.remove('hidden');
-    iniciarNovoJogoCompleto(); 
+    difficultyScreen.classList.add('hidden');
+    gameScreen.classList.remove('hidden');
+    iniciarNovoJogoCompleto(); 
 });
 
 
@@ -484,49 +502,49 @@ guessBtn.addEventListener('click', verificarPalpite);
 pedirDicaBtn.addEventListener('click', mostrarDica);
 
 pularBtn.addEventListener('click', () => {
-    clearInterval(timer);
-    const pontosPerdidos = PENALIDADE_PULAR; 
-    atualizarPontuacao(-pontosPerdidos);
-    sequenciaAcertos = 0; 
-    streakScoreItem.classList.add('hidden');
-    personagemImagem.src = personagemSecreto.imagemUrl;
-    personagemImagem.classList.remove('hidden');
-    mensagem.textContent = `Rodada pulada! Penalidade de ${pontosPerdidos} pontos. O personagem era "${personagemSecreto.nome}".`;
-    mensagem.className = 'lose-message';
-    fimDeRodada("pulado"); 
+    clearInterval(timer);
+    const pontosPerdidos = PENALIDADE_PULAR; 
+    atualizarPontuacao(-pontosPerdidos);
+    sequenciaAcertos = 0; 
+    streakScoreItem.classList.add('hidden');
+    personagemImagem.src = personagemSecreto.imagemUrl;
+    personagemImagem.classList.remove('hidden');
+    mensagem.textContent = `Rodada pulada! Penalidade de ${pontosPerdidos} pontos. O personagem era "${personagemSecreto.nome}".`;
+    mensagem.className = 'lose-message';
+    fimDeRodada("pulado"); 
 });
 
 // Suporte a ENTER no campo de palpite
 guessInput.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-        if (!reiniciarBtn.classList.contains('hidden')) {
-            reiniciarBtn.click(); 
-        } 
-        else if (!guessBtn.classList.contains('hidden')) {
-            verificarPalpite();
-        }
-    }
+    if (event.key === 'Enter') {
+        if (!reiniciarBtn.classList.contains('hidden')) {
+            reiniciarBtn.click(); 
+        } 
+        else if (!guessBtn.classList.contains('hidden')) {
+            verificarPalpite();
+        }
+    }
 });
 
 // --- Tela Final ---
 playAgainBtn.addEventListener('click', () => {
-    endScreen.classList.add('hidden');
-    startScreen.classList.remove('hidden');
-    pontuacao = 0;
-    sequenciaAcertos = 0;
-    maiorSequencia = 0;
-    personagensDisponiveis = {};
-    personagensUsados = {};
-    nameInput.value = "";
-    startBtn.disabled = true; // Desabilita o botão até digitar o nome novamente
+    endScreen.classList.add('hidden');
+    startScreen.classList.remove('hidden');
+    pontuacao = 0;
+    sequenciaAcertos = 0;
+    maiorSequencia = 0;
+    personagensDisponiveis = {};
+    personagensUsados = {};
+    nameInput.value = "";
+    startBtn.disabled = true; // Desabilita o botão até digitar o nome novamente
 });
 
 changeDifficultyBtn.addEventListener('click', () => {
-    endScreen.classList.add('hidden');
-    difficultyScreen.classList.remove('hidden');
-    pontuacao = 0;
-    sequenciaAcertos = 0;
-    maiorSequencia = 0;
-    personagensDisponiveis = {};
-    personagensUsados = {};
+    endScreen.classList.add('hidden');
+    difficultyScreen.classList.remove('hidden');
+    pontuacao = 0;
+    sequenciaAcertos = 0;
+    maiorSequencia = 0;
+    personagensDisponiveis = {};
+    personagensUsados = {};
 });
