@@ -1,162 +1,166 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adivinhe o Personagem: Mistério Cósmico</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhe o Personagem: Mistério Cósmico</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="start-screen" class="screen">
-        
-        <div class="star-field"></div>
-        
-        <div class="intro-container animate__zoom-in">
-            <i class="fas fa-satellite intro-icon animate__pulse"></i> 
-            
-            <h1 class="elegant-title">MISTÉRIO CÓSMICO</h1>
-            
-            <p class="description-text">
-                Bem-vindo, explorador. Sua missão é decifrar a identidade do ser oculto. Cada pista é uma coordenada, cada erro pode custar caro. Prepare-se para a descida.
-            </p>
-            
-            <div class="input-group">
-                <input type="text" id="player-name-input" placeholder="Insira seu código de agente (Nome)">
-            </div>
-            
-            <button id="start-btn" disabled>
-                <i class="fas fa-meteor"></i> INICIAR EXPLORAÇÃO
-            </button>
-            
-            <div class="version-info">
-                Sistema de Decodificação v1.2
-            </div>
-        </div>
-    </div>
+    <div id="start-screen" class="screen">
+        
+        <div class="star-field"></div>
+        
+        <div class="intro-container animate__zoom-in">
+            <i class="fas fa-satellite intro-icon animate__pulse"></i> 
+            
+            <h1 class="elegant-title">MISTÉRIO CÓSMICO</h1>
+            
+            <p class="description-text">
+                Bem-vindo, explorador. Sua missão é decifrar a identidade do ser oculto. Cada pista é uma coordenada, cada erro pode custar caro. Prepare-se para a descida.
+            </p>
+            
+            <div class="input-group">
+                <input type="text" id="player-name-input" placeholder="Insira seu código de agente (Nome)">
+            </div>
+            
+            <button id="start-btn" disabled>
+                <i class="fas fa-meteor"></i> INICIAR EXPLORAÇÃO
+            </button>
+            
+            <div class="version-info">
+                Sistema de Decodificação v1.2
+            </div>
+        </div>
+    </div>
 
-    <div id="difficulty-screen" class="screen hidden">
-        <div class="difficulty-container animate__fade-in">
-            <h1>SELECIONE A ZONA DE BUSCA</h1>
-            <p class="difficulty-subtitle">O nível de dificuldade define a quantidade de pistas e o tempo limite.</p>
-            
-            <div class="difficulty-options">
-                <div class="difficulty-card" id="easy-btn" data-difficulty="facil">
-                    <i class="fas fa-satellite-dish card-icon easy"></i>
-                    <h3>Fácil (Planeta Verde)</h3>
-                    <p>Mais tempo e mais dicas. Ideal para novos recrutas.</p>
-                </div>
-                <div class="difficulty-card" id="medium-btn" data-difficulty="medio">
-                    <i class="fas fa-rocket card-icon medium"></i>
-                    <h3>Médio (Nebulosa Amarela)</h3>
-                    <p>Tempo e dicas equilibrados. Para agentes experientes.</p>
-                </div>
-                <div class="difficulty-card" id="hard-btn" data-difficulty="dificil">
-                    <i class="fas fa-skull card-icon hard"></i>
-                    <h3>Difícil (Buraco Negro)</h3>
-                    <p>Pouco tempo e poucas dicas. Apenas para a elite.</p>
-                </div>
-            </div>
-            
-            <button id="select-difficulty-btn" disabled>
-                Confirmar e Entrar na Missão
-            </button>
-        </div>
-    </div>
+    <div id="difficulty-screen" class="screen hidden">
+        <div class="difficulty-container animate__fade-in">
+            <h1>SELECIONE A ZONA DE BUSCA</h1>
+            <p class="difficulty-subtitle">O nível de dificuldade define a quantidade de pistas e o tempo limite.</p>
+            
+            <div class="difficulty-options">
+                <div class="difficulty-card" id="easy-btn" data-difficulty="facil">
+                    <i class="fas fa-satellite-dish card-icon easy"></i>
+                    <h3>Fácil (Planeta Verde)</h3>
+                    <p>Mais tempo e mais dicas. Ideal para novos recrutas.</p>
+                </div>
+                <div class="difficulty-card" id="medium-btn" data-difficulty="medio">
+                    <i class="fas fa-rocket card-icon medium"></i>
+                    <h3>Médio (Nebulosa Amarela)</h3>
+                    <p>Tempo e dicas equilibrados. Para agentes experientes.</p>
+                </div>
+                <div class="difficulty-card" id="hard-btn" data-difficulty="dificil">
+                    <i class="fas fa-skull card-icon hard"></i>
+                    <h3>Difícil (Buraco Negro)</h3>
+                    <p>Pouco tempo e poucas dicas. Apenas para a elite.</p>
+                </div>
+            </div>
+            
+            <button id="select-difficulty-btn" disabled>
+                Confirmar e Entrar na Missão
+            </button>
+        </div>
+    </div>
 
-    <div id="game-screen" class="screen hidden">
-        
-        <div class="background-decorations">
-            <i class="fas fa-fingerprint decoration-icon top-left"></i>
-            <i class="fas fa-brain decoration-icon bottom-right"></i>
-            <i class="fas fa-crosshairs decoration-icon top-right"></i>
-            <i class="fas fa-signal decoration-icon bottom-left"></i>
-        </div>
+    <div id="game-screen" class="screen hidden">
+        
+        <div class="background-decorations">
+            <i class="fas fa-fingerprint decoration-icon top-left"></i>
+            <i class="fas fa-brain decoration-icon bottom-right"></i>
+            <i class="fas fa-crosshairs decoration-icon top-right"></i>
+            <i class="fas fa-signal decoration-icon bottom-left"></i>
+        </div>
 
-        <div class="main-container animate__fade-in">
-            
-            <aside class="score-sidebar">
-                <div class="score-item">
-                    <i class="fas fa-trophy"></i>
-                    <span>Pontuação:</span> <span id="score-display">0</span>
-                </div>
-                <div class="score-item">
-                    <i class="fas fa-user-secret"></i>
-                    <span>Nome:</span> <span id="player-name-display">Agente X</span>
-                </div>
-                <div class="score-item">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Nível:</span> <span id="difficulty-display">Fácil</span>
-                </div>
-                <div class="score-item" id="streak-score-item">
-                    <i class="fas fa-fire"></i>
-                    <span>Sequência:</span> <span id="streak-display">0</span>
-                </div>
-            </aside>
+        <div class="main-container animate__fade-in">
+            
+            <aside class="score-sidebar">
+                <div class="score-item">
+                    <i class="fas fa-bullseye"></i>
+                    <span>Meta:</span> <span id="meta-display">0</span>
+                </div>
+                <div class="score-item">
+                    <i class="fas fa-trophy"></i>
+                    <span>Pontuação:</span> <span id="score-display">0</span>
+                </div>
+                <div class="score-item">
+                    <i class="fas fa-user-secret"></i>
+                    <span>Nome:</span> <span id="player-name-display">Agente X</span>
+                </div>
+                <div class="score-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Nível:</span> <span id="difficulty-display">Fácil</span>
+                </div>
+                <div class="score-item" id="streak-score-item">
+                    <i class="fas fa-fire"></i>
+                    <span>Sequência:</span> <span id="streak-display">0</span>
+                </div>
+            </aside>
 
-            <main class="game-container">
-                
-                <div class="game-header">
-                    <h2>DECODIFICANDO CÓDIGO...</h2>
-                </div>
+            <main class="game-container">
+                
+                <div class="game-header">
+                    <h2>DECODIFICANDO CÓDIGO...</h2>
+                </div>
 
-                <div class="timer-container">
-                    <div class="circular-timer" id="timer-ring">
-                        <span id="timer-display">30</span>
-                    </div>
-                </div>
+                <div class="timer-container">
+                    <div class="circular-timer" id="timer-ring">
+                        <span id="timer-display">30</span>
+                    </div>
+                </div>
 
-                <div id="dica-container">
-                    <div id="dica-progresso">
-                        <div class="progresso-dot" data-dica-index="0"></div>
-                        <div class="progresso-dot" data-dica-index="1"></div>
-                        <div class="progresso-dot" data-dica-index="2"></div>
-                    </div>
-                    <p id="dica">Pista: Pressione "Pedir Dica" para iniciar a decodificação.</p>
-                </div>
+                <div id="dica-container">
+                    <div id="dica-progresso">
+                        <div class="progresso-dot" data-dica-index="0"></div>
+                        <div class="progresso-dot" data-dica-index="1"></div>
+                        <div class="progresso-dot" data-dica-index="2"></div>
+                    </div>
+                    <p id="dica">Pista: Pressione "Pedir Dica" para iniciar a decodificação.</p>
+                </div>
 
-                <div id="personagem-feedback">
-                    <img id="personagem-imagem" src="" alt="Personagem Desconhecido" class="hidden">
-                    <i id="feedback-icon" class="hidden"></i> 
-                    <span id="streak-feedback" class="hidden"></span>
-                </div>
-                
-                <p id="mensagem"></p>
+                <div id="personagem-feedback">
+                    <img id="personagem-imagem" src="" alt="Personagem Desconhecido" class="hidden">
+                    <i id="feedback-icon" class="hidden"></i> 
+                    <span id="streak-feedback" class="hidden"></span>
+                </div>
+                
+                <p id="mensagem"></p>
 
-                <div class="controls">
-                    <input type="text" id="guess-input" placeholder="Digite o nome do personagem (Decodificação)">
+                <div class="controls">
+                    <input type="text" id="guess-input" placeholder="Digite o nome do personagem (Decodificação)">
 
-                    <div class="action-swap-container">
-                        <button id="guess-btn"><i class="fas fa-check"></i> ADIVINHAR</button>
-                        <button id="reiniciarBtn" class="swap-btn hidden"><i class="fas fa-chevron-right"></i> PRÓXIMO</button>
-                    </div>
-                    
-                    <button id="pedirDicaBtn"><i class="fas fa-lightbulb"></i> PEDIR DICA</button>
-                    <button id="pularBtn" class="pular-btn"><i class="fas fa-forward"></i> PULAR ( -5 )</button>
-                </div>
+                    <div class="action-swap-container">
+                        <button id="guess-btn"><i class="fas fa-check"></i> ADIVINHAR</button>
+                        <button id="reiniciarBtn" class="swap-btn hidden"><i class="fas fa-chevron-right"></i> PRÓXIMO</button>
+                    </div>
+                    
+                    <button id="pedirDicaBtn"><i class="fas fa-lightbulb"></i> PEDIR DICA</button>
+                    <button id="pularBtn" class="pular-btn"><i class="fas fa-forward"></i> PULAR ( -5 )</button>
+                </div>
 
-            </main>
-        </div>
-    </div>
+            </main>
+        </div>
+    </div>
 
-    <div id="end-screen" class="screen hidden">
-        <div class="end-container animate__zoom-in">
-            <i class="end-icon"></i>
-            <h1 id="end-title"></h1>
-            <p id="end-message"></p>
-            <p>Pontuação Final: <strong id="final-score">0</strong></p>
-            <p>Maior Sequência: <strong id="final-streak">0</strong></p>
-            
-            <button id="play-again-btn"><i class="fas fa-redo"></i> JOGAR NOVAMENTE</button>
-            <button id="change-difficulty-btn"><i class="fas fa-cogs"></i> Mudar Dificuldade</button>
-        </div>
-    </div>
+    <div id="end-screen" class="screen hidden">
+        <div class="end-container animate__zoom-in">
+            <i class="end-icon"></i>
+            <h1 id="end-title"></h1>
+            <p id="end-message"></p>
+            <p>Pontuação Final: <strong id="final-score">0</strong></p>
+            <p>Maior Sequência: <strong id="final-streak">0</strong></p>
+            
+            <button id="play-again-btn"><i class="fas fa-redo"></i> JOGAR NOVAMENTE</button>
+            <button id="change-difficulty-btn"><i class="fas fa-cogs"></i> Mudar Dificuldade</button>
+        </div>
+    </div>
 
-    <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

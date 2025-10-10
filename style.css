@@ -1,6 +1,6 @@
 /* =======================================
-   VARIÁVEIS GLOBAIS
-   ======================================= */
+    VARIÁVEIS GLOBAIS
+    ======================================= */
 :root {
     --primary-color: #b11010; /* Vermelho principal para ações e destaques */
     --primary-dark: #8c0d0d;
@@ -13,16 +13,17 @@
     --medium-color: #ffeaa7;
     --hard-color: #fab1a0;
 
-    /* Novas variáveis para o tema Sci-Fi */
+    /* Variáveis para o tema Sci-Fi */
     --font-elegant: 'Orbitron', sans-serif;
     --font-tech: 'Rajdhani', sans-serif;
-    --tech-blue: #00e0ff; /* Azul ciano futurista */
+    --tech-blue: #00e0ff; /* Azul ciano futurista (Cor principal do HUD) */
+    --danger-color: #ff0000; /* NOVA COR: para o perigo do timer */
     --grid-color: rgba(0, 224, 255, 0.1);
 }
 
 /* =======================================
-   ESTILOS GLOBAIS E RESET
-   ======================================= */
+    ESTILOS GLOBAIS E RESET
+    ======================================= */
 * {
     margin: 0;
     padding: 0;
@@ -46,7 +47,7 @@ body, html {
     height: 100%;
     display: flex;
     justify-content: center; /* Centraliza horizontalmente */
-    align-items: center;     /* Centraliza verticalmente */
+    align-items: center;      /* Centraliza verticalmente */
     flex-direction: column;
     text-align: center;
     transition: opacity 0.5s ease;
@@ -83,7 +84,6 @@ body, html {
     gap: 20px;
     max-width: 900px; /* Largura máxima para centralização horizontal */
     box-sizing: border-box;
-    /* REMOVIDO: height: 90vh; para permitir a centralização vertical */
 }
 
 h1 {
@@ -141,8 +141,8 @@ button:disabled {
 }
 
 /* =======================================
-   ESTILOS TELA INICIAL (MISTÉRIO CÓSMICO)
-   ======================================= */
+    ESTILOS TELA INICIAL (MISTÉRIO CÓSMICO)
+    ======================================= */
 
 /* 1. Efeito de Campo Estelar e Grade (Fundo) */
 .star-field {
@@ -275,8 +275,8 @@ p.description-text,
 }
 
 /* =======================================
-   TELA DE DIFICULDADE
-   ======================================= */
+    TELA DE DIFICULDADE
+    ======================================= */
 .difficulty-subtitle {
     font-size: 0.9em;
     margin-top: -10px;
@@ -319,8 +319,8 @@ p.description-text,
 .card-icon.hard { color: #fc2626; }
 
 /* =======================================
-   TELA DE JOGO (GAME-SCREEN)
-   ======================================= */
+    TELA DE JOGO (GAME-SCREEN)
+    ======================================= */
 .game-screen {
     display: flex;
     flex-direction: column;
@@ -345,7 +345,7 @@ p.description-text,
 }
 
 #streak-score-item i.fa-fire {
-    color: #ff8c00; 
+    color: #ff8c00; 
 }
 
 .game-container {
@@ -360,7 +360,7 @@ p.description-text,
     margin-bottom: 20px;
 }
 
-/* --- RELÓGIO CIRCULAR --- */
+/* --- RELÓGIO CIRCULAR (COM CORREÇÃO DE COR) --- */
 .timer-container {
     width: 100px;
     height: 100px;
@@ -375,7 +375,8 @@ p.description-text,
     display: flex;
     justify-content: center;
     align-items: center;
-    background: conic-gradient(#b11010 0%, #303030 0%);
+    /* Usa a cor tech-blue no início do gradiente */
+    background: conic-gradient(var(--tech-blue) 0%, #303030 0%);
     transition: background 1s linear;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.5); 
     border: 5px solid #1f2f51; 
@@ -400,20 +401,20 @@ p.description-text,
 }
 
 .circular-timer.danger {
-    border-color: #ff0000;
-    animation: pulse-timer 0.8s infinite alternate; 
+    border-color: var(--danger-color);
+    animation: pulse-timer 0.8s infinite alternate;  
 }
 
 @keyframes pulse-timer {
-    from { box-shadow: 0 0 10px #ff0000; transform: scale(1); }
-    to { box-shadow: 0 0 20px #ff0000; transform: scale(1.03); }
+    from { box-shadow: 0 0 10px var(--danger-color); transform: scale(1); }
+    to { box-shadow: 0 0 20px var(--danger-color); transform: scale(1.03); }
 }
 
 /* --- ESTILOS DE SEQUÊNCIA (STREAK) --- */
 #streak-icon {
     position: absolute;
-    top: -10px; 
-    right: 10px; 
+    top: -10px; 
+    right: 10px; 
     font-size: 2em;
     color: #ff8c00;
     animation: bounce 0.5s ease-out;
@@ -514,8 +515,8 @@ p.description-text,
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 80px; 
-    z-index: 50; 
+    font-size: 80px; 
+    z-index: 50; 
     opacity: 0.9;
     animation: scaleIn 0.5s ease-out;
 }
@@ -571,20 +572,41 @@ p.description-text,
     color: #f44336;
 }
 
-/* --- TELA FINAL --- */
+/* --- TELA FINAL (ESTILOS CUSTOMIZADOS) --- */
 .end-container {
     background: linear-gradient(135deg, #1a2a47, #000000);
     padding: 50px;
     border-radius: 20px;
     text-align: center;
+    transition: all 0.5s ease-in-out;
 }
 
-.end-container.win {
-    background: linear-gradient(135deg, #283e2a, #000000);
+/* Estado de Vitória */
+.end-container.victory {
+    border: 2px solid var(--tech-blue);
+    box-shadow: 0 0 30px rgba(0, 224, 255, 0.4);
+}
+.end-icon.victory-icon {
+    color: var(--tech-blue);
 }
 
-.end-container.lose {
-    background: linear-gradient(135deg, #422d2d, #000000);
+/* Estado de Derrota por Tempo */
+.end-container.time-out {
+    border: 2px solid var(--lose-color);
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+    animation: shake 0.5s ease-in-out infinite alternate;
+}
+.end-icon.time-out-icon {
+    color: var(--lose-color);
+}
+
+/* Estado de Derrota por Tentativas Esgotadas */
+.end-container.out-of-guesses {
+    border: 2px solid #ff8c00; /* Laranja/Amarelo de falha */
+    box-shadow: 0 0 30px rgba(255, 140, 0, 0.4);
+}
+.end-icon.out-of-guesses-icon {
+    color: #ff8c00;
 }
 
 .end-icon {
@@ -593,25 +615,9 @@ p.description-text,
     animation: bounceIn 1s;
 }
 
-.end-icon.win {
-    color: #ffd700;
-}
-
-.end-icon.lose {
-    color: #f44336;
-}
-
 #end-message {
     font-size: 1.2em;
     margin-bottom: 30px;
-}
-
-.time-up-icon {
-    display: inline-block;
-    color: #f44336; 
-    font-size: 1.2em; 
-    margin: 0 5px;
-    animation: time-shake 0.3s infinite; 
 }
 
 /* Animações e Decorações */
@@ -721,7 +727,7 @@ p.description-text,
     /* Ajusta a margem e padding do container principal em telas menores */
     .intro-container, .difficulty-container, .end-container, .main-container {
         padding: 20px;
-        margin-top: 5vh; 
+        margin-top: 5vh; 
     }
     
     .elegant-title {

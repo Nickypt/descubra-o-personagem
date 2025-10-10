@@ -100,6 +100,7 @@ const pedirDicaBtn = document.getElementById('pedirDicaBtn');
 const dicaDisplay = document.getElementById('dica');
 const personagemImagem = document.getElementById('personagem-imagem');
 const scoreDisplay = document.getElementById('score-display'); 
+const metaDisplay = document.getElementById('meta-display'); // NOVO: Elemento da Meta
 const playerNameDisplay = document.getElementById('player-name-display');
 const difficultyDisplay = document.getElementById('difficulty-display'); 
 const timerRing = document.getElementById('timer-ring');
@@ -199,12 +200,12 @@ function iniciarNovaRodada() {
     mensagem.textContent = '';
     mensagem.className = '';
     
-    // 3. Reset de Visuais e Botões
+    // 3. Reset de Visuais e Botões (GARANTINDO QUE O BOTÃO DE DICA VOLTE)
     guessBtn.classList.remove('hidden');
     reiniciarBtn.classList.add('hidden');
     guessBtn.disabled = false;
-    pedirDicaBtn.style.display = 'inline-block';
-    pedirDicaBtn.disabled = false; // Habilita para pedir a primeira dica
+    pedirDicaBtn.style.display = 'block'; // ALTERADO: Garante que o botão de dica volte a aparecer
+    pedirDicaBtn.disabled = false; 
     pularBtn.disabled = false; 
     
     dicaDisplay.textContent = 'Pista: Pressione "Pedir Dica" para iniciar a decodificação.';
@@ -307,7 +308,13 @@ function verificarPalpite() {
             personagemImagem.src = personagemSecreto.imagemUrl;
             personagemImagem.classList.remove('hidden');
             feedbackIcon.classList.add('hidden');
-            fimDeRodada("erro");
+            
+            // Verifica se a pontuação atingiu a meta (fluxo raro, mas garantido)
+            if (pontuacao >= META_PONTOS) {
+                fimDeJogoTotal("vitoria");
+            } else {
+                fimDeJogoTotal("out-of-guesses"); // CHAMA DERROTA POR TENTATIVAS
+            }
         }
     }
 }
@@ -347,16 +354,18 @@ function fimDeRodada(resultado) {
     if (pontuacao >= META_PONTOS) {
         fimDeJogoTotal("vitoria");
     } else if (resultado === "erro" || resultado === "acerto" || resultado === "pulado") {
+        // Se a rodada acabou por acerto/erro/pulo, mas o jogo não acabou, prepara para a próxima rodada
         reiniciarBtn.textContent = 'PRÓXIMO MISTÉRIO';
     }
 }
 
+// FUNÇÃO ATUALIZADA: Lógica da Tela Final
 function fimDeJogoTotal(resultado) {
     clearInterval(timer);
     gameScreen.classList.add('hidden');
     endScreen.classList.remove('hidden');
     
-    endContainer.classList.remove('victory', 'defeat');
+    endContainer.classList.remove('victory', 'time-out', 'out-of-guesses', 'defeat');
     endIcon.className = 'end-icon fas';
     
     finalScore.textContent = pontuacao;
@@ -364,18 +373,26 @@ function fimDeJogoTotal(resultado) {
 
     if (resultado === "vitoria") {
         endTitle.textContent = "MISSSÃO CUMPRIDA! VITÓRIA!";
-        endIcon.classList.add('fa-trophy');
+        endIcon.classList.add('fa-trophy', 'victory-icon');
         endContainer.classList.add('victory');
-        endMessage.textContent = `Você decifrou o Mistério Cósmico e superou a meta de ${META_PONTOS} pontos!`;
+        endMessage.textContent = `Você decifrou o Mistério Cósmico e superou a meta de ${META_PONTOS} pontos! Parabéns, Agente!`;
         playSound(somVitoria);
-        
-    } else if (resultado === "time-up") {
-        endTitle.textContent = "TEMPO ESGOTADO!";
-        endIcon.classList.add('fa-clock');
-        endContainer.classList.add('defeat');
-        endMessage.textContent = `O relógio não perdoa! O personagem era "${personagemSecreto.nome}".`;
-    } else {
-        endTitle.textContent = "FIM DE JOGO!";
+    } 
+    else if (resultado === "time-up") {
+        endTitle.textContent = "TEMPO ESGOTADO! FALHA DE SINCRONIA.";
+        endIcon.classList.add('fa-clock', 'time-out-icon');
+        endContainer.classList.add('defeat', 'time-out');
+        endMessage.textContent = `O tempo acabou. O Mistério Cósmico (personagem) era: "${personagemSecreto.nome}".`;
+    } 
+    else if (resultado === "out-of-guesses") {
+        endTitle.textContent = "TENTATIVAS ESGOTADAS! ERRO DE DECODIFICAÇÃO.";
+        endIcon.classList.add('fa-bomb', 'out-of-guesses-icon'); 
+        endContainer.classList.add('defeat', 'out-of-guesses');
+        endMessage.textContent = `Você esgotou suas 3 tentativas. O Mistério Cósmico (personagem) era: "${personagemSecreto.nome}".`;
+    }
+    else {
+        // Derrota padrão (se o jogo for finalizado por outros motivos sem ter atingido a meta)
+        endTitle.textContent = "RELATÓRIO FINAL. PONTUAÇÃO INSUFICIENTE.";
         endIcon.classList.add('fa-sad-cry');
         endContainer.classList.add('defeat');
         endMessage.textContent = `Você não alcançou a meta de ${META_PONTOS} pontos. Tente novamente!`;
@@ -386,12 +403,12 @@ function perderPorTempo() {
     clearInterval(timer);
     personagemImagem.src = personagemSecreto.imagemUrl;
     personagemImagem.classList.remove('hidden');
-    fimDeJogoTotal("time-up"); 
+    fimDeJogoTotal("time-up"); // CHAMA DERROTA POR TEMPO
 }
 
 
 // ===============================================
-// LÓGICA DO CRONÔMETRO
+// LÓGICA DO CRONÔMETRO (CORRIGIDA)
 // ===============================================
 
 function atualizarCronometro() {
@@ -401,20 +418,23 @@ function atualizarCronometro() {
     const porcentagemUsada = ((maxTempo - tempoRestante) / maxTempo) * 100;
     const graus = porcentagemUsada * 3.6; 
     
-    let corPrimaria = 'var(--color-primary)'; 
+    // Usando variáveis CSS para a cor
+    let corPrimaria = 'var(--tech-blue)'; 
     let corSecundaria = 'rgba(0, 0, 0, 0.4)'; 
 
+    // Alerta de tempo (30% do tempo restante)
     if (tempoRestante <= maxTempo * 0.3) {
-        corPrimaria = 'var(--color-secondary)'; 
+        corPrimaria = 'var(--lose-color)'; 
         timerRing.classList.add('danger');
         
-        if (tempoRestante === Math.floor(maxTempo * 0.3)) { 
+        if (tempoRestante === Math.floor(maxTempo * 0.3) - 1) { 
             playSound(somTimerAcelerado);
         }
     } else {
         timerRing.classList.remove('danger');
     }
     
+    // Aplica o gradiente cônico para o anel do cronômetro
     timerRing.style.background = `conic-gradient(
         ${corPrimaria} ${360 - graus}deg,
         ${corSecundaria} ${360 - graus}deg
@@ -432,11 +452,8 @@ function iniciarCronometro() {
     tempoRestante = getTempoMaximo(nivelDificuldade);
     timerDisplay.textContent = tempoRestante;
     
-    // Reset da aparência do anel do cronômetro
-    timerRing.style.background = `conic-gradient(
-        var(--color-primary) 360deg,
-        rgba(0, 0, 0, 0.4) 360deg
-    )`;
+    // Garante o reset visual
+    timerRing.style.background = `conic-gradient(var(--tech-blue) 360deg, rgba(0, 0, 0, 0.4) 360deg)`;
     
     timerRing.classList.remove('danger');
     timer = setInterval(atualizarCronometro, 1000);
@@ -459,6 +476,7 @@ function iniciarNovoJogoCompleto() {
     
     scoreDisplay.textContent = pontuacao;
     streakDisplay.textContent = '0';
+    metaDisplay.textContent = META_PONTOS; // NOVO: Definindo a meta
     
     iniciarNovaRodada();
 }
