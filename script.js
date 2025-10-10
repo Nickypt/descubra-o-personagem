@@ -47,8 +47,29 @@ const personagens = {
     ]
 };
 
+// NOVO: Objeto de Configuração Centralizada
+const CONFIG_DIFICULDADE = {
+    facil: { 
+        tempo: 60, 
+        multiplicadorPontos: 1.0, 
+        penalidadeDica: 3, 
+        nomeDisplay: "Fácil (Planeta Verde)" 
+    },
+    medio: { 
+        tempo: 45, 
+        multiplicadorPontos: 1.5, 
+        penalidadeDica: 5, 
+        nomeDisplay: "Médio (Nebulosa Amarela)" 
+    },
+    dificil: { 
+        tempo: 30, 
+        multiplicadorPontos: 2.0, 
+        penalidadeDica: 8, 
+        nomeDisplay: "Difícil (Buraco Negro)" 
+    }
+};
+
 const META_PONTOS = 100;
-const TEMPO_BASE = 30; 
 const PENALIDADE_PULAR = 5; 
 
 let personagemSecreto = {};
@@ -100,7 +121,7 @@ const pedirDicaBtn = document.getElementById('pedirDicaBtn');
 const dicaDisplay = document.getElementById('dica');
 const personagemImagem = document.getElementById('personagem-imagem');
 const scoreDisplay = document.getElementById('score-display'); 
-const metaDisplay = document.getElementById('meta-display'); // NOVO: Elemento da Meta
+const metaDisplay = document.getElementById('meta-display'); 
 const playerNameDisplay = document.getElementById('player-name-display');
 const difficultyDisplay = document.getElementById('difficulty-display'); 
 const timerRing = document.getElementById('timer-ring');
@@ -136,14 +157,7 @@ function playSound(sound) {
     }
 }
 
-function getTempoMaximo(nivel) {
-    switch(nivel) {
-        case 'facil': return TEMPO_BASE * 2; // 60 segundos
-        case 'medio': return TEMPO_BASE * 1.5; // 45 segundos
-        case 'dificil': return TEMPO_BASE; // 30 segundos
-        default: return TEMPO_BASE * 1.5;
-    }
-}
+// REMOVIDA: getTempoMaximo - substituída por CONFIG_DIFICULDADE[nivelDificuldade].tempo
 
 function atualizarIndicadorDicas() {
     const maxDicas = personagemSecreto.dicas ? personagemSecreto.dicas.length : 3;
@@ -200,11 +214,16 @@ function iniciarNovaRodada() {
     mensagem.textContent = '';
     mensagem.className = '';
     
-    // 3. Reset de Visuais e Botões (GARANTINDO QUE O BOTÃO DE DICA VOLTE)
+    // 3. Reset de Visuais e Botões (Incluindo Input Feedback)
     guessBtn.classList.remove('hidden');
     reiniciarBtn.classList.add('hidden');
     guessBtn.disabled = false;
-    pedirDicaBtn.style.display = 'block'; // ALTERADO: Garante que o botão de dica volte a aparecer
+    
+    // NOVO: Reset do Input
+    guessInput.classList.remove('input-correct', 'input-incorrect');
+    guessInput.disabled = false; 
+    
+    pedirDicaBtn.style.display = 'block'; 
     pedirDicaBtn.disabled = false; 
     pularBtn.disabled = false; 
     
@@ -226,7 +245,8 @@ function iniciarNovaRodada() {
     }
     
     playerNameDisplay.textContent = nomeJogador;
-    difficultyDisplay.textContent = nivelDificuldade.charAt(0).toUpperCase() + nivelDificuldade.slice(1);
+    // Usando o nome amigável do objeto de configuração
+    difficultyDisplay.textContent = CONFIG_DIFICULDADE[nivelDificuldade].nomeDisplay; 
     
     atualizarIndicadorDicas();
     guessInput.focus();
@@ -257,8 +277,19 @@ function verificarPalpite() {
         maiorSequencia = Math.max(maiorSequencia, sequenciaAcertos);
         
         let bonusSequencia = 0;
+        
+        // NOVO: Lógica de Pontuação Exponencial da Sequência
         if (sequenciaAcertos >= 2) {
-            bonusSequencia = 5 * sequenciaAcertos;
+            // Sequência X2 = 15; X3 = 40; X4 = 70; X5 = 100; (aumentando o incentivo)
+            if (sequenciaAcertos === 2) {
+                bonusSequencia = 15; 
+            } else if (sequenciaAcertos === 3) {
+                bonusSequencia = 40; 
+            } else if (sequenciaAcertos === 4) {
+                bonusSequencia = 70;
+            } else { // X5 em diante (Progressão de +30)
+                bonusSequencia = 70 + (sequenciaAcertos - 4) * 30;
+            }
         }
         
         const totalPontos = pontosGanhos + bonusTempo + bonusSequencia;
@@ -280,6 +311,10 @@ function verificarPalpite() {
         
         feedbackIcon.classList.remove('hidden');
         feedbackIcon.classList.add('correct', 'fa-check');
+        
+        // NOVO: Feedback visual do input
+        guessInput.classList.add('input-correct');
+        guessInput.disabled = true; // Desabilita após o acerto
 
         personagemImagem.src = personagemSecreto.imagemUrl;
         personagemImagem.classList.remove('hidden');
@@ -296,9 +331,17 @@ function verificarPalpite() {
         feedbackIcon.classList.add('incorrect', 'fa-times');
         streakScoreItem.classList.add('hidden');
         
+        // NOVO: Feedback visual do input
+        guessInput.classList.add('input-incorrect');
+        guessInput.disabled = true; 
+        
         setTimeout(() => {
             mensagem.classList.remove('shake');
             feedbackIcon.classList.add('hidden'); 
+            // NOVO: Remove a classe de erro e reabilita
+            guessInput.classList.remove('input-incorrect'); 
+            guessInput.disabled = false;
+            guessInput.focus();
         }, 800);
 
         if (tentativas >= 3) {
@@ -313,27 +356,31 @@ function verificarPalpite() {
             if (pontuacao >= META_PONTOS) {
                 fimDeJogoTotal("vitoria");
             } else {
-                fimDeJogoTotal("out-of-guesses"); // CHAMA DERROTA POR TENTATIVAS
+                fimDeJogoTotal("out-of-guesses"); 
             }
         }
     }
 }
 
 function calcularPontos() {
+    const config = CONFIG_DIFICULDADE[nivelDificuldade]; // Usa a config
+    
     let pontosBase = 20; 
     const penalidadeTentativa = (tentativas - 1) * 5; 
-    const penalidadeDica = (dicaAtual + 1) * 3;
+    
+    // Usa a penalidade de dica específica para o nível
+    const penalidadeDica = (dicaAtual + 1) * config.penalidadeDica; 
     
     let pontos = Math.max(5, pontosBase - penalidadeTentativa - penalidadeDica);
     
-    if (nivelDificuldade === 'medio') pontos *= 1.5;
-    if (nivelDificuldade === 'dificil') pontos *= 2;
+    // Aplica o multiplicador do nível
+    pontos *= config.multiplicadorPontos; 
 
     return Math.round(pontos);
 }
 
 function calcularBonusTempo(tempo) {
-    const maxTempo = getTempoMaximo(nivelDificuldade);
+    const maxTempo = CONFIG_DIFICULDADE[nivelDificuldade].tempo; // Usa a config
     if (tempo >= maxTempo * 0.8) return 10;
     if (tempo >= maxTempo * 0.6) return 8;
     if (tempo >= maxTempo * 0.4) return 5;
@@ -348,13 +395,20 @@ function fimDeRodada(resultado) {
     pedirDicaBtn.style.display = 'none';
     pularBtn.disabled = true;
 
+    // NOVO: Desabilita o input e aplica a classe de acerto se a rodada não tiver terminado
+    if (resultado === "acerto") {
+        guessInput.disabled = true; 
+    } else {
+         guessInput.classList.add('input-incorrect');
+         guessInput.disabled = true; 
+    }
+
     guessBtn.classList.add('hidden');
     reiniciarBtn.classList.remove('hidden');
 
     if (pontuacao >= META_PONTOS) {
         fimDeJogoTotal("vitoria");
     } else if (resultado === "erro" || resultado === "acerto" || resultado === "pulado") {
-        // Se a rodada acabou por acerto/erro/pulo, mas o jogo não acabou, prepara para a próxima rodada
         reiniciarBtn.textContent = 'PRÓXIMO MISTÉRIO';
     }
 }
@@ -401,20 +455,23 @@ function fimDeJogoTotal(resultado) {
 
 function perderPorTempo() {
     clearInterval(timer);
+    // Garante que a imagem apareça antes do fim do jogo
     personagemImagem.src = personagemSecreto.imagemUrl;
     personagemImagem.classList.remove('hidden');
-    fimDeJogoTotal("time-up"); // CHAMA DERROTA POR TEMPO
+    guessInput.classList.add('input-incorrect');
+    guessInput.disabled = true;
+    fimDeJogoTotal("time-up"); 
 }
 
 
 // ===============================================
-// LÓGICA DO CRONÔMETRO (CORRIGIDA)
+// LÓGICA DO CRONÔMETRO (USANDO CONFIG_DIFICULDADE)
 // ===============================================
 
 function atualizarCronometro() {
     tempoRestante--;
     
-    const maxTempo = getTempoMaximo(nivelDificuldade);
+    const maxTempo = CONFIG_DIFICULDADE[nivelDificuldade].tempo; // Usa a config
     const porcentagemUsada = ((maxTempo - tempoRestante) / maxTempo) * 100;
     const graus = porcentagemUsada * 3.6; 
     
@@ -449,7 +506,8 @@ function atualizarCronometro() {
 
 function iniciarCronometro() {
     clearInterval(timer);
-    tempoRestante = getTempoMaximo(nivelDificuldade);
+    const maxTempo = CONFIG_DIFICULDADE[nivelDificuldade].tempo; // Usa a config
+    tempoRestante = maxTempo;
     timerDisplay.textContent = tempoRestante;
     
     // Garante o reset visual
@@ -476,7 +534,7 @@ function iniciarNovoJogoCompleto() {
     
     scoreDisplay.textContent = pontuacao;
     streakDisplay.textContent = '0';
-    metaDisplay.textContent = META_PONTOS; // NOVO: Definindo a meta
+    metaDisplay.textContent = META_PONTOS; 
     
     iniciarNovaRodada();
 }
@@ -525,8 +583,15 @@ pularBtn.addEventListener('click', () => {
     atualizarPontuacao(-pontosPerdidos);
     sequenciaAcertos = 0; 
     streakScoreItem.classList.add('hidden');
+    
+    // Garante que a imagem apareça
     personagemImagem.src = personagemSecreto.imagemUrl;
     personagemImagem.classList.remove('hidden');
+    
+    // NOVO: Feedback visual do pulo (negativo)
+    guessInput.classList.add('input-incorrect');
+    guessInput.disabled = true;
+    
     mensagem.textContent = `Rodada pulada! Penalidade de ${pontosPerdidos} pontos. O personagem era "${personagemSecreto.nome}".`;
     mensagem.className = 'lose-message';
     fimDeRodada("pulado"); 
@@ -538,7 +603,7 @@ guessInput.addEventListener('keydown', (event) => {
         if (!reiniciarBtn.classList.contains('hidden')) {
             reiniciarBtn.click(); 
         } 
-        else if (!guessBtn.classList.contains('hidden')) {
+        else if (!guessBtn.classList.contains('hidden') && !guessInput.disabled) {
             verificarPalpite();
         }
     }
