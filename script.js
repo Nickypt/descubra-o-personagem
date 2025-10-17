@@ -36,13 +36,13 @@ const personagens = {
         { nome: "Luffy", dicas: ["Ele é o capitão do bando do Chapéu de Palha.", "Seu corpo se tornou de borracha após ele comer uma fruta do diabo."], imagemUrl: "https://i.imgur.com/p1zPq1L.jpeg" },
         { nome: "Link", dicas: ["Ele é um herói da série 'The Legend of Zelda'.", "Normalmente usa uma túnica verde e carrega uma espada e um escudo, sendo o portador da Triforce da Coragem."], imagemUrl: "https://i.imgur.com/3h8Q45z.jpeg" },
         { nome: "Sherlock Holmes", dicas: ["É um detetive particular britânico, conhecido por sua grande inteligência e observação.", "Vive na Rua Baker, 221B, em Londres, e é acompanhado por seu amigo Dr. Watson."], imagemUrl: "https://i.imgur.com/dK3f0bS.jpeg" },
-        { nome: "Gandalf", dicas: ["Ele é um mago poderoso, membro da Ordem de Istari.", "Guia os hobbits, anões e humanos em uma missão para derrotar um grande mal."], imagemUrl: "https://i.imgur.com/lM3Lp8U.jpeg" },
+        { nome: "Gandalf", dicas: ["Ele é um mago poderoso, membro da Ordem de Istari.", "Guia os hobbits, anões e humanos em uma missão para derrotar um grande mal."], imagemUrl: "https://i.imgur.com/lM3Lp8G.jpeg" },
         { nome: "Peter Pan", dicas: ["Ele é um menino que se recusa a crescer e mora em uma ilha mágica.", "Voa com a ajuda de pó de fada e é amigo de uma pequena fada chamada Sininho."], imagemUrl: "https://i.imgur.com/e2N6B4l.jpeg" },
         { nome: "Kratos", dicas: ["Ele é um guerreiro espartano que se tornou o Deus da Guerra.", "Originalmente, ele buscava vingança contra os deuses gregos, usando as Lâminas do Caos."], imagemUrl: "https://i.imgur.com/K0g9n0N.jpeg" },
         { nome: "Ellen Ripley", dicas: ["É uma sobrevivente e tenente que se tornou heroína em um filme de ficção científica espacial.", "Ela é conhecida por lutar contra criaturas alienígenas hostis usando um Power Loader."], imagemUrl: "https://i.imgur.com/4qJgL3e.jpeg" },
         { nome: "Geralt de Rivia", dicas: ["Ele é um mutante conhecido como Lobo Branco, que caça monstros por dinheiro.", "Ele carrega duas espadas nas costas, uma de aço e outra de prata, e usa 'Sinais' (magias).."], imagemUrl: "https://i.imgur.com/Xw0z2gA.jpeg" },
         { nome: "Aloy", dicas: ["Ela é uma caçadora pária em um mundo pós-apocalíptico dominado por máquinas animais.", "Ela usa um dispositivo chamado 'Foco' para escanear inimigos e é uma arqueira habilidosa."], imagemUrl: "https://i.imgur.com/7j8Gz2d.jpeg" },
-        { nome: "Coragem", dicas: ["Ele é um cachorro rosa e medroso que mora com seus donos em um lugar chamado 'Lugar Nenhum'.", "Apesar do medo, ele sempre salva seus donos de ameaças sobrenaturais."], imagemUrl: "https://i.imgur.com/2s3F4qI.jpeg" },
+        { nome: "Coragem", dicas: ["Ele é um cachorro rosa e medroso que mora com seus donos em um lugar chamado 'Lugar Nenhum'.", "Apesar do medo, ele sempre salva seus donos de ameaças sobrenaturais."], imagemUrl: "https://i.imgur.com/2s3F4uI.jpeg" },
         { nome: "T-800", dicas: ["É um ciborgue assassino com esqueleto de metal e coberto por tecido vivo.", "Sua missão original era exterminar uma mulher chamada Sarah Connor. Sua frase de efeito é 'I'll be back'."], imagemUrl: "https://i.imgur.com/uF9dJ7v.jpeg" },
     ]
 };
@@ -157,13 +157,13 @@ function playSound(sound) {
     }
 }
 
-// REMOVIDA: getTempoMaximo - substituída por CONFIG_DIFICULDADE[nivelDificuldade].tempo
-
 function atualizarIndicadorDicas() {
-    const maxDicas = personagemSecreto.dicas ? personagemSecreto.dicas.length : 3;
+    // CORREÇÃO: Garante que o maxDicas use o array do personagem e não um valor fixo
+    const maxDicas = personagemSecreto.dicas ? personagemSecreto.dicas.length : 0; 
 
     dicaDots.forEach((dot, index) => {
         dot.classList.remove('active', 'used');
+        // CORREÇÃO: Garante que os pontos de progresso sejam exibidos corretamente
         dot.style.display = index < maxDicas ? 'inline-block' : 'none';
 
         if (index < dicaAtual) {
@@ -178,8 +178,11 @@ function atualizarIndicadorDicas() {
 }
 
 function mostrarDica() {
-    if (!personagemSecreto.dicas) return;
+    if (!personagemSecreto.dicas || dicaAtual >= personagemSecreto.dicas.length - 1) return;
 
+    // CORREÇÃO: Penalidade de tempo ao pedir dica (melhoria de UX/gameplay)
+    tempoRestante = Math.max(1, tempoRestante - 5); 
+    
     dicaAtual++;
     
     if (dicaAtual < personagemSecreto.dicas.length) {
@@ -195,10 +198,8 @@ function mostrarDica() {
 function iniciarNovaRodada() {
     // 1. Controle de Repetição (Garante que todos os personagens sejam usados antes de repetir)
     if (!personagensDisponiveis[nivelDificuldade] || personagensDisponiveis[nivelDificuldade].length === 0) {
-        personagensDisponiveis[nivelDificuldade] = personagensUsados[nivelDificuldade] || [];
-        if (personagensDisponiveis[nivelDificuldade].length === 0) {
-            personagensDisponiveis[nivelDificuldade] = [...personagens[nivelDificuldade]];
-        }
+        // CORREÇÃO: A lógica estava sobrepondo, agora garante que se não houver mais, repopula a lista.
+        personagensDisponiveis[nivelDificuldade] = [...personagens[nivelDificuldade]];
         personagensUsados[nivelDificuldade] = [];
     }
 
@@ -219,7 +220,7 @@ function iniciarNovaRodada() {
     reiniciarBtn.classList.add('hidden');
     guessBtn.disabled = false;
     
-    // NOVO: Reset do Input
+    // CORREÇÃO: Limpa classes de feedback do input para a nova rodada
     guessInput.classList.remove('input-correct', 'input-incorrect');
     guessInput.disabled = false; 
     
@@ -245,7 +246,6 @@ function iniciarNovaRodada() {
     }
     
     playerNameDisplay.textContent = nomeJogador;
-    // Usando o nome amigável do objeto de configuração
     difficultyDisplay.textContent = CONFIG_DIFICULDADE[nivelDificuldade].nomeDisplay; 
     
     atualizarIndicadorDicas();
@@ -259,18 +259,23 @@ function atualizarPontuacao(pontosGanhos) {
 }
 
 function verificarPalpite() {
-    const palpite = guessInput.value.trim().toLowerCase();
-    guessInput.value = '';
+    // CORREÇÃO: Tratamento para o nome secreto, garantindo que o palpite do usuário seja sempre limpo.
+    const nomeSecretoNormalizado = personagemSecreto.nome.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const palpiteNormalizado = guessInput.value.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
 
-    if (palpite === '') {
+    if (palpiteNormalizado === '') {
         mensagem.textContent = 'Por favor, digite um nome de personagem.';
         return;
     }
 
     feedbackIcon.classList.add('hidden'); 
-    tentativas++;
+    
+    // CORREÇÃO: Garante que a classe 'shake' seja removida se o palpite anterior deu erro.
+    mensagem.classList.remove('shake'); 
+    guessInput.classList.remove('input-incorrect');
+    guessInput.disabled = false; // Reabilita para a próxima tentativa (se for erro)
 
-    if (palpite === personagemSecreto.nome.toLowerCase()) {
+    if (palpiteNormalizado === nomeSecretoNormalizado) {
         const pontosGanhos = calcularPontos();
         const bonusTempo = calcularBonusTempo(tempoRestante);
         sequenciaAcertos++;
@@ -278,16 +283,15 @@ function verificarPalpite() {
         
         let bonusSequencia = 0;
         
-        // NOVO: Lógica de Pontuação Exponencial da Sequência
+        // Lógica de Pontuação Exponencial da Sequência (MANTIDA)
         if (sequenciaAcertos >= 2) {
-            // Sequência X2 = 15; X3 = 40; X4 = 70; X5 = 100; (aumentando o incentivo)
             if (sequenciaAcertos === 2) {
                 bonusSequencia = 15; 
             } else if (sequenciaAcertos === 3) {
                 bonusSequencia = 40; 
             } else if (sequenciaAcertos === 4) {
                 bonusSequencia = 70;
-            } else { // X5 em diante (Progressão de +30)
+            } else { 
                 bonusSequencia = 70 + (sequenciaAcertos - 4) * 30;
             }
         }
@@ -295,7 +299,7 @@ function verificarPalpite() {
         const totalPontos = pontosGanhos + bonusTempo + bonusSequencia;
         atualizarPontuacao(totalPontos);
         
-        mensagem.innerHTML = `Parabéns! Você acertou em ${tentativas} tentativa(s) e ganhou ${pontosGanhos} pontos.`;
+        mensagem.innerHTML = `Parabéns! Você acertou em ${tentativas + 1} tentativa(s) e ganhou ${pontosGanhos} pontos.`;
         if (bonusTempo > 0) { mensagem.innerHTML += `<br>Bônus de tempo: +${bonusTempo} pontos!`; }
         if (bonusSequencia > 0) {
             mensagem.innerHTML += `<br>**SEQUÊNCIA X${sequenciaAcertos}**: +${bonusSequencia} pontos!`;
@@ -312,9 +316,9 @@ function verificarPalpite() {
         feedbackIcon.classList.remove('hidden');
         feedbackIcon.classList.add('correct', 'fa-check');
         
-        // NOVO: Feedback visual do input
+        // Feedback visual do input
         guessInput.classList.add('input-correct');
-        guessInput.disabled = true; // Desabilita após o acerto
+        guessInput.disabled = true; 
 
         personagemImagem.src = personagemSecreto.imagemUrl;
         personagemImagem.classList.remove('hidden');
@@ -322,27 +326,9 @@ function verificarPalpite() {
         fimDeRodada("acerto");
     } else {
         // Lógica para palpite incorreto
-        mensagem.textContent = 'Incorreto. Tente novamente!';
-        mensagem.className = 'lose-message shake';
-        playSound(somErro);
+        tentativas++;
         sequenciaAcertos = 0; 
-        
-        feedbackIcon.classList.remove('hidden');
-        feedbackIcon.classList.add('incorrect', 'fa-times');
         streakScoreItem.classList.add('hidden');
-        
-        // NOVO: Feedback visual do input
-        guessInput.classList.add('input-incorrect');
-        guessInput.disabled = true; 
-        
-        setTimeout(() => {
-            mensagem.classList.remove('shake');
-            feedbackIcon.classList.add('hidden'); 
-            // NOVO: Remove a classe de erro e reabilita
-            guessInput.classList.remove('input-incorrect'); 
-            guessInput.disabled = false;
-            guessInput.focus();
-        }, 800);
 
         if (tentativas >= 3) {
             // Fim da rodada por esgotar tentativas
@@ -352,39 +338,61 @@ function verificarPalpite() {
             personagemImagem.classList.remove('hidden');
             feedbackIcon.classList.add('hidden');
             
-            // Verifica se a pontuação atingiu a meta (fluxo raro, mas garantido)
-            if (pontuacao >= META_PONTOS) {
-                fimDeJogoTotal("vitoria");
-            } else {
-                fimDeJogoTotal("out-of-guesses"); 
-            }
+            // Força o feedback visual de erro permanente na rodada final
+            guessInput.classList.add('input-incorrect');
+            guessInput.disabled = true; 
+
+            fimDeRodada("erro"); 
+        } else {
+            // Palpite errado mas ainda tem tentativas
+            mensagem.textContent = `Incorreto. Tentativa ${tentativas} de 3. Tente novamente!`;
+            mensagem.className = 'lose-message shake';
+            playSound(somErro);
+            
+            feedbackIcon.classList.remove('hidden');
+            feedbackIcon.classList.add('incorrect', 'fa-times');
+            
+            // Feedback visual de erro temporário
+            guessInput.classList.add('input-incorrect');
+            guessInput.disabled = true; 
+
+            setTimeout(() => {
+                mensagem.classList.remove('shake');
+                feedbackIcon.classList.add('hidden'); 
+                guessInput.classList.remove('input-incorrect'); 
+                guessInput.disabled = false;
+                guessInput.focus();
+            }, 800);
         }
     }
 }
 
 function calcularPontos() {
-    const config = CONFIG_DIFICULDADE[nivelDificuldade]; // Usa a config
+    const config = CONFIG_DIFICULDADE[nivelDificuldade]; 
     
-    let pontosBase = 20; 
-    const penalidadeTentativa = (tentativas - 1) * 5; 
+    let pontosBase = 30; // Aumentei um pouco a base para ser mais recompensador.
+    // CORREÇÃO: 'tentativas' começa em 0, mas conta o número de erros antes do acerto.
+    // Se acertou na primeira vez, tentativas (erros) é 0. Penalidade baseada no número de dicas usadas.
     
-    // Usa a penalidade de dica específica para o nível
+    // A penalidade de tentativa só deve ser aplicada se houver erros antes do acerto.
+    const penalidadeTentativa = (tentativas) * 5; 
+    
+    // Se a dica atual é -1 (nenhuma dica), (dicaAtual + 1) é 0.
     const penalidadeDica = (dicaAtual + 1) * config.penalidadeDica; 
     
     let pontos = Math.max(5, pontosBase - penalidadeTentativa - penalidadeDica);
     
-    // Aplica o multiplicador do nível
     pontos *= config.multiplicadorPontos; 
 
     return Math.round(pontos);
 }
 
 function calcularBonusTempo(tempo) {
-    const maxTempo = CONFIG_DIFICULDADE[nivelDificuldade].tempo; // Usa a config
-    if (tempo >= maxTempo * 0.8) return 10;
-    if (tempo >= maxTempo * 0.6) return 8;
-    if (tempo >= maxTempo * 0.4) return 5;
-    if (tempo >= maxTempo * 0.2) return 2;
+    const maxTempo = CONFIG_DIFICULDADE[nivelDificuldade].tempo; 
+    // CORREÇÃO: Condições de bônus de tempo mais agressivas e alinhadas ao tema de "decifração rápida".
+    if (tempo >= maxTempo * 0.9) return 15;
+    if (tempo >= maxTempo * 0.7) return 10;
+    if (tempo >= maxTempo * 0.5) return 5;
     return 0;
 }
 
@@ -394,21 +402,22 @@ function fimDeRodada(resultado) {
     pedirDicaBtn.disabled = true;
     pedirDicaBtn.style.display = 'none';
     pularBtn.disabled = true;
-
-    // NOVO: Desabilita o input e aplica a classe de acerto se a rodada não tiver terminado
-    if (resultado === "acerto") {
-        guessInput.disabled = true; 
-    } else {
-         guessInput.classList.add('input-incorrect');
-         guessInput.disabled = true; 
-    }
-
-    guessBtn.classList.add('hidden');
-    reiniciarBtn.classList.remove('hidden');
-
+    
+    // CORREÇÃO: Garante o fluxo de fim de jogo total após uma rodada com acerto/erro/pulo
     if (pontuacao >= META_PONTOS) {
         fimDeJogoTotal("vitoria");
-    } else if (resultado === "erro" || resultado === "acerto" || resultado === "pulado") {
+        return; // Sai da função para evitar o fluxo de rodada
+    } else if (resultado === "erro") {
+        // Se a pontuação for insuficiente após esgotar tentativas, vai para o fim de jogo total
+        fimDeJogoTotal("out-of-guesses");
+        return;
+    }
+
+    // Fluxo de próxima rodada (acerto ou pulo)
+    if (resultado === "acerto" || resultado === "pulado") {
+        guessInput.disabled = true; 
+        guessBtn.classList.add('hidden');
+        reiniciarBtn.classList.remove('hidden');
         reiniciarBtn.textContent = 'PRÓXIMO MISTÉRIO';
     }
 }
@@ -436,16 +445,17 @@ function fimDeJogoTotal(resultado) {
         endTitle.textContent = "TEMPO ESGOTADO! FALHA DE SINCRONIA.";
         endIcon.classList.add('fa-clock', 'time-out-icon');
         endContainer.classList.add('defeat', 'time-out');
-        endMessage.textContent = `O tempo acabou. O Mistério Cósmico (personagem) era: "${personagemSecreto.nome}".`;
+        endMessage.textContent = `O tempo acabou. O Mistério Cósmico (personagem) era: "${personagemSecreto.nome}". Sua pontuação final foi de ${pontuacao} pontos.`;
+        // Não é derrota por pontuação insuficiente, é por tempo.
     } 
     else if (resultado === "out-of-guesses") {
         endTitle.textContent = "TENTATIVAS ESGOTADAS! ERRO DE DECODIFICAÇÃO.";
         endIcon.classList.add('fa-bomb', 'out-of-guesses-icon'); 
         endContainer.classList.add('defeat', 'out-of-guesses');
-        endMessage.textContent = `Você esgotou suas 3 tentativas. O Mistério Cósmico (personagem) era: "${personagemSecreto.nome}".`;
+        endMessage.textContent = `Você esgotou suas 3 tentativas. O Mistério Cósmico (personagem) era: "${personagemSecreto.nome}". Sua pontuação final foi de ${pontuacao} pontos.`;
     }
     else {
-        // Derrota padrão (se o jogo for finalizado por outros motivos sem ter atingido a meta)
+        // Derrota padrão (se o jogo for finalizado por outros motivos sem ter atingido a meta, ex: botão "mudar dificuldade")
         endTitle.textContent = "RELATÓRIO FINAL. PONTUAÇÃO INSUFICIENTE.";
         endIcon.classList.add('fa-sad-cry');
         endContainer.classList.add('defeat');
@@ -455,7 +465,6 @@ function fimDeJogoTotal(resultado) {
 
 function perderPorTempo() {
     clearInterval(timer);
-    // Garante que a imagem apareça antes do fim do jogo
     personagemImagem.src = personagemSecreto.imagemUrl;
     personagemImagem.classList.remove('hidden');
     guessInput.classList.add('input-incorrect');
@@ -465,27 +474,26 @@ function perderPorTempo() {
 
 
 // ===============================================
-// LÓGICA DO CRONÔMETRO (USANDO CONFIG_DIFICULDADE)
+// LÓGICA DO CRONÔMETRO
 // ===============================================
 
 function atualizarCronometro() {
     tempoRestante--;
     
-    const maxTempo = CONFIG_DIFICULDADE[nivelDificuldade].tempo; // Usa a config
+    const maxTempo = CONFIG_DIFICULDADE[nivelDificuldade].tempo; 
     const porcentagemUsada = ((maxTempo - tempoRestante) / maxTempo) * 100;
     const graus = porcentagemUsada * 3.6; 
     
-    // Usando variáveis CSS para a cor
     let corPrimaria = 'var(--tech-blue)'; 
     let corSecundaria = 'rgba(0, 0, 0, 0.4)'; 
 
-    // Alerta de tempo (30% do tempo restante)
     if (tempoRestante <= maxTempo * 0.3) {
         corPrimaria = 'var(--lose-color)'; 
         timerRing.classList.add('danger');
         
-        if (tempoRestante === Math.floor(maxTempo * 0.3) - 1) { 
-            playSound(somTimerAcelerado);
+        if (tempoRestante === Math.floor(maxTempo * 0.3)) { 
+             // CORREÇÃO: Evita chamar o som repetidamente. Toca quando o tempo entra na zona de perigo.
+             playSound(somTimerAcelerado); 
         }
     } else {
         timerRing.classList.remove('danger');
@@ -506,11 +514,10 @@ function atualizarCronometro() {
 
 function iniciarCronometro() {
     clearInterval(timer);
-    const maxTempo = CONFIG_DIFICULDADE[nivelDificuldade].tempo; // Usa a config
+    const maxTempo = CONFIG_DIFICULDADE[nivelDificuldade].tempo; 
     tempoRestante = maxTempo;
     timerDisplay.textContent = tempoRestante;
     
-    // Garante o reset visual
     timerRing.style.background = `conic-gradient(var(--tech-blue) 360deg, rgba(0, 0, 0, 0.4) 360deg)`;
     
     timerRing.classList.remove('danger');
@@ -527,9 +534,9 @@ function iniciarNovoJogoCompleto() {
     sequenciaAcertos = 0;
     maiorSequencia = 0;
     
+    // Reinicializa as listas de personagens
     personagensDisponiveis = {};
     personagensUsados = {};
-    // Popula a lista de disponíveis com todos os personagens do nível escolhido
     personagensDisponiveis[nivelDificuldade] = [...personagens[nivelDificuldade]];
     
     scoreDisplay.textContent = pontuacao;
@@ -549,7 +556,7 @@ startBtn.addEventListener('click', () => {
     nomeJogador = nameInput.value.trim() || "Agente X";
     startScreen.classList.add('hidden');
     difficultyScreen.classList.remove('hidden');
-    // Reinicia o estado de seleção da dificuldade
+    // Reinicia o estado de seleção da dificuldade, se já houve uma seleção.
     difficultyOptions.forEach(c => c.classList.remove('selected'));
     selectDifficultyBtn.disabled = true;
     nivelDificuldade = "";
@@ -566,6 +573,7 @@ difficultyOptions.forEach(card => {
 });
 
 selectDifficultyBtn.addEventListener('click', () => {
+    if (!nivelDificuldade) return;
     difficultyScreen.classList.add('hidden');
     gameScreen.classList.remove('hidden');
     iniciarNovoJogoCompleto(); 
@@ -584,11 +592,10 @@ pularBtn.addEventListener('click', () => {
     sequenciaAcertos = 0; 
     streakScoreItem.classList.add('hidden');
     
-    // Garante que a imagem apareça
     personagemImagem.src = personagemSecreto.imagemUrl;
     personagemImagem.classList.remove('hidden');
     
-    // NOVO: Feedback visual do pulo (negativo)
+    // Feedback visual do pulo (negativo)
     guessInput.classList.add('input-incorrect');
     guessInput.disabled = true;
     
@@ -601,9 +608,11 @@ pularBtn.addEventListener('click', () => {
 guessInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
         if (!reiniciarBtn.classList.contains('hidden')) {
+            // Se o botão 'Próximo' estiver visível, clica nele
             reiniciarBtn.click(); 
         } 
         else if (!guessBtn.classList.contains('hidden') && !guessInput.disabled) {
+            // Se o botão 'Adivinhar' estiver visível, verifica o palpite
             verificarPalpite();
         }
     }
@@ -612,22 +621,26 @@ guessInput.addEventListener('keydown', (event) => {
 // --- Tela Final ---
 playAgainBtn.addEventListener('click', () => {
     endScreen.classList.add('hidden');
-    startScreen.classList.remove('hidden');
-    pontuacao = 0;
-    sequenciaAcertos = 0;
-    maiorSequencia = 0;
-    personagensDisponiveis = {};
-    personagensUsados = {};
-    nameInput.value = "";
-    startBtn.disabled = true; // Desabilita o botão até digitar o nome novamente
+    // CORREÇÃO: Volta para a tela de dificuldade, mantendo o jogador no fluxo do jogo.
+    difficultyScreen.classList.remove('hidden'); 
+    
+    // Reseta o estado da tela de dificuldade.
+    difficultyOptions.forEach(c => c.classList.remove('selected'));
+    selectDifficultyBtn.disabled = true;
+    nivelDificuldade = "";
+
+    // Não é necessário resetar pontuação/sequência aqui, pois isso é feito em iniciarNovoJogoCompleto()
 });
 
 changeDifficultyBtn.addEventListener('click', () => {
     endScreen.classList.add('hidden');
-    difficultyScreen.classList.remove('hidden');
-    pontuacao = 0;
-    sequenciaAcertos = 0;
-    maiorSequencia = 0;
-    personagensDisponiveis = {};
-    personagensUsados = {};
+    // CORREÇÃO: Já voltando para a tela de dificuldade no 'playAgainBtn' e 'changeDifficultyBtn'
+    difficultyScreen.classList.remove('hidden'); 
+    
+    // Reseta o estado da tela de dificuldade.
+    difficultyOptions.forEach(c => c.classList.remove('selected'));
+    selectDifficultyBtn.disabled = true;
+    nivelDificuldade = "";
+
+    // Não é necessário resetar pontuação/sequência aqui, pois isso é feito em iniciarNovoJogoCompleto()
 });

@@ -47,7 +47,7 @@ body, html {
     height: 100%;
     display: flex;
     justify-content: center; /* Centraliza horizontalmente */
-    align-items: center;      /* Centraliza verticalmente */
+    align-items: center;      /* Centraliza verticalmente */
     flex-direction: column;
     text-align: center;
     transition: opacity 0.5s ease;
@@ -83,14 +83,17 @@ body, html {
     flex-direction: column;
     gap: 20px;
     /* CENTRALIZAÇÃO ADICIONAL */
-    align-items: center; 
+    align-items: center; /* GARANTE QUE OS FILHOS (SIDEBAR E GAME-CONTAINER) ESTEJAM CENTRALIZADOS */
     
     max-width: 900px; /* Mantém a largura máxima */
-    width: 90%;      /* Garante que ocupe 90% da largura em telas menores */
+    width: 90%;       /* Garante que ocupe 90% da largura em telas menores */
     box-sizing: border-box;
     
     position: relative; 
     z-index: 20;
+    
+    /* ADICIONADO: Garante que o container centralize corretamente na tela */
+    margin: auto; 
 }
 
 h1 {
@@ -329,6 +332,14 @@ p.description-text,
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
+/* ADIÇÃO: Estilo do cartão selecionado */
+.difficulty-card.selected {
+    /* Destaca o card selecionado com a cor tech-blue, que é a cor do HUD principal */
+    border: 3px solid var(--tech-blue); 
+    box-shadow: 0 0 20px rgba(0, 224, 255, 0.6), 0 0 10px rgba(0, 0, 0, 0.5);
+    transform: scale(1.05); /* Pequeno destaque visual para reforçar a seleção */
+}
+
 .card-icon {
     font-size: 40px;
     margin-bottom: 10px;
@@ -344,6 +355,8 @@ p.description-text,
 .game-screen {
     display: flex;
     flex-direction: column;
+    /* ADICIONADO: Garante que ocupe toda a largura disponível no .main-container */
+    width: 100%;
 }
 
 .score-sidebar {
@@ -374,8 +387,10 @@ p.description-text,
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Centraliza itens como o relógio e o container de dica */
     padding: 20px;
+    /* ADICIONADO: Garante que ocupe toda a largura para alinhamento interno */
+    width: 100%; 
 }
 
 .game-header {
@@ -424,7 +439,7 @@ p.description-text,
 
 .circular-timer.danger {
     border-color: var(--danger-color);
-    animation: pulse-timer 0.8s infinite alternate;  
+    animation: pulse-timer 0.8s infinite alternate;  
 }
 
 @keyframes pulse-timer {
@@ -516,7 +531,8 @@ p.description-text,
 #personagem-feedback {
     position: relative;
     width: 100%;
-    height: 100%;
+    /* CORREÇÃO/AJUSTE: Garante espaço para o feedback */
+    min-height: 250px; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -529,6 +545,18 @@ p.description-text,
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     transition: opacity 0.5s ease;
+}
+
+/* CORREÇÃO: Garante que a imagem oculta não cause problemas de layout */
+#personagem-imagem.hidden {
+    opacity: 0;
+    max-height: 0; /* Para evitar que o espaço seja ocupado antes de ser exibida */
+    margin: 0;
+}
+#personagem-imagem:not(.hidden) {
+    opacity: 1;
+    max-height: 200px; 
+    margin: 20px auto;
 }
 
 /* ESTILOS DE FEEDBACK (ACERTO/ERRO) */
@@ -749,7 +777,10 @@ p.description-text,
     /* Ajusta a margem e padding do container principal em telas menores */
     .intro-container, .difficulty-container, .end-container, .main-container {
         padding: 20px;
+        /* CORREÇÃO/AJUSTE: Centraliza com margem top/bottom para evitar colar nas bordas */
         margin-top: 5vh; 
+        margin-bottom: 5vh; 
+        width: 95%; /* Use 95% para deixar uma pequena margem nas laterais */
     }
     
     .elegant-title {
