@@ -122,8 +122,9 @@ const dicaDisplay = document.getElementById('dica');
 const personagemImagem = document.getElementById('personagem-imagem');
 const scoreDisplay = document.getElementById('score-display'); 
 const metaDisplay = document.getElementById('meta-display'); 
-const playerNameDisplay = document.getElementById('player-name-display');
-const difficultyDisplay = document.getElementById('difficulty-display'); 
+// IDs ATUALIZADOS PARA O NOVO HUD
+const playerNameDisplay = document.getElementById('player-name-text'); 
+const difficultyDisplay = document.getElementById('difficulty-level-text'); 
 const timerRing = document.getElementById('timer-ring');
 const timerDisplay = document.getElementById('timer-display');
 const pularBtn = document.getElementById('pularBtn');
@@ -245,6 +246,7 @@ function iniciarNovaRodada() {
         streakDisplay.textContent = '0';
     }
     
+    // ATUALIZADO: Usando os novos IDs do HUD
     playerNameDisplay.textContent = nomeJogador;
     difficultyDisplay.textContent = CONFIG_DIFICULDADE[nivelDificuldade].nomeDisplay; 
     

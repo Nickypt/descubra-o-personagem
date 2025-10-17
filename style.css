@@ -82,18 +82,16 @@ body, html {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    /* CENTRALIZAÇÃO ADICIONAL */
-    align-items: center; /* GARANTE QUE OS FILHOS (SIDEBAR E GAME-CONTAINER) ESTEJAM CENTRALIZADOS */
     
     max-width: 900px; /* Mantém a largura máxima */
-    width: 90%;       /* Garante que ocupe 90% da largura em telas menores */
+    width: 90%;       
     box-sizing: border-box;
     
     position: relative; 
     z-index: 20;
     
-    /* ADICIONADO: Garante que o container centralize corretamente na tela */
-    margin: auto; 
+    /* ADICIONADO: Força o alinhamento central */
+    align-items: center; 
 }
 
 h1 {
@@ -170,7 +168,6 @@ button:disabled {
 /* =======================================
     ESTILOS TELA INICIAL (MISTÉRIO CÓSMICO)
     ======================================= */
-
 /* 1. Efeito de Campo Estelar e Grade (Fundo) */
 .star-field {
     position: absolute;
@@ -353,30 +350,86 @@ p.description-text,
     TELA DE JOGO (GAME-SCREEN)
     ======================================= */
 .game-screen {
+    /* CORREÇÃO CRÍTICA: Centraliza o conteúdo dentro do main-container */
+    width: 100%;
     display: flex;
     flex-direction: column;
-    /* ADICIONADO: Garante que ocupe toda a largura disponível no .main-container */
-    width: 100%;
+    align-items: center; 
 }
 
+/* --- NOVO HUD SUPERIOR (SCORE/INFO) --- */
 .score-sidebar {
     background-color: rgba(0, 0, 0, 0.2);
-    padding: 15px;
+    padding: 15px 20px;
     border-radius: 10px;
+    /* NOVO: Flexbox para organização do HUD */
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between; /* Distribui o espaço entre os grupos */
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     flex-wrap: wrap;
-    width: 100%; /* Garante que ocupe a largura máxima do main-container */
-    margin-bottom: 20px; /* Margem para separar do conteúdo abaixo (game-container) */
+    width: 100%; 
+    margin-bottom: 20px; 
+    border: 1px solid var(--tech-blue); /* Borda destacada */
+    box-shadow: 0 0 10px rgba(0, 224, 255, 0.2);
+}
+
+/* Agrupamento de Itens de Score */
+.score-group {
+    display: flex;
+    gap: 20px; /* Espaço entre PONTOS, META, SEQUÊNCIA */
+    align-items: center;
+}
+
+.info-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinha NOME e NÍVEL à esquerda */
+    text-align: left;
+    white-space: nowrap; /* Evita que o nome do jogador quebre a linha */
+}
+
+.player-name, .difficulty-level {
+    font-family: var(--font-tech);
+    font-size: 1em;
+    font-weight: 500;
+    color: #c9e6ff;
+}
+.difficulty-level {
+    font-size: 0.8em;
+    opacity: 0.8;
 }
 
 .score-item {
     display: flex;
+    flex-direction: column; /* Coloca o valor e o ícone um abaixo do outro */
     align-items: center;
-    gap: 8px;
+    gap: 2px;
     font-size: 1.1em;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.score-label {
+    font-size: 0.7em;
+    color: var(--tech-blue);
+    font-family: var(--font-tech);
+    letter-spacing: 1px;
+}
+
+.score-value {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+#meta-score-item .score-value {
+    color: var(--win-color);
+}
+#streak-score-item .score-value {
+    color: #ff8c00;
 }
 
 #streak-score-item i.fa-fire {
@@ -387,9 +440,8 @@ p.description-text,
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza itens como o relógio e o container de dica */
+    align-items: center; /* CENTRALIZA O CONTEÚDO PRINCIPAL: RELÓGIO, DICA, INPUT, BOTÕES */
     padding: 20px;
-    /* ADICIONADO: Garante que ocupe toda a largura para alinhamento interno */
     width: 100%; 
 }
 
@@ -587,14 +639,18 @@ p.description-text,
     gap: 15px;
     margin-top: 30px;
     width: 100%;
-}
-
-.controls button {
-    width: 100%;
+    /* Centraliza os botões e input */
+    align-items: center;
 }
 
 .controls input {
-    width: calc(100% - 40px);
+    /* Ajusta a largura do input para ser ligeiramente menor que os botões, se necessário */
+    max-width: 90%; 
+}
+
+.controls button {
+    max-width: 90%; /* Limita a largura dos botões para que não fiquem muito esticados em telas grandes */
+    width: 100%; /* Garante que ocupem a largura do max-width */
 }
 
 /* --- BOTÃO PULAR --- */
@@ -674,7 +730,6 @@ p.description-text,
 @keyframes time-shake {
     0%, 100% { transform: translateX(0) rotate(0deg); }
     10% { transform: translateX(-5px) rotate(-2deg); }
-    /* ... (restante dos keyframes) ... */
     90% { transform: translateX(-3px) rotate(-1deg); }
 }
 @keyframes fadeIn {
@@ -737,8 +792,9 @@ p.description-text,
 
 .action-swap-container {
     position: relative;
-    width: 100%;
+    width: 90%; /* Ajustado para acompanhar o max-width dos botões */
     height: 50px;
+    max-width: 900px;
 }
 
 .action-swap-container button {
@@ -777,10 +833,9 @@ p.description-text,
     /* Ajusta a margem e padding do container principal em telas menores */
     .intro-container, .difficulty-container, .end-container, .main-container {
         padding: 20px;
-        /* CORREÇÃO/AJUSTE: Centraliza com margem top/bottom para evitar colar nas bordas */
         margin-top: 5vh; 
         margin-bottom: 5vh; 
-        width: 95%; /* Use 95% para deixar uma pequena margem nas laterais */
+        width: 95%; 
     }
     
     .elegant-title {
@@ -803,16 +858,35 @@ p.description-text,
         font-size: 2em;
     }
     
-    /* Garante que os itens de pontuação fiquem empilhados em telas pequenas */
+    /* ORGANIZAÇÃO DO HUD EM MOBILE */
     .score-sidebar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
-        padding: 10px;
+        flex-direction: column; /* Empilha o grupo de info e o grupo de scores */
+        align-items: center;
+        padding: 15px;
     }
+    
+    .info-group {
+        align-items: center; /* Centraliza Nome e Nível no mobile */
+        margin-bottom: 10px;
+    }
+
+    .score-group {
+        width: 100%;
+        justify-content: space-around; /* Distribui os itens de score na largura total */
+        gap: 10px;
+    }
+
     .score-item {
         font-size: 1em;
+        flex-grow: 1; /* Permite que os itens de score preencham o espaço */
     }
+    .score-value {
+        font-size: 1.2em;
+    }
+    .score-label {
+        font-size: 0.6em;
+    }
+
     .timer-container {
         width: 80px;
         height: 80px;
@@ -821,5 +895,13 @@ p.description-text,
         width: 60px;
         height: 60px;
         font-size: 2em;
+    }
+
+    .controls input, .controls button {
+        max-width: 100%;
+    }
+
+    .action-swap-container {
+        width: 100%;
     }
 }
