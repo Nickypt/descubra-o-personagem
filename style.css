@@ -1,907 +1,143 @@
 /* =======================================
-    VARIÁVEIS GLOBAIS
+    CORREÇÕES E MELHORIAS DE LAYOUT
     ======================================= */
-:root {
-    --primary-color: #b11010; /* Vermelho principal para ações e destaques */
-    --primary-dark: #8c0d0d;
-    --secondary-color: #303030; /* Cinza escuro para fundos de containers */
-    --text-color: #f0f0f0;
-    --background-color: #1e1e1e; /* Fundo principal */
-    --win-color: #00b894; /* Verde para acerto/vitória */
-    --lose-color: #d63031; /* Vermelho para erro/derrota */
-    --easy-color: #55efc4;
-    --medium-color: #ffeaa7;
-    --hard-color: #fab1a0;
 
-    /* Variáveis para o tema Sci-Fi */
-    --font-elegant: 'Orbitron', sans-serif;
-    --font-tech: 'Rajdhani', sans-serif;
-    --tech-blue: #00e0ff; /* Azul ciano futurista (Cor principal do HUD) */
-    --danger-color: #ff0000; /* NOVA COR: para o perigo do timer */
-    --grid-color: rgba(0, 224, 255, 0.1);
-}
-
-/* =======================================
-    ESTILOS GLOBAIS E RESET
-    ======================================= */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #0f1c3f, #000000);
-    color: #ffffff;
-    height: 100%;
+/* Base (Ajustado para Centralização Vertical) */
+body {
+    /* ... (Propriedades anteriores) ... */
+    /* Garante que o body possa ser o contêiner de flexbox */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-y: auto; /* Permite rolagem se necessário */
 }
 
 .screen {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center;      /* Centraliza verticalmente */
-    flex-direction: column;
-    text-align: center;
-    transition: opacity 0.5s ease;
-    z-index: 10;
-}
-
-.hidden {
-    display: none !important;
-    opacity: 0;
-}
-
-/* Telas de Jogo e Contêineres Principais (Glassmorphism) */
-.intro-container, .difficulty-container, .end-container, .main-container {
-    background-color: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-    z-index: 20;
-    width: 90%;
-}
-
-/* Telas de Introdução, Dificuldade e Fim (Mais Compactas) */
-.intro-container, .difficulty-container, .end-container {
-    max-width: 600px;
-}
-
-/* Contêiner Principal do Jogo (GAME-SCREEN) - CENTRALIZADO */
-.main-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    
-    max-width: 900px; /* Mantém a largura máxima */
-    width: 90%;       
-    box-sizing: border-box;
-    
+    /* Mude de position: absolute para flex-container puro */
     position: relative; 
-    z-index: 20;
-    
-    /* ADICIONADO: Força o alinhamento central */
-    align-items: center; 
-}
-
-h1 {
-    font-size: 2.5em;
-    font-weight: 700;
-    color: #b11010;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-p {
-    font-size: 1em;
-    font-weight: 400;
-    margin-bottom: 20px;
-}
-
-input[type="text"] {
-    width: calc(100% - 40px);
-    padding: 15px 20px;
-    border: none;
-    border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.3);
-    color: #f0f0f0;
-    font-size: 1em;
-    margin-bottom: 20px;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-input[type="text"]:focus {
-    box-shadow: 0 0 15px rgba(131, 2, 2, 0.7);
-    transform: scale(1.02);
-}
-
-/* --- NOVOS ESTILOS DE FEEDBACK PARA INPUT --- */
-.input-correct {
-    border: 1px solid var(--win-color) !important;
-    box-shadow: 0 0 15px var(--win-color) !important;
-}
-
-.input-incorrect {
-    border: 1px solid var(--lose-color) !important;
-    box-shadow: 0 0 15px var(--lose-color) !important;
-    animation: shake 0.5s;
-}
-
-/* Garante o estilo neutro quando desabilitado após acerto */
-input[type="text"]:disabled.input-correct {
-    opacity: 0.8;
-}
-
-button {
-    background-color: #ff0000;
-    color: #fff;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1.1em;
-    font-weight: 600;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-button:hover {
-    background-color: #bb1c1c;
-    transform: translateY(-3px);
-}
-
-button:disabled {
-    background-color: #555;
-    cursor: not-allowed;
-}
-
-/* =======================================
-    ESTILOS TELA INICIAL (MISTÉRIO CÓSMICO)
-    ======================================= */
-/* 1. Efeito de Campo Estelar e Grade (Fundo) */
-.star-field {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
-    /* Estrelas com sombra para parecerem luzes distantes */
-    background: radial-gradient(2px 2px at 20% 30%, #fff, rgba(0,0,0,0)), 
-                radial-gradient(2px 2px at 50% 10%, #fff, rgba(0,0,0,0)), 
-                radial-gradient(3px 3px at 90% 40%, #fff, rgba(0,0,0,0)), 
-                radial-gradient(1px 1px at 10% 80%, #fff, rgba(0,0,0,0));
-    background-size: 200px 200px;
-    opacity: 0.2;
-    z-index: 1;
-    animation: starScroll 100s linear infinite;
-}
-
-/* Animação de estrelas movendo-se lentamente */
-@keyframes starScroll {
-    from { background-position: 0 0; }
-    to { background-position: 100% 100%; }
-}
-
-/* Adicionando uma grade sutil na tela */
-#start-screen::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
-                linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
-    background-size: 50px 50px;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.1;
-}
-
-/* 2. Contêiner de Introdução (HUD) */
-.intro-container {
-    max-width: 600px;
-    padding: 50px;
-    border: 2px solid var(--tech-blue); /* Borda de energia */
-    box-shadow: 0 0 40px rgba(0, 224, 255, 0.4); /* Brilho azul */
-    animation: fadeIn 1.5s ease-out;
-}
-
-/* 3. Tipografia Elegante e Atual */
-.elegant-title {
-    font-family: var(--font-elegant); /* Fonte Sci-Fi impactante */
-    font-size: 3em;
-    color: var(--tech-blue);
-    text-shadow: 0 0 10px var(--tech-blue), 0 0 5px rgba(255, 255, 255, 0.5);
-    letter-spacing: 5px;
-    margin-bottom: 25px;
-}
-
-p.description-text, 
-.version-info {
-    font-family: var(--font-tech); /* Fonte legível e tecnológica */
-    color: #c9e6ff;
-    font-size: 1.1em;
-    line-height: 1.8;
-}
-
-/* 4. Ícone de Mistério/Satélite */
-.intro-icon {
-    font-size: 100px;
-    color: var(--tech-blue);
-    margin-bottom: 30px;
-    animation: pulse 2s infinite, spin 10s linear infinite; /* Animação dupla */
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* 5. Estilo do Input */
-.input-group input[type="text"] {
-    font-family: var(--font-tech);
-    border: 1px solid var(--tech-blue);
-    background-color: rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 8px rgba(0, 224, 255, 0.3);
-    padding: 18px 25px;
-    font-size: 1.2em;
-    letter-spacing: 1px;
-    margin-bottom: 30px;
-}
-
-.input-group input[type="text"]:focus {
-    border-color: #fff;
-    box-shadow: 0 0 15px var(--tech-blue), 0 0 5px #fff;
-}
-
-/* 6. Estilo do Botão Principal */
-#start-btn {
-    background-color: var(--primary-color); 
-    font-family: var(--font-tech);
-    padding: 15px 40px;
-    font-size: 1.2em;
-    letter-spacing: 2px;
-}
-
-#start-btn:hover {
-    background-color: var(--primary-dark);
-    box-shadow: 0 0 15px var(--primary-color);
-}
-
-#start-btn:disabled {
-    background-color: #333;
-    color: #888;
-    box-shadow: none;
-}
-
-/* 7. Detalhe de Informação de Versão */
-.version-info {
-    position: absolute;
-    bottom: 10px;
-    right: 20px;
-    font-size: 0.7em;
-    opacity: 0.6;
-}
-
-/* =======================================
-    TELA DE DIFICULDADE
-    ======================================= */
-.difficulty-subtitle {
-    font-size: 0.9em;
-    margin-top: -10px;
-    margin-bottom: 30px;
-    color: #aaa;
-}
-
-.difficulty-options {
+    height: 100vh;
+    /* Centraliza o conteúdo da tela */
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.difficulty-card {
-    flex: 1 1 250px;
-    max-width: 300px;
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 15px;
+    flex-direction: column;
     padding: 20px;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.difficulty-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* ADIÇÃO: Estilo do cartão selecionado */
-.difficulty-card.selected {
-    /* Destaca o card selecionado com a cor tech-blue, que é a cor do HUD principal */
-    border: 3px solid var(--tech-blue); 
-    box-shadow: 0 0 20px rgba(0, 224, 255, 0.6), 0 0 10px rgba(0, 0, 0, 0.5);
-    transform: scale(1.05); /* Pequeno destaque visual para reforçar a seleção */
-}
-
-.card-icon {
-    font-size: 40px;
-    margin-bottom: 10px;
-}
-
-.card-icon.easy { color: #19ff04; }
-.card-icon.medium { color: #ffeb3b; }
-.card-icon.hard { color: #fc2626; }
-
-/* =======================================
-    TELA DE JOGO (GAME-SCREEN)
-    ======================================= */
-.game-screen {
-    /* CORREÇÃO CRÍTICA: Centraliza o conteúdo dentro do main-container */
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-}
-
-/* --- NOVO HUD SUPERIOR (SCORE/INFO) --- */
-.score-sidebar {
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 15px 20px;
-    border-radius: 10px;
-    /* NOVO: Flexbox para organização do HUD */
-    display: flex;
-    justify-content: space-between; /* Distribui o espaço entre os grupos */
-    align-items: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    width: 100%; 
-    margin-bottom: 20px; 
-    border: 1px solid var(--tech-blue); /* Borda destacada */
-    box-shadow: 0 0 10px rgba(0, 224, 255, 0.2);
-}
-
-/* Agrupamento de Itens de Score */
-.score-group {
-    display: flex;
-    gap: 20px; /* Espaço entre PONTOS, META, SEQUÊNCIA */
-    align-items: center;
-}
-
-.info-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Alinha NOME e NÍVEL à esquerda */
-    text-align: left;
-    white-space: nowrap; /* Evita que o nome do jogador quebre a linha */
-}
-
-.player-name, .difficulty-level {
-    font-family: var(--font-tech);
-    font-size: 1em;
-    font-weight: 500;
-    color: #c9e6ff;
-}
-.difficulty-level {
-    font-size: 0.8em;
-    opacity: 0.8;
-}
-
-.score-item {
-    display: flex;
-    flex-direction: column; /* Coloca o valor e o ícone um abaixo do outro */
-    align-items: center;
-    gap: 2px;
-    font-size: 1.1em;
-    padding: 5px 10px;
-    border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-.score-label {
-    font-size: 0.7em;
-    color: var(--tech-blue);
-    font-family: var(--font-tech);
-    letter-spacing: 1px;
-}
-
-.score-value {
-    font-size: 1.5em;
-    font-weight: 700;
-    color: #fff;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-}
-
-#meta-score-item .score-value {
-    color: var(--win-color);
-}
-#streak-score-item .score-value {
-    color: #ff8c00;
-}
-
-#streak-score-item i.fa-fire {
-    color: #ff8c00; 
-}
-
-.game-container {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* CENTRALIZA O CONTEÚDO PRINCIPAL: RELÓGIO, DICA, INPUT, BOTÕES */
-    padding: 20px;
-    width: 100%; 
-}
-
-.game-header {
-    margin-bottom: 20px;
-}
-
-/* --- RELÓGIO CIRCULAR (COM CORREÇÃO DE COR) --- */
-.timer-container {
-    width: 100px;
-    height: 100px;
-    margin: 20px auto;
-    position: relative;
-}
-
-.circular-timer {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* Usa a cor tech-blue no início do gradiente */
-    background: conic-gradient(var(--tech-blue) 0%, #303030 0%);
-    transition: background 1s linear;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.5); 
-    border: 5px solid #1f2f51; 
-}
-
-.circular-timer #timer-display {
-    font-size: 2.5em;
-    font-weight: 700;
-    color: #fff;
-    position: absolute;
-    background-color: #2b3b5c; 
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-    margin: 0;
-    border: 2px solid #1a2744;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-}
-
-.circular-timer.danger {
-    border-color: var(--danger-color);
-    animation: pulse-timer 0.8s infinite alternate;  
-}
-
-@keyframes pulse-timer {
-    from { box-shadow: 0 0 10px var(--danger-color); transform: scale(1); }
-    to { box-shadow: 0 0 20px var(--danger-color); transform: scale(1.03); }
-}
-
-/* --- ESTILOS DE SEQUÊNCIA (STREAK) --- */
-#streak-icon {
-    position: absolute;
-    top: -10px; 
-    right: 10px; 
-    font-size: 2em;
-    color: #ff8c00;
-    animation: bounce 0.5s ease-out;
-    z-index: 25;
-}
-
-.streak-feedback {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 3em;
-    font-weight: 900;
-    color: #ffd700;
-    text-shadow: 0 0 20px #ff0000, 0 0 10px #ff8c00;
-    opacity: 0;
-    z-index: 50;
-    pointer-events: none;
-    animation: popUpAndFade 1.5s forwards;
-}
-
-@keyframes popUpAndFade {
-    0% { transform: translate(-50%, 0) scale(0.5); opacity: 0; }
-    20% { transform: translate(-50%, -20%) scale(1.1); opacity: 1; }
-    80% { transform: translate(-50%, -20%) scale(1); opacity: 1; }
-    100% { transform: translate(-50%, -40%) scale(0.9); opacity: 0; }
-}
-
-#dica-container {
-    background-color: rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    border-radius: 15px;
-    min-height: 100px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 100%;
     box-sizing: border-box;
+    /* ... (Fundo Mantido) ... */
 }
 
-#dica-progresso {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.progresso-dot {
-    width: 12px;
-    height: 12px;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    transition: background-color 0.3s ease;
-}
-
-.progresso-dot.active {
-    background-color: #f1b457;
-    box-shadow: 0 0 10px #af4c4c;
-}
-
-.progresso-dot.used {
-    background-color: #f44336;
-}
-
-#dica {
-    font-size: 1.2em;
-    text-align: center;
-    min-height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.5s ease;
-}
-
-#personagem-feedback {
-    position: relative;
+/* NOVO: Wrapper para centralizar o conteúdo do jogo */
+.game-content-wrapper {
     width: 100%;
-    /* CORREÇÃO/AJUSTE: Garante espaço para o feedback */
-    min-height: 250px; 
+    max-width: 1200px; /* Limite de largura para desktop */
+    margin: auto; /* Centraliza horizontalmente dentro da tela */
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    min-height: calc(100vh - 40px); /* Garante que o wrapper use quase toda a altura */
+    padding: 10px;
 }
 
-#personagem-imagem {
-    max-width: 80%;
-    max-height: 200px;
+
+.main-container {
+    /* Redefinido para garantir que o conteúdo fique proporcional */
+    width: 100%;
+    max-width: 900px; /* Largura máxima para a caixa principal */
+    min-height: 550px; /* Altura mínima para evitar que encolha demais */
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    transition: opacity 0.5s ease;
+    padding: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    display: flex; /* Necessário para a disposição lado a lado/coluna */
+    flex-direction: column; 
 }
 
-/* CORREÇÃO: Garante que a imagem oculta não cause problemas de layout */
-#personagem-imagem.hidden {
-    opacity: 0;
-    max-height: 0; /* Para evitar que o espaço seja ocupado antes de ser exibida */
+
+/* --- SCOREBAR (HUD) --- */
+.score-sidebar {
+    /* ... (Manter as propriedades de layout flex) ... */
+    flex-wrap: wrap; /* Garante que os itens se ajustem em telas pequenas */
+    gap: 10px;
+}
+
+.hud-item {
     margin: 0;
 }
-#personagem-imagem:not(.hidden) {
-    opacity: 1;
-    max-height: 200px; 
-    margin: 20px auto;
+
+.player-info, .difficulty-info {
+    flex: 1 1 45%; /* Ocupa 45% do espaço em telas pequenas */
+    text-align: left;
+}
+.score-group {
+    flex: 1 1 100%; /* Ocupa a linha inteira em telas pequenas */
+    justify-content: space-between;
 }
 
-/* ESTILOS DE FEEDBACK (ACERTO/ERRO) */
-#feedback-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 80px; 
-    z-index: 50; 
-    opacity: 0.9;
-    animation: scaleIn 0.5s ease-out;
-}
-
-#feedback-icon.correct {
-    color: #4CAF50;
-    text-shadow: 0 0 15px rgba(76, 175, 80, 0.7);
-}
-
-#feedback-icon.incorrect {
-    color: #f44336;
-    text-shadow: 0 0 15px rgba(244, 67, 54, 0.7);
-}
-
-.controls {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 30px;
-    width: 100%;
-    /* Centraliza os botões e input */
-    align-items: center;
-}
-
-.controls input {
-    /* Ajusta a largura do input para ser ligeiramente menor que os botões, se necessário */
-    max-width: 90%; 
-}
-
-.controls button {
-    max-width: 90%; /* Limita a largura dos botões para que não fiquem muito esticados em telas grandes */
-    width: 100%; /* Garante que ocupem a largura do max-width */
-}
-
-/* --- BOTÃO PULAR --- */
-.pular-btn {
-    background-color: #ff9800;
-    border: 2px solid #e65100;
-    font-weight: 700;
-}
-
-.pular-btn:hover {
-    background-color: #e65100;
-}
-
-#mensagem {
-    font-size: 1.1em;
-    margin-top: 20px;
-    font-weight: 600;
-}
-
-.win-message {
-    color: #4CAF50;
-}
-
-.lose-message {
-    color: #f44336;
-}
-
-/* --- TELA FINAL (ESTILOS CUSTOMIZADOS) --- */
-.end-container {
-    background: linear-gradient(135deg, #1a2a47, #000000);
-    padding: 50px;
-    border-radius: 20px;
-    text-align: center;
-    transition: all 0.5s ease-in-out;
-}
-
-/* Estado de Vitória */
-.end-container.victory {
-    border: 2px solid var(--tech-blue);
-    box-shadow: 0 0 30px rgba(0, 224, 255, 0.4);
-}
-.end-icon.victory-icon {
-    color: var(--tech-blue);
-}
-
-/* Estado de Derrota por Tempo */
-.end-container.time-out {
-    border: 2px solid var(--lose-color);
-    box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
-    animation: shake 0.5s ease-in-out infinite alternate;
-}
-.end-icon.time-out-icon {
-    color: var(--lose-color);
-}
-
-/* Estado de Derrota por Tentativas Esgotadas */
-.end-container.out-of-guesses {
-    border: 2px solid #ff8c00; /* Laranja/Amarelo de falha */
-    box-shadow: 0 0 30px rgba(255, 140, 0, 0.4);
-}
-.end-icon.out-of-guesses-icon {
-    color: #ff8c00;
-}
-
-.end-icon {
-    font-size: 100px;
-    margin-bottom: 20px;
-    animation: bounceIn 1s;
-}
-
-#end-message {
-    font-size: 1.2em;
-    margin-bottom: 30px;
-}
-
-/* Animações e Decorações */
-@keyframes time-shake {
-    0%, 100% { transform: translateX(0) rotate(0deg); }
-    10% { transform: translateX(-5px) rotate(-2deg); }
-    90% { transform: translateX(-3px) rotate(-1deg); }
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-.animate__fade-in { animation: fadeIn 0.8s ease-out; }
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-.animate__pulse { animation: pulse 2s infinite; }
-@keyframes zoomIn {
-    from { opacity: 0; transform: scale(0.8); }
-    to { opacity: 1; transform: scale(1); }
-}
-.animate__zoom-in { animation: zoomIn 0.5s ease-out; }
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-}
-.shake { animation: shake 0.5s ease-in-out; }
-
-.background-decorations {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    overflow: hidden;
-    pointer-events: none;
-}
-
-.decoration-icon {
-    position: absolute;
-    font-size: 80px;
-    color: rgba(255, 255, 255, 0.05);
-    animation: float 20s infinite ease-in-out;
-}
-
-.decoration-icon.top-left { top: 10%; left: 10%; animation-delay: 0s; }
-.decoration-icon.bottom-right { bottom: 15%; right: 15%; animation-delay: 5s; }
-.decoration-icon.top-right { top: 5%; right: 20%; animation-delay: 10s; }
-.decoration-icon.bottom-left { bottom: 5%; left: 5%; animation-delay: 15s; }
-
-@keyframes float {
-    0% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(10deg); }
-    100% { transform: translateY(0px) rotate(0deg); }
-}
-
-@keyframes scaleIn {
-    from { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
-    to { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
-}
-
-.action-swap-container {
-    position: relative;
-    width: 90%; /* Ajustado para acompanhar o max-width dos botões */
-    height: 50px;
-    max-width: 900px;
-}
-
-.action-swap-container button {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 5;
-    transition: opacity 0.3s ease;
-}
-
-#reiniciarBtn.swap-btn {
-    background-color: #4CAF50;
-}
-
-#reiniciarBtn.swap-btn:hover {
-    background-color: #45a049;
-}
-
-#change-difficulty-btn {
-    background-color: #0d47a1;
-    margin-top: 10px;
-    padding: 12px 25px;
-    font-size: 1em;
-    font-weight: 500;
-}
-
-#change-difficulty-btn:hover {
-    background-color: #0b3c8f;
-    transform: translateY(-2px);
-}
-
-/* --- RESPONSIVIDADE --- */
-@media (max-width: 768px) {
-    /* Ajusta a margem e padding do container principal em telas menores */
-    .intro-container, .difficulty-container, .end-container, .main-container {
-        padding: 20px;
-        margin-top: 5vh; 
-        margin-bottom: 5vh; 
-        width: 95%; 
+/* Otimização para Desktop: Layout Lateral */
+@media (min-width: 768px) {
+    .main-container {
+        flex-direction: row; /* Coloca o score na lateral em telas maiores */
+        justify-content: space-between;
     }
     
-    .elegant-title {
-        font-size: 2.2em;
-        letter-spacing: 3px;
-    }
-
-    /* Otimiza a visualização das cartas de dificuldade em mobile */
-    .difficulty-options {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .difficulty-card {
-        max-width: 100%;
-        flex: 1 1 auto;
-    }
-
-    h1 {
-        font-size: 2em;
-    }
-    
-    /* ORGANIZAÇÃO DO HUD EM MOBILE */
     .score-sidebar {
-        flex-direction: column; /* Empilha o grupo de info e o grupo de scores */
-        align-items: center;
-        padding: 15px;
+        order: -1;
+        width: 200px;
+        flex-direction: column;
+        align-items: flex-start;
+        border-bottom: none;
+        border-right: 1px solid rgba(0, 224, 255, 0.2);
+        padding-right: 20px;
+        margin-bottom: 0;
+        /* Garante que os itens do HUD voltem a ocupar a largura total */
+        gap: 20px; 
     }
-    
-    .info-group {
-        align-items: center; /* Centraliza Nome e Nível no mobile */
+    /* Reinicia o layout dos itens do HUD para coluna na lateral */
+    .player-info, .difficulty-info, .score-group {
+        flex: 1 1 100%; 
+        text-align: left;
         margin-bottom: 10px;
     }
-
     .score-group {
-        width: 100%;
-        justify-content: space-around; /* Distribui os itens de score na largura total */
+        flex-direction: column;
         gap: 10px;
     }
-
-    .score-item {
-        font-size: 1em;
-        flex-grow: 1; /* Permite que os itens de score preencham o espaço */
-    }
-    .score-value {
-        font-size: 1.2em;
-    }
-    .score-label {
-        font-size: 0.6em;
-    }
-
-    .timer-container {
-        width: 80px;
-        height: 80px;
-    }
-    .circular-timer #timer-display {
-        width: 60px;
-        height: 60px;
-        font-size: 2em;
-    }
-
-    .controls input, .controls button {
-        max-width: 100%;
-    }
-
-    .action-swap-container {
-        width: 100%;
-    }
 }
+
+/* --- BOTÃO DE DICA (UX/GRÁTIS) --- */
+#pedirDicaBtn {
+    position: relative;
+    padding-right: 60px; /* Espaço para o custo */
+}
+#dica-cost {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #000;
+    padding: 2px 5px;
+    border-radius: 3px;
+    background-color: #00000030;
+    transition: background-color 0.3s;
+}
+
+#dica-cost.free {
+    background-color: var(--win-color); /* Verde para GRÁTIS */
+    color: #fff;
+    font-size: 0.8em;
+}
+
+/* --- IMAGEM PROGRESSIVA (Para a primeira dica ser a classe base) --- */
+#personagem-imagem {
+    /* Adiciona a classe visual-clue no JS em iniciarNovaRodada() */
+    filter: blur(15px) grayscale(100%) brightness(50%) opacity(0.8); 
+    transition: filter 0.5s ease-out;
+}
+.clue-level-1 {
+    filter: blur(8px) grayscale(80%) brightness(70%) opacity(0.9) !important;
+}
+/* ... (Manter as outras classes de clue-level-2 e 3) ... */

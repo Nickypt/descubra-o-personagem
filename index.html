@@ -1,139 +1,34 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mistério Cósmico: O Jogo do Palpite</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <div id="start-screen" class="screen">
-        <div class="background-decorations">
-            <i class="fas fa-meteor decoration-icon top-left"></i>
-            <i class="fas fa-satellite decoration-icon bottom-right"></i>
-            <i class="fas fa-atom decoration-icon top-right"></i>
-            <i class="fas fa-moon decoration-icon bottom-left"></i>
-        </div>
-        <div class="intro-container animate__fade-in">
-            <i class="fas fa-fingerprint intro-icon"></i>
-            <h1 class="elegant-title">MISTÉRIO CÓSMICO</h1>
-            <p class="description-text">Decifre a identidade do personagem secreto com base em pistas. Você tem 3 tentativas e o cronômetro está correndo. Alcance a meta de 100 pontos para completar a missão!</p>
-            <div class="input-group">
-                <input type="text" id="player-name-input" placeholder="Seu Nome de Agente (Ex: Agente Zero)" maxlength="20">
-            </div>
-            <button id="start-btn" disabled>INICIAR DECODIFICAÇÃO</button>
-            <p class="version-info">Protocolo V3.0 | Interface HUD Delta</p>
-        </div>
-    </div>
-
-    <div id="difficulty-screen" class="screen hidden">
-        <div class="difficulty-container animate__fade-in">
-            <h1 class="elegant-title">SELECIONAR NÍVEL DE DIFICULDADE</h1>
-            <p class="difficulty-subtitle">O tempo e a penalidade por dica são ajustados com a dificuldade.</p>
-            <div class="difficulty-options">
-                <div class="difficulty-card" data-difficulty="facil">
-                    <i class="fas fa-star card-icon easy"></i>
-                    <h2>FÁCIL</h2>
-                    <p>60s por rodada. Penalidade de 3 pontos por dica.</p>
-                </div>
-                <div class="difficulty-card" data-difficulty="medio">
-                    <i class="fas fa-star-half-alt card-icon medium"></i>
-                    <h2>MÉDIO</h2>
-                    <p>45s por rodada. Penalidade de 5 pontos por dica.</p>
-                </div>
-                <div class="difficulty-card" data-difficulty="dificil">
-                    <i class="fas fa-star card-icon hard"></i>
-                    <h2>DIFÍCIL</h2>
-                    <p>30s por rodada. Penalidade de 8 pontos por dica.</p>
-                </div>
-            </div>
-            <button id="select-difficulty-btn" disabled style="margin-top: 30px;">CONFIRMAR NÍVEL</button>
-        </div>
-    </div>
-
-    <div id="game-screen" class="screen hidden">
-        <div class="main-container animate__zoom-in">
+<div id="game-screen" class="screen hidden">
+    <div class="game-content-wrapper"> <div class="main-container">
             
-            <div class="score-sidebar">
-                <div class="info-group">
-                    <span class="player-name">Agente: <span id="player-name-text"></span></span>
-                    <span class="difficulty-level">Nível: <span id="difficulty-level-text"></span></span>
+            <aside class="score-sidebar">
+                <div class="hud-item player-info">
+                    <span class="score-label">AGENTE</span>
+                    <span id="player-name-text" class="score-value"></span>
                 </div>
-
+                <div class="hud-item difficulty-info">
+                    <span class="score-label">NÍVEL ATUAL</span>
+                    <span id="difficulty-level-text" class="score-value"></span>
+                </div>
+                
                 <div class="score-group">
-                    <div class="score-item" id="score-item">
+                    <div class="hud-item score-item">
                         <span class="score-label">PONTOS</span>
-                        <span class="score-value" id="score-display">0</span>
+                        <span id="score-display" class="score-value">0</span>
                     </div>
-                    
-                    <div class="score-item" id="meta-score-item">
+                    <div class="hud-item score-item">
                         <span class="score-label">META</span>
-                        <span class="score-value" id="meta-display">100</span>
+                        <span id="meta-display" class="score-value">100</span>
                     </div>
-                    
-                    <div class="score-item hidden" id="streak-score-item">
-                        <span class="score-label">SEQ <i class="fas fa-fire"></i></span>
-                        <span class="score-value" id="streak-display">0</span>
+                    <div id="streak-score-item" class="hud-item score-item hidden">
+                        <span class="score-label">SEQUÊNCIA</span>
+                        <span id="streak-display" class="score-value">0</span>
                     </div>
                 </div>
-            </div>
-            
-            <div class="game-container">
-                <div class="timer-container">
-                    <div id="timer-ring" class="circular-timer">
-                        <span id="timer-display">60</span>
-                    </div>
-                    <span id="streak-feedback" class="streak-feedback hidden"></span>
-                </div>
+            </aside>
 
-                <div id="dica-container">
-                    <div id="dica-progresso">
-                        <span class="progresso-dot"></span>
-                        <span class="progresso-dot"></span>
-                    </div>
-                    <p id="dica">Pista: Pressione "Pedir Dica" para iniciar a decodificação.</p>
-                </div>
-
-                <div id="personagem-feedback">
-                    <img id="personagem-imagem" class="hidden" src="" alt="Personagem Secreto">
-                    <i id="feedback-icon" class="fas hidden"></i>
-                </div>
-
-                <p id="mensagem"></p>
-
-                <div class="controls">
-                    <input type="text" id="guess-input" placeholder="Seu palpite aqui..." disabled>
-                    
-                    <button id="guess-btn">ADIVINHAR</button>
-
-                    <div class="action-swap-container">
-                        <button id="reiniciarBtn" class="swap-btn hidden">PRÓXIMO MISTÉRIO</button>
-                        <button id="pedirDicaBtn" disabled>PEDIR DICA (-5s)</button>
-                    </div>
-
-                    <button id="pularBtn" class="pular-btn">PULAR MISTÉRIO (-5 PONTOS)</button>
-                </div>
-            </div>
+            <section class="game-container">
+                </section>
         </div>
     </div>
-
-    <div id="end-screen" class="screen hidden">
-        <div class="end-container animate__fade-in">
-            <i id="end-icon" class="end-icon fas"></i>
-            <h1 id="end-title">FIM DE JOGO</h1>
-            <p id="end-message">Sua missão foi concluída.</p>
-            
-            <p>Pontuação Final: <strong id="final-score">0</strong></p>
-            <p>Maior Sequência: <strong id="final-streak">0</strong></p>
-
-            <button id="play-again-btn" class="swap-btn" style="margin-top: 20px;">JOGAR NOVAMENTE (MESMA DIFICULDADE)</button>
-            <button id="change-difficulty-btn">MUDAR DIFICULDADE</button>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
+</div>
