@@ -17,18 +17,32 @@ const personagens = {
         { nome: "pikachu", dicas: ["É um pokémon elétrico.", "Seu treinador é o Ash.", "Seu grito é o seu nome."], imagemUrl: "pikachu.jpg" },
         { nome: "homem-aranha", dicas: ["Ele foi mordido por uma aranha radioativa.", "Seu lema é 'Com grandes poderes...'", "Seu alter ego é Peter Parker."], imagemUrl: "homem-aranha.jpg" },
         { nome: "buzz lightyear", dicas: ["Ele é um patrulheiro espacial.", "Seu lema é 'Ao infinito e além!'", "Ele não é um brinquedo."], imagemUrl: "buzz.jpg" },
+        { nome: "batman", dicas: ["Ele é um vigilante de Gotham.", "Não tem superpoderes, mas é muito rico.", "Seu principal veículo é o Batmóvel."], imagemUrl: "batman.jpg" },
+        { nome: "minion", dicas: ["É uma criatura amarela e pequena.", "Fala uma linguagem misturada e engraçada.", "Serve a um vilão chamado Gru."], imagemUrl: "minion.jpg" },
+        { nome: "elsa", dicas: ["É uma rainha com poderes de gelo.", "Canta 'Let It Go'.", "Sua irmã se chama Anna."], imagemUrl: "elsa.jpg" },
+        { nome: "spongebob", dicas: ["Ele vive numa casa de abacaxi no fundo do mar.", "Trabalha no Siri Cascudo.", "É amigo de Patrick."], imagemUrl: "spongebob.jpg" },
     ],
     medio: [
         { nome: "link", dicas: ["Ele é um herói élfico.", "Ele carrega uma Master Sword.", "Seu mundo é Hyrule."], imagemUrl: "link.jpg" },
         { nome: "sonic", dicas: ["É um ouriço azul.", "Seu inimigo é o Dr. Robotnik.", "Ele corre em super velocidade."], imagemUrl: "sonic.jpg" },
         { nome: "goku", dicas: ["Ele é um alienígena da raça Saiyajin.", "Ele busca esferas mágicas.", "Sua técnica principal é o Kamehameha."], imagemUrl: "goku.jpg" },
         { nome: "master chief", dicas: ["Ele é um supersoldado Spartan.", "Usa um capacete verde icônico.", "Ele luta contra o Covenant."], imagemUrl: "master-chief.jpg" },
+        { nome: "aloy", dicas: ["Ela é uma caçadora de máquinas em um mundo pós-apocalíptico.", "É da tribo Nora.", "Usa um Focus para escanear a área."], imagemUrl: "aloy.jpg" },
+        { nome: "luffy", dicas: ["Ele é um pirata com um chapéu de palha.", "Seu corpo é feito de borracha.", "Seu sonho é ser o Rei dos Piratas."], imagemUrl: "luffy.jpg" },
+        { nome: "doomguy", dicas: ["Ele é um fuzileiro solitário e furioso.", "Luta contra demónios em Marte e no Inferno.", "Usa a motosserra e a BFG-9000."], imagemUrl: "doomguy.jpg" },
+        { nome: "leia organa", dicas: ["Ela é uma princesa, general e senadora.", "Lidera a Aliança Rebelde.", "É irmã de Luke Skywalker."], imagemUrl: "leia.jpg" },
+        { nome: "ezio auditore", dicas: ["Ele é um assassino italiano do Renascimento.", "Seu lema é 'Nada é verdade, tudo é permitido'.", "Usa uma lâmina oculta."], imagemUrl: "ezio.jpg" },
     ],
     dificil: [
         { nome: "samus", dicas: ["Ela usa um traje de poder futurista.", "Ela caça parasitas perigosos.", "Seu nome completo é Aran."], imagemUrl: "samus.jpg" },
         { nome: "kratos", dicas: ["Ele é o Fantasma de Esparta.", "Ele usa as Lâminas do Caos.", "Ele matou o deus da Guerra."], imagemUrl: "kratos.jpg" },
         { nome: "sub-zero", dicas: ["Ele é um ninja criomante.", "Ele pode congelar seus inimigos.", "Seu nome real é Bi-Han ou Kuai Liang."], imagemUrl: "sub-zero.jpg" },
         { nome: "ciri", dicas: ["Ela é uma princesa de Cintra.", "Tem o poder de viajar no espaço e tempo.", "Sua espada é chamada Zireael."], imagemUrl: "ciri.jpg" },
+  { nome: "geralt de rivia", dicas: ["Ele é um 'Bruxo' caçador de monstros.", "Seus olhos são de gato (mutação).", "Bebe poções e usa sinais mágicos."], imagemUrl: "geralt.jpg" },
+        { nome: "master yoda", dicas: ["Ele é um mestre Jedi.", "É pequeno e muito, muito velho.", "Sua forma de falar é incomum."], imagemUrl: "yoda.jpg" },
+        { nome: "chell", dicas: ["Ela é uma cobaia humana numa instalação de testes.", "Usa um dispositivo que cria portais.", "Luta contra uma IA chamada GLaDOS."], imagemUrl: "chell.jpg" },
+        { nome: "arthas menethil", dicas: ["Ele foi um paladino que se tornou um necromante.", "Empunha a espada Frostmourne.", "Seu título final é o Rei Lich."], imagemUrl: "arthas.jpg" },
+        { nome: "sephiroth", dicas: ["Ele era o SOLDIER mais poderoso da Shinra.", "Sua espada é uma Masamune.", "É o principal antagonista de Cloud."], imagemUrl: "sephiroth.jpg" },
     ]
 };
 
