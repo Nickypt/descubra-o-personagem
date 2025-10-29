@@ -7,18 +7,21 @@ const CONFIG_DIFICULDADE = {
     dificil: { nomeDisplay: 'Difícil', penalidadeDicaTempo: 15, pontuacaoBase: 10 }
 };
 
-const META_PONTOS = 100;
+const META_PONTOS = 100; // Meta de pontos para o jogo
 
-// Exemplo de Banco de Dados de Personagens (Você deve expandir este array)
+// Exemplo de Banco de Dados de Personagens (USE IMAGENS NO MESMO DIRETÓRIO)
 const personagens = {
     facil: [
         { nome: "mario", dicas: ["Ele usa um boné vermelho.", "É encanador e vive no Reino Cogumelo.", "Tem um irmão chamado Luigi."], imagemUrl: "mario.jpg" },
+        { nome: "pikachu", dicas: ["É um pokémon elétrico.", "Seu treinador é o Ash.", "Seu grito é o seu nome."], imagemUrl: "pikachu.jpg" },
     ],
     medio: [
         { nome: "link", dicas: ["Ele é um herói élfico.", "Ele carrega uma Master Sword.", "Seu mundo é Hyrule."], imagemUrl: "link.jpg" },
+        { nome: "sonic", dicas: ["É um ouriço azul.", "Seu inimigo é o Dr. Robotnik.", "Ele corre em super velocidade."], imagemUrl: "sonic.jpg" },
     ],
     dificil: [
         { nome: "samus", dicas: ["Ela usa um traje de poder futurista.", "Ela caça parasitas perigosos.", "Seu nome completo é Aran."], imagemUrl: "samus.jpg" },
+        { nome: "kratos", dicas: ["Ele é o Fantasma de Esparta.", "Ele usa as Lâminas do Caos.", "Ele matou o deus da Guerra."], imagemUrl: "kratos.jpg" },
     ]
 };
 
@@ -27,15 +30,20 @@ const personagens = {
 // ===============================================
 let pontuacao = 0;
 let sequenciaAcertos = 0;
-let nivelDificuldade = 'facil'; // Padrão
+let nivelDificuldade = 'facil'; 
 let personagemSecreto = null;
 let tentativas = 0;
 let dicaAtual = -1;
 let tempoRestante = 60;
 let cronometroInterval = null;
-let nomeJogador = ''; // Definido na primeira tela
+let nomeJogador = ''; 
 
-const personagensDisponiveis = { facil: [...personagens.facil], medio: [...personagens.medio], dificil: [...personagens.dificil] };
+// Gerenciamento de rodadas
+const personagensDisponiveis = { 
+    facil: [...personagens.facil], 
+    medio: [...personagens.medio], 
+    dificil: [...personagens.dificil] 
+};
 const personagensUsados = { facil: [], medio: [], dificil: [] };
 
 // ===============================================
@@ -69,20 +77,20 @@ const streakScoreItem = document.getElementById('streak-score-item');
 const feedbackIcon = document.getElementById('feedback-icon');
 
 // ===============================================
-// FUNÇÕES DE UTILIDADE E FLUXO
+// FUNÇÕES DE FLUXO DE JOGO
 // ===============================================
 
 /**
- * Funções de Controle de Tela
+ * Funções de Controle de Tela (Handles a transição visual)
  */
 function trocarTela(hideScreen, showScreen) {
-    // 1. Esconde
+    // 1. Esconde a tela atual
     hideScreen.classList.remove('active');
     setTimeout(() => {
         hideScreen.classList.add('hidden');
     }, 400); 
 
-    // 2. Mostra
+    // 2. Mostra a próxima tela
     showScreen.classList.remove('hidden');
     setTimeout(() => {
         showScreen.classList.add('active');
@@ -94,7 +102,7 @@ function trocarTela(hideScreen, showScreen) {
 
 function iniciarCronometro() {
     clearInterval(cronometroInterval);
-    tempoRestante = 60;
+    tempoRestante = 60; // Tempo inicial por rodada
     timerDisplay.textContent = tempoRestante;
     
     cronometroInterval = setInterval(() => {
@@ -103,7 +111,7 @@ function iniciarCronometro() {
 
         if (tempoRestante <= 0) {
             clearInterval(cronometroInterval);
-            finalizarRodada(false, 'O tempo esgotou! Tente mais uma vez.');
+            finalizarRodada(false, `O tempo esgotou! O personagem era ${personagemSecreto.nome}.`);
         }
     }, 1000);
 }
@@ -125,7 +133,7 @@ function atualizarIndicadorDicas() {
     const maxDicas = personagemSecreto.dicas ? personagemSecreto.dicas.length : 0; 
     const config = CONFIG_DIFICULDADE[nivelDificuldade] || CONFIG_DIFICULDADE.facil;
     
-    // Lógica da Dica Gratuita (dicaAtual = -1 é o estado inicial, próxima dica é a 0)
+    // Lógica da Dica Gratuita: A primeira dica (dicaAtual vai de -1 para 0)
     if (dicaAtual === -1) {
         dicaCostDisplay.textContent = 'GRÁTIS';
         dicaCostDisplay.classList.add('free'); 
@@ -140,16 +148,20 @@ function atualizarIndicadorDicas() {
         dot.style.display = index < maxDicas ? 'inline-block' : 'none'; 
         
         if (index <= dicaAtual) {
-            dot.classList.add('used');
-        } 
-        // Desabilita o dot ativo, pois a dica atual já foi usada (vira 'used')
+            dot.classList.add('used'); // Pistas já usadas
+        }
+        
+        // Se a próxima pista existir, ela é a ativa (índice = dicaAtual + 1)
+        if (index === dicaAtual + 1 && index < maxDicas) {
+            dot.classList.add('active'); 
+        }
     });
 
     pedirDicaBtn.disabled = dicaAtual >= (maxDicas - 1);
 }
 
 /**
- * Função de Dica Completa (com penalidade e progressão visual)
+ * Revela a próxima dica, aplica penalidade de tempo e melhora a qualidade visual.
  */
 function mostrarDica() {
     if (!personagemSecreto.dicas || dicaAtual >= personagemSecreto.dicas.length - 1) return;
@@ -170,25 +182,27 @@ function mostrarDica() {
         
         // Garante que a imagem esteja visível e com a URL correta
         personagemImagem.src = personagemSecreto.imagemUrl;
-        personagemImagem.classList.remove('hidden', 'visual-clue', 'clue-level-1', 'clue-level-2', 'clue-level-3', 'reveal');
-
+        personagemImagem.classList.remove('hidden', 'clue-level-1', 'clue-level-2', 'clue-level-3', 'reveal');
+        
+        // Adiciona o filtro base se ainda não tiver
+        if (!personagemImagem.classList.contains('visual-clue')) {
+             personagemImagem.classList.add('visual-clue'); 
+        }
+        
         // --- Progressão Visual da Pista ---
-        personagemImagem.classList.add('visual-clue'); // Filtro base
         if (dicaAtual === 0) { 
             personagemImagem.classList.add('clue-level-1');
         } else if (dicaAtual === 1) { 
+            personagemImagem.classList.remove('clue-level-1');
             personagemImagem.classList.add('clue-level-2');
         } else if (dicaAtual >= 2) { 
+            personagemImagem.classList.remove('clue-level-2');
             personagemImagem.classList.add('clue-level-3');
         }
         
         atualizarIndicadorDicas(); 
     } 
 }
-
-// ===============================================
-// LÓGICA DO JOGO PRINCIPAL
-// ===============================================
 
 function finalizarRodada(acertou, mensagemFinal) {
     clearInterval(cronometroInterval);
@@ -203,36 +217,48 @@ function finalizarRodada(acertou, mensagemFinal) {
 
     // Revela a imagem final
     personagemImagem.classList.add('reveal');
-    personagemImagem.classList.remove('clue-level-1', 'clue-level-2', 'clue-level-3');
+    personagemImagem.classList.remove('visual-clue', 'clue-level-1', 'clue-level-2', 'clue-level-3');
+    personagemImagem.classList.remove('hidden'); // Garante que esteja visível
 
     if (acertou) {
-        // Lógica de pontuação e sequência (Seu código original deve ser inserido aqui)
+        const config = CONFIG_DIFICULDADE[nivelDificuldade];
+        let pontosGanhos = config.pontuacaoBase;
+        
+        // Bônus por tempo restante
+        pontosGanhos += Math.floor(tempoRestante / 10);
+        
+        // Bônus por sequência
+        if (sequenciaAcertos >= 1) {
+            pontosGanhos += 5 * sequenciaAcertos; 
+        }
+        
+        pontuacao += pontosGanhos;
+        sequenciaAcertos++;
     } else {
-        // Lógica de perda (Ex: zerar sequência)
         sequenciaAcertos = 0;
     }
     
-    // Atualiza o HUD uma última vez
     scoreDisplay.textContent = pontuacao;
     streakDisplay.textContent = sequenciaAcertos;
 }
 
-
 function iniciarNovaRodada() {
     // 1. Controle de Repetição (Garante que sempre haja personagens)
-    if (!personagensDisponiveis[nivelDificuldade] || personagensDisponiveis[nivelDificuldade].length === 0) {
-        personagensDisponiveis[nivelDificuldade] = [...personagens[nivelDificuldade]];
+    const personagensDoNivel = personagens[nivelDificuldade];
+    if (personagensDisponiveis[nivelDificuldade].length === 0) {
+        // Repopula e reseta o usado
+        personagensDisponiveis[nivelDificuldade] = [...personagensDoNivel];
         personagensUsados[nivelDificuldade] = [];
     }
 
-    const personagensDoNivel = personagensDisponiveis[nivelDificuldade];
-    const indiceAleatorio = Math.floor(Math.random() * personagensDoNivel.length);
-    personagemSecreto = personagensDoNivel.splice(indiceAleatorio, 1)[0];
+    const disponiveis = personagensDisponiveis[nivelDificuldade];
+    const indiceAleatorio = Math.floor(Math.random() * disponiveis.length);
+    personagemSecreto = disponiveis.splice(indiceAleatorio, 1)[0];
     personagensUsados[nivelDificuldade].push(personagemSecreto);
 
     // 2. Reset de Variáveis e UI
     tentativas = 0;
-    dicaAtual = -1; 
+    dicaAtual = -1; // Começa antes da primeira dica
     limparFeedbackRodada(); 
     
     guessBtn.classList.remove('hidden');
@@ -261,7 +287,7 @@ function iniciarNovaRodada() {
     difficultyDisplay.textContent = CONFIG_DIFICULDADE[nivelDificuldade].nomeDisplay; 
     scoreDisplay.textContent = pontuacao;
     
-    atualizarIndicadorDicas(); 
+    atualizarIndicadorDicas(); // Configura o botão de dica como "GRÁTIS"
     guessInput.focus();
     iniciarCronometro();
 }
@@ -294,20 +320,39 @@ difficultyBtns.forEach(btn => {
 // Botões de Ação do Jogo
 pedirDicaBtn.addEventListener('click', mostrarDica);
 reiniciarBtn.addEventListener('click', iniciarNovaRodada);
+pularBtn.addEventListener('click', () => {
+    finalizarRodada(false, `Você pulou. O personagem era ${personagemSecreto.nome}.`);
+});
 
-// Exemplo de Ação de Adivinhar (A ser completada)
+
+// Adivinhar
 guessBtn.addEventListener('click', () => {
     const palpite = guessInput.value.trim().toLowerCase();
+    
+    if (palpite.length === 0) return;
+
     const nomeSecreto = personagemSecreto.nome.toLowerCase();
 
     if (palpite === nomeSecreto) {
+        feedbackIcon.classList.remove('hidden', 'fa-times');
+        feedbackIcon.classList.add('fa-check', 'correct');
+        guessInput.classList.add('input-correct');
+        
         finalizarRodada(true, `Parabéns, ${nomeJogador}! Você acertou! O personagem era ${personagemSecreto.nome}!`);
     } else {
-        // Lógica de feedback de erro
+        // Feedback Visual de Erro
+        feedbackIcon.classList.remove('hidden', 'fa-check', 'correct');
+        feedbackIcon.classList.add('fa-times');
+        guessInput.classList.add('input-incorrect');
+        
         tentativas++;
         mensagem.textContent = 'Palpite incorreto. Tente novamente ou peça uma dica.';
-        guessInput.classList.add('input-incorrect');
-        setTimeout(() => guessInput.classList.remove('input-incorrect'), 500);
+        
+        // Remove a classe de feedback após um breve período
+        setTimeout(() => {
+            guessInput.classList.remove('input-incorrect');
+            feedbackIcon.classList.add('hidden');
+        }, 800);
     }
     guessInput.value = '';
     guessInput.focus();
