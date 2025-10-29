@@ -2,11 +2,12 @@
 /* ARQUIVO: game_ends.css (Estilos das Telas Finais) */
 /* ============================================= */
 
-/* Garante que as telas finais tenham um tamanho ideal */
 #tela-vitoria, #tela-fim-de-jogo {
+    font-family: 'Orbitron', sans-serif;
     max-width: 650px;
     min-height: 400px; 
     transition: all 0.5s ease-in-out; 
+    border-radius: 18px; 
 }
 
 .big-message {
@@ -17,22 +18,22 @@
 }
 
 /* ============================================= */
-/* A. ESTILO DA VITÓRIA (TELA-VITORIA) - BASE ESTELAR GLORIOSA */
+/* A. ESTILO DA VITÓRIA (TELA-VITORIA) */
 /* ============================================= */
 
 #tela-vitoria {
     background-color: #1c1f36; 
-    border-color: #f7ff00; /* Dourado Neon */
+    border-color: #f7ff00; 
     box-shadow: 
         0 0 50px rgba(255, 255, 0, 0.8), 
         0 0 20px #00eaff inset; 
 }
 
 #tela-vitoria h1 {
-    color: #f7ff00; /* Título Dourado */
+    color: #f7ff00; 
     text-shadow: 0 0 15px rgba(255, 255, 0, 1);
     font-size: 2.5em;
-    border-bottom: 2px solid #f7ff00;
+    border-bottom: 3px solid #f7ff00; 
     padding-bottom: 10px;
     margin-bottom: 30px;
 }
@@ -47,36 +48,36 @@
     background: rgba(255, 255, 255, 0.1);
     padding: 15px;
     border-radius: 8px;
-    border-left: 5px solid #00eaff; /* Detalhe Ciano */
+    border-left: 5px solid #00eaff; 
 }
 
 #tela-vitoria button {
-    background-color: #00eaff; /* Botão Ciano Principal */
+    background-color: #00eaff; 
     color: #1c1f36;
 }
 #tela-vitoria button:hover {
     background-color: #00bfff;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 1);
 }
 
 
 /* ============================================= */
-/* B. ESTILO DA DERROTA (TELA-FIM-DE-JOGO) - ALERTA DE DESCOMPRESSÃO */
+/* B. ESTILO DA DERROTA (TELA-FIM-DE-JOGO) */
 /* ============================================= */
 
 #tela-fim-de-jogo {
     background-color: #110e1a; 
-    border-color: #e74c3c; /* Borda Vermelha de Alerta */
+    border-color: #e74c3c; 
     box-shadow: 
         0 0 50px rgba(255, 0, 0, 0.8), 
         0 0 20px #e74c3c inset; 
 }
 
 #tela-fim-de-jogo h1 {
-    color: #e74c3c; /* Título Vermelho de Alerta */
+    color: #e74c3c; 
     text-shadow: 0 0 15px rgba(255, 0, 0, 1);
     font-size: 2.5em;
-    border-bottom: 2px solid #e74c3c;
+    border-bottom: 3px solid #e74c3c; 
     padding-bottom: 10px;
     margin-bottom: 30px;
 }
@@ -87,21 +88,22 @@
 }
 
 #tela-fim-de-jogo .big-message {
-    color: #ffaaaa; /* Texto em vermelho claro */
+    color: #ffaaaa; 
     background: rgba(231, 76, 60, 0.15);
     padding: 15px;
     border-radius: 8px;
-    border-left: 5px solid #e74c3c; /* Detalhe Vermelho */
+    border-left: 5px solid #e74c3c; 
 }
 
 #tela-fim-de-jogo p:last-of-type {
-    color: #00eaff; /* Pontuação final em ciano */
+    color: #00eaff; 
 }
 
 #tela-fim-de-jogo button {
-    background-color: #ff00ff; /* Botão Magenta */
+    background-color: #ff33ff; 
+    color: #050a16;
 }
 #tela-fim-de-jogo button:hover {
     background-color: #cc00cc;
-    box-shadow: 0 0 15px rgba(255, 0, 255, 0.8);
+    box-shadow: 0 0 20px rgba(255, 51, 255, 1);
 }
