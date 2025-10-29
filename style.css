@@ -1,95 +1,297 @@
-
-
-
-
-
-
-
-
-
+/*
+ * =======================================
+ * ESTILO: TEMA ESPACIAL (NEON / FUTURISTA)
+ * =======================================
+ */
 
 /* =======================================
-    CORREÇÕES E MELHORIAS DE LAYOUT
+    DEFINIÇÕES GLOBAIS E VARIÁVEIS (ESPAÇO)
     ======================================= */
+:root {
+    --main-bg-color: #0d1a26; /* Azul Escuro / Espaço Profundo */
+    --text-color: #e0f7fa; /* Ciano Claro (Luz das Estrelas) */
+    --accent-color: #00e0ff; /* Ciano Neon (Principal) */
+    --secondary-accent: #ff00ff; /* Magenta Neon (Detalhes/Valores) */
+    --win-color: #38c172; /* Verde Sucesso */
+    --lose-color: #e3342f; /* Vermelho Erro */
+    --tech-bg-dark: #1a202c; /* Fundo de Componentes */
+    --tech-bg-light: #2d3748;
+}
 
-/* Base (Ajustado para Centralização Vertical) */
+/* ------------------------------------- */
+/* --- CHAVE: ANIMAÇÃO DE FUNDO ESPACIAL --- */
+/* ------------------------------------- */
+
+/* Define a animação de movimento sutil para o fundo */
+@keyframes nebula-scroll {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+
+html {
+    height: 100%;
+}
+
 body {
-    /* ... (Propriedades anteriores) ... */
-    /* Garante que o body possa ser o contêiner de flexbox */
+    margin: 0;
+    /* Recomendado importar uma fonte futurista como 'Orbitron' ou 'Space Mono' */
+    font-family: 'Space Mono', monospace, sans-serif; 
+    color: var(--text-color);
+    background-color: var(--main-bg-color); 
+    
+    /* Simulação de Fundo Espacial com Estrelas/Nébulas */
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 100"><defs><radialGradient id="g" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="%2300e0ff" stop-opacity="0.1"/><stop offset="100%" stop-color="%230d1a26" stop-opacity="1"/></radialGradient></defs><rect width="100" height="100" fill="url(%23g)"/><circle cx="10" cy="10" r="1" fill="%23fff" opacity="0.6"><animate attributeName="cx" values="10;90;10" dur="10s" repeatCount="indefinite"/><animate attributeName="cy" values="10;50;10" dur="12s" repeatCount="indefinite"/></circle><circle cx="50" cy="90" r="0.8" fill="%23fff" opacity="0.4"><animate attributeName="cx" values="50;10;50" dur="8s" repeatCount="indefinite"/><animate attributeName="cy" values="90;40;90" dur="9s" repeatCount="indefinite"/></circle></svg>');
+    background-size: 400% 400%; 
+    animation: nebula-scroll 120s linear infinite alternate; 
+    
+    /* Centralização Vertical (Flexbox) */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow-y: auto; /* Permite rolagem se necessário */
+    overflow-y: auto;
 }
 
+/* Estilos de Tipografia Espacial (Efeito Neon) */
+h1, h2, h3 {
+    color: var(--accent-color);
+    text-shadow: 0 0 10px rgba(0, 224, 255, 0.7); 
+}
+
+/* ------------------------------------- */
+
 .screen {
-    /* Mude de position: absolute para flex-container puro */
     position: relative; 
     width: 100%;
-    height: 100vh;
-    /* Centraliza o conteúdo da tela */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     padding: 20px;
     box-sizing: border-box;
-    /* ... (Fundo Mantido) ... */
 }
 
-/* NOVO: Wrapper para centralizar o conteúdo do jogo */
 .game-content-wrapper {
     width: 100%;
-    max-width: 1200px; /* Limite de largura para desktop */
-    margin: auto; /* Centraliza horizontalmente dentro da tela */
+    max-width: 1200px; 
+    margin: auto; 
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - 40px); /* Garante que o wrapper use quase toda a altura */
+    min-height: calc(100vh - 40px); 
     padding: 10px;
 }
 
 
 .main-container {
-    /* Redefinido para garantir que o conteúdo fique proporcional */
     width: 100%;
-    max-width: 900px; /* Largura máxima para a caixa principal */
-    min-height: 550px; /* Altura mínima para evitar que encolha demais */
-    background-color: rgba(0, 0, 0, 0.5);
+    max-width: 900px; 
+    min-height: 550px; 
+    /* Fundo Semi-Transparente com Borda Neon */
+    background-color: rgba(10, 20, 30, 0.9); 
     border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-    display: flex; /* Necessário para a disposição lado a lado/coluna */
+    padding: 25px;
+    
+    /* Borda e Sombra Galáctica */
+    border: 2px solid var(--accent-color);
+    box-shadow: 0 0 30px rgba(0, 224, 255, 0.5), inset 0 0 15px rgba(0, 224, 255, 0.3);
+    
+    display: flex; 
     flex-direction: column; 
+    gap: 20px; 
 }
 
 
 /* --- SCOREBAR (HUD) --- */
 .score-sidebar {
-    /* ... (Manter as propriedades de layout flex) ... */
-    flex-wrap: wrap; /* Garante que os itens se ajustem em telas pequenas */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap; 
     gap: 10px;
+    padding-bottom: 15px;
+    /* Linha de separação mais tecnológica */
+    border-bottom: 1px dashed var(--secondary-accent); 
+    margin-bottom: 15px;
 }
 
 .hud-item {
     margin: 0;
+    padding: 8px 15px;
+    background-color: var(--tech-bg-dark);
+    border-radius: 5px;
+    /* Detalhe de Borda/Brilho */
+    box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), inset 0 0 5px rgba(0, 224, 255, 0.3);
 }
 
 .player-info, .difficulty-info {
-    flex: 1 1 45%; /* Ocupa 45% do espaço em telas pequenas */
+    flex: 1 1 45%; 
     text-align: left;
 }
 .score-group {
-    flex: 1 1 100%; /* Ocupa a linha inteira em telas pequenas */
+    flex: 1 1 100%; 
+    display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+.score-value {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: var(--secondary-accent); /* Magenta para os valores */
+    text-shadow: 0 0 5px var(--secondary-accent);
 }
 
+/* ------------------------------------- */
+/* --- ÁREA PRINCIPAL DO JOGO --- */
+.game-area {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; 
+    gap: 20px;
+}
+
+/* --- IMAGEM PROGRESSIVA (Sensor/Scanner) --- */
+.image-container {
+    text-align: center;
+    max-width: 400px; 
+    max-height: 400px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 5px;
+    /* Borda de Sensor/Scanner */
+    border: 3px solid var(--accent-color); 
+    box-shadow: 0 0 20px rgba(0, 224, 255, 0.8);
+}
+
+#personagem-imagem {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: blur(15px) grayscale(100%) brightness(50%) opacity(0.8); 
+    transition: filter 0.5s ease-out;
+}
+
+/* CLASSES DE PROGRESSÃO DE DICA (Revelação do Sensor) */
+.clue-level-1 {
+    filter: blur(8px) grayscale(80%) brightness(70%) opacity(0.9) !important;
+}
+.clue-level-2 {
+    filter: blur(4px) grayscale(50%) brightness(80%) opacity(1) !important;
+}
+.clue-level-3 {
+    filter: blur(2px) grayscale(20%) brightness(90%) opacity(1) !important;
+}
+.clue-level-4 {
+    /* Estado final antes da revelação total */
+    filter: none !important; 
+    box-shadow: 0 0 20px var(--accent-color);
+}
+.reveal {
+    /* Revelação total com um brilho de sucesso */
+    filter: none !important;
+    box-shadow: 0 0 40px var(--win-color);
+}
+
+/* --- ÁREA DE MENSAGEM/DICA (Console Log) --- */
+#message-area {
+    min-height: 50px;
+    padding: 15px;
+    background-color: var(--tech-bg-dark);
+    border-radius: 5px;
+    text-align: center;
+    font-style: italic;
+    /* Simula um display de console */
+    border-left: 5px solid var(--secondary-accent); 
+    color: var(--secondary-accent);
+    box-shadow: inset 0 0 10px rgba(255, 0, 255, 0.3);
+}
+
+/* --- ÁREA DE INPUT E BOTÕES (Interface de Comando) --- */
+.input-area {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+#guessInput {
+    padding: 12px;
+    border-radius: 5px;
+    /* Estilo de Terminal */
+    border: 2px solid var(--secondary-accent);
+    background-color: var(--tech-bg-dark);
+    color: var(--text-color);
+    font-size: 1em;
+    font-family: 'Consolas', monospace;
+    box-shadow: inset 0 0 8px rgba(255, 0, 255, 0.5);
+}
+/* Estilo de botão "Tech" */
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.1s;
+    background-color: var(--tech-bg-light);
+    color: var(--accent-color);
+    /* Sombra para profundidade */
+    box-shadow: 0 5px var(--tech-bg-dark), 0 0 10px rgba(0, 224, 255, 0.5);
+}
+.btn:hover {
+    background-color: var(--tech-bg-dark);
+    color: var(--text-color);
+    box-shadow: 0 5px var(--tech-bg-dark), 0 0 15px var(--accent-color);
+}
+.btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px var(--tech-bg-dark), 0 0 10px var(--accent-color);
+}
+
+/* --- BOTÃO DE DICA (Consumo de Recursos) --- */
+#pedirDicaBtn {
+    /* Cor principal do botão de dica diferente, para destacar o recurso */
+    background-color: #4a004a; 
+    box-shadow: 0 5px var(--tech-bg-dark), 0 0 10px rgba(255, 0, 255, 0.5);
+    color: var(--secondary-accent);
+    position: relative;
+    padding-right: 60px; /* Espaço para o custo */
+}
+#pedirDicaBtn:hover {
+    background-color: #6a006a;
+    box-shadow: 0 5px var(--tech-bg-dark), 0 0 15px var(--secondary-accent);
+}
+
+#dica-cost {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9em;
+    font-weight: bold;
+    color: var(--text-color);
+    padding: 2px 5px;
+    border-radius: 3px;
+    background-color: rgba(255, 0, 255, 0.5); /* Fundo Magenta para custo */
+    box-shadow: 0 0 5px var(--secondary-accent);
+    transition: background-color 0.3s;
+}
+
+#dica-cost.free {
+    background-color: var(--win-color); /* Verde para GRÁTIS */
+    color: var(--tech-bg-dark);
+    font-size: 0.8em;
+    box-shadow: 0 0 5px var(--win-color);
+}
+
+/* ------------------------------------- */
 /* Otimização para Desktop: Layout Lateral */
 @media (min-width: 768px) {
     .main-container {
-        flex-direction: row; /* Coloca o score na lateral em telas maiores */
-        justify-content: space-between;
+        flex-direction: row; 
+        justify-content: flex-start; 
+        max-width: 1000px; 
+        min-height: 600px;
     }
     
     .score-sidebar {
@@ -98,56 +300,28 @@ body {
         flex-direction: column;
         align-items: flex-start;
         border-bottom: none;
-        border-right: 1px solid rgba(0, 224, 255, 0.2);
+        /* Aumenta a espessura da linha divisória para maior destaque espacial */
+        border-right: 2px solid var(--secondary-accent);
+        box-shadow: 2px 0 10px rgba(255, 0, 255, 0.3);
         padding-right: 20px;
         margin-bottom: 0;
-        /* Garante que os itens do HUD voltem a ocupar a largura total */
-        gap: 20px; 
+        padding-bottom: 0;
+        gap: 30px; 
     }
-    /* Reinicia o layout dos itens do HUD para coluna na lateral */
+    
     .player-info, .difficulty-info, .score-group {
-        flex: 1 1 100%; 
+        flex: 0 0 auto; 
+        width: 100%;
         text-align: left;
-        margin-bottom: 10px;
+        margin-bottom: 0;
     }
     .score-group {
         flex-direction: column;
         gap: 10px;
+        align-items: flex-start; 
+    }
+    .game-area {
+        margin-left: 20px; 
+        width: calc(100% - 240px); 
     }
 }
-
-/* --- BOTÃO DE DICA (UX/GRÁTIS) --- */
-#pedirDicaBtn {
-    position: relative;
-    padding-right: 60px; /* Espaço para o custo */
-}
-#dica-cost {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.9em;
-    font-weight: bold;
-    color: #000;
-    padding: 2px 5px;
-    border-radius: 3px;
-    background-color: #00000030;
-    transition: background-color 0.3s;
-}
-
-#dica-cost.free {
-    background-color: var(--win-color); /* Verde para GRÁTIS */
-    color: #fff;
-    font-size: 0.8em;
-}
-
-/* --- IMAGEM PROGRESSIVA (Para a primeira dica ser a classe base) --- */
-#personagem-imagem {
-    /* Adiciona a classe visual-clue no JS em iniciarNovaRodada() */
-    filter: blur(15px) grayscale(100%) brightness(50%) opacity(0.8); 
-    transition: filter 0.5s ease-out;
-}
-.clue-level-1 {
-    filter: blur(8px) grayscale(80%) brightness(70%) opacity(0.9) !important;
-}
-/* ... (Manter as outras classes de clue-level-2 e 3) ... */
