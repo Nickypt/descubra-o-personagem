@@ -1,327 +1,251 @@
-/*
- * =======================================
- * ESTILO: TEMA ESPACIAL (NEON / FUTURISTA)
- * =======================================
- */
-
-/* =======================================
-    DEFINIÇÕES GLOBAIS E VARIÁVEIS (ESPAÇO)
-    ======================================= */
-:root {
-    --main-bg-color: #0d1a26; /* Azul Escuro / Espaço Profundo */
-    --text-color: #e0f7fa; /* Ciano Claro (Luz das Estrelas) */
-    --accent-color: #00e0ff; /* Ciano Neon (Principal) */
-    --secondary-accent: #ff00ff; /* Magenta Neon (Detalhes/Valores) */
-    --win-color: #38c172; /* Verde Sucesso */
-    --lose-color: #e3342f; /* Vermelho Erro */
-    --tech-bg-dark: #1a202c; /* Fundo de Componentes */
-    --tech-bg-light: #2d3748;
-}
-
-/* ------------------------------------- */
-/* --- CHAVE: ANIMAÇÃO DE FUNDO ESPACIAL --- */
-/* ------------------------------------- */
-
-/* Define a animação de movimento sutil para o fundo */
-@keyframes nebula-scroll {
-    0% { background-position: 0% 0%; }
-    100% { background-position: 100% 100%; }
-}
-
-html {
-    height: 100%;
+/* ============================================= */
+/* 1. Reset Básico e Fundo (Centralização) */
+/* ============================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    margin: 0;
-    /* Recomendado importar uma fonte futurista como 'Orbitron' ou 'Space Mono' */
-    font-family: 'Space Mono', monospace, sans-serif; 
-    color: var(--text-color);
-    background-color: var(--main-bg-color); 
-    
-    /* Simulação de Fundo Espacial com Estrelas/Nébulas */
-    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 100"><defs><radialGradient id="g" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="%2300e0ff" stop-opacity="0.1"/><stop offset="100%" stop-color="%230d1a26" stop-opacity="1"/></radialGradient></defs><rect width="100" height="100" fill="url(%23g)"/><circle cx="10" cy="10" r="1" fill="%23fff" opacity="0.6"><animate attributeName="cx" values="10;90;10" dur="10s" repeatCount="indefinite"/><animate attributeName="cy" values="10;50;10" dur="12s" repeatCount="indefinite"/></circle><circle cx="50" cy="90" r="0.8" fill="%23fff" opacity="0.4"><animate attributeName="cx" values="50;10;50" dur="8s" repeatCount="indefinite"/><animate attributeName="cy" values="90;40;90" dur="9s" repeatCount="indefinite"/></circle></svg>');
-    background-size: 400% 400%; 
-    animation: nebula-scroll 120s linear infinite alternate; 
-    
-    /* Centralização Vertical (Flexbox) */
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow-y: auto;
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh; 
+    background-color: #2c3e50; /* Fundo principal (Cinza/Azul Escuro) */
+    color: #ecf0f1;
+    overflow: hidden; 
 }
 
-/* Estilos de Tipografia Espacial (Efeito Neon) */
-h1, h2, h3 {
-    color: var(--accent-color);
-    text-shadow: 0 0 10px rgba(0, 224, 255, 0.7); 
-}
-
-/* ------------------------------------- */
+/* ============================================= */
+/* 2. Estilização das Telas (Views) */
+/* ============================================= */
 
 .screen {
-    position: relative; 
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    position: absolute; 
+    width: 95%;
+    max-width: 500px; /* Limite padrão para telas de introdução */
     padding: 20px;
-    box-sizing: border-box;
-}
-
-.game-content-wrapper {
-    width: 100%;
-    max-width: 1200px; 
-    margin: auto; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - 40px); 
-    padding: 10px;
-}
-
-
-.main-container {
-    width: 100%;
-    max-width: 900px; 
-    min-height: 550px; 
-    /* Fundo Semi-Transparente com Borda Neon */
-    background-color: rgba(10, 20, 30, 0.9); 
-    border-radius: 10px;
-    padding: 25px;
-    
-    /* Borda e Sombra Galáctica */
-    border: 2px solid var(--accent-color);
-    box-shadow: 0 0 30px rgba(0, 224, 255, 0.5), inset 0 0 15px rgba(0, 224, 255, 0.3);
-    
-    display: flex; 
-    flex-direction: column; 
-    gap: 20px; 
-}
-
-
-/* --- SCOREBAR (HUD) --- */
-.score-sidebar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap; 
-    gap: 10px;
-    padding-bottom: 15px;
-    /* Linha de separação mais tecnológica */
-    border-bottom: 1px dashed var(--secondary-accent); 
-    margin-bottom: 15px;
-}
-
-.hud-item {
-    margin: 0;
-    padding: 8px 15px;
-    background-color: var(--tech-bg-dark);
-    border-radius: 5px;
-    /* Detalhe de Borda/Brilho */
-    box-shadow: 0 0 5px rgba(255, 0, 255, 0.5), inset 0 0 5px rgba(0, 224, 255, 0.3);
-}
-
-.player-info, .difficulty-info {
-    flex: 1 1 45%; 
-    text-align: left;
-}
-.score-group {
-    flex: 1 1 100%; 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.score-value {
-    font-size: 1.4em;
-    font-weight: bold;
-    color: var(--secondary-accent); /* Magenta para os valores */
-    text-shadow: 0 0 5px var(--secondary-accent);
-}
-
-/* ------------------------------------- */
-/* --- ÁREA PRINCIPAL DO JOGO --- */
-.game-area {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1; 
-    gap: 20px;
-}
-
-/* --- IMAGEM PROGRESSIVA (Sensor/Scanner) --- */
-.image-container {
+    background-color: #34495e; 
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     text-align: center;
-    max-width: 400px; 
-    max-height: 400px;
-    margin: 0 auto;
+    
+    /* Controle de visibilidade/transição */
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+    pointer-events: none; 
+}
+
+.screen.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: all; 
+}
+
+.screen.hidden {
+    display: none; 
+}
+
+/* Ajuste a largura para a tela do jogo, se necessário */
+#tela-jogo {
+    max-width: 800px; 
+    padding: 20px;
+}
+
+/* ============================================= */
+/* 3. Estilização Comum e Inicial */
+/* ============================================= */
+
+h1 {
+    margin-bottom: 15px;
+    color: #1abc9c;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+.note {
+    font-size: 0.8em;
+    color: #95a5a6;
+    margin-top: 15px;
+}
+
+/* Inputs */
+.input-group, .guess-control {
+    margin: 20px 0;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #7f8c8d;
+    border-radius: 6px;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    font-size: 1em;
+    margin-top: 5px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus {
+    border-color: #3498db;
+}
+
+/* Botões */
+button {
+    padding: 10px 15px;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    margin: 5px 2px;
+    transition: background-color 0.2s, transform 0.1s;
+    background-color: #3498db;
+    color: white;
+}
+
+button:hover:not(:disabled) {
+    background-color: #2980b9;
+    transform: translateY(-1px);
+}
+
+button:disabled {
+    background-color: #7f8c8d;
+    cursor: not-allowed;
+}
+
+.difficulty-options {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.difficulty-options .difficulty-btn {
+    flex-grow: 1;
+    background-color: #16a085;
+}
+
+/* ============================================= */
+/* 4. Estilos do Jogo (HUD e Imagem) */
+/* ============================================= */
+.hud {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #7f8c8d;
+}
+
+.info-item {
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+.info-item .label {
+    display: block;
+    color: #bdc3c7;
+}
+
+.info-item .value {
+    font-weight: bold;
+    color: #ecf0f1;
+}
+
+.timer {
+    font-size: 3em;
+    color: #e74c3c;
+    margin-bottom: 20px;
+}
+
+.character-container {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 0 auto 20px;
     overflow: hidden;
-    border-radius: 5px;
-    /* Borda de Sensor/Scanner */
-    border: 3px solid var(--accent-color); 
-    box-shadow: 0 0 20px rgba(0, 224, 255, 0.8);
+    border-radius: 8px;
+    background-color: #2c3e50; /* Fundo quando a imagem está 'hidden' */
+    border: 3px solid #7f8c8d;
 }
 
 #personagem-imagem {
-    display: block;
     width: 100%;
-    height: auto;
-    filter: blur(15px) grayscale(100%) brightness(50%) opacity(0.8); 
-    transition: filter 0.5s ease-out;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.5s ease-out; /* Transição suave do filtro */
 }
 
-/* CLASSES DE PROGRESSÃO DE DICA (Revelação do Sensor) */
+/* Classes de filtro (Blur) */
+.visual-clue {
+    filter: blur(20px); /* Filtro inicial base */
+}
+
 .clue-level-1 {
-    filter: blur(8px) grayscale(80%) brightness(70%) opacity(0.9) !important;
+    filter: blur(15px) grayscale(50%); /* 1ª dica: menos blur, um pouco de cor */
 }
+
 .clue-level-2 {
-    filter: blur(4px) grayscale(50%) brightness(80%) opacity(1) !important;
+    filter: blur(8px) grayscale(25%); /* 2ª dica: menos blur, mais cor */
 }
+
 .clue-level-3 {
-    filter: blur(2px) grayscale(20%) brightness(90%) opacity(1) !important;
+    filter: blur(3px) grayscale(0%); /* 3ª dica: mínimo blur, cor total */
 }
-.clue-level-4 {
-    /* Estado final antes da revelação total */
-    filter: none !important; 
-    box-shadow: 0 0 20px var(--accent-color);
-}
+
 .reveal {
-    /* Revelação total com um brilho de sucesso */
-    filter: none !important;
-    box-shadow: 0 0 40px var(--win-color);
+    filter: none; /* Imagem totalmente revelada (após acerto) */
 }
 
-/* --- ÁREA DE MENSAGEM/DICA (Console Log) --- */
-#message-area {
-    min-height: 50px;
-    padding: 15px;
-    background-color: var(--tech-bg-dark);
-    border-radius: 5px;
-    text-align: center;
+#personagem-imagem.hidden {
+    display: none;
+}
+
+/* Dicas e Mensagens */
+.clue-text {
     font-style: italic;
-    /* Simula um display de console */
-    border-left: 5px solid var(--secondary-accent); 
-    color: var(--secondary-accent);
-    box-shadow: inset 0 0 10px rgba(255, 0, 255, 0.3);
+    color: #1abc9c;
+    margin: 15px 0;
 }
 
-/* --- ÁREA DE INPUT E BOTÕES (Interface de Comando) --- */
-.input-area {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
-}
-#guessInput {
-    padding: 12px;
-    border-radius: 5px;
-    /* Estilo de Terminal */
-    border: 2px solid var(--secondary-accent);
-    background-color: var(--tech-bg-dark);
-    color: var(--text-color);
-    font-size: 1em;
-    font-family: 'Consolas', monospace;
-    box-shadow: inset 0 0 8px rgba(255, 0, 255, 0.5);
-}
-/* Estilo de botão "Tech" */
-.btn {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s, box-shadow 0.3s, transform 0.1s;
-    background-color: var(--tech-bg-light);
-    color: var(--accent-color);
-    /* Sombra para profundidade */
-    box-shadow: 0 5px var(--tech-bg-dark), 0 0 10px rgba(0, 224, 255, 0.5);
-}
-.btn:hover {
-    background-color: var(--tech-bg-dark);
-    color: var(--text-color);
-    box-shadow: 0 5px var(--tech-bg-dark), 0 0 15px var(--accent-color);
-}
-.btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 3px var(--tech-bg-dark), 0 0 10px var(--accent-color);
-}
-
-/* --- BOTÃO DE DICA (Consumo de Recursos) --- */
-#pedirDicaBtn {
-    /* Cor principal do botão de dica diferente, para destacar o recurso */
-    background-color: #4a004a; 
-    box-shadow: 0 5px var(--tech-bg-dark), 0 0 10px rgba(255, 0, 255, 0.5);
-    color: var(--secondary-accent);
-    position: relative;
-    padding-right: 60px; /* Espaço para o custo */
-}
-#pedirDicaBtn:hover {
-    background-color: #6a006a;
-    box-shadow: 0 5px var(--tech-bg-dark), 0 0 15px var(--secondary-accent);
-}
-
-#dica-cost {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.9em;
-    font-weight: bold;
-    color: var(--text-color);
-    padding: 2px 5px;
-    border-radius: 3px;
-    background-color: rgba(255, 0, 255, 0.5); /* Fundo Magenta para custo */
-    box-shadow: 0 0 5px var(--secondary-accent);
-    transition: background-color 0.3s;
+.action-buttons {
+    margin-top: 20px;
 }
 
 #dica-cost.free {
-    background-color: var(--win-color); /* Verde para GRÁTIS */
-    color: var(--tech-bg-dark);
-    font-size: 0.8em;
-    box-shadow: 0 0 5px var(--win-color);
+    color: #2ecc71; /* Cor verde para custo grátis */
+    font-weight: bold;
+}
+/* Indicadores de Dica (Dots) */
+.clue-progression {
+    margin-bottom: 15px;
 }
 
-/* ------------------------------------- */
-/* Otimização para Desktop: Layout Lateral */
-@media (min-width: 768px) {
-    .main-container {
-        flex-direction: row; 
-        justify-content: flex-start; 
-        max-width: 1000px; 
-        min-height: 600px;
-    }
-    
-    .score-sidebar {
-        order: -1;
-        width: 200px;
-        flex-direction: column;
-        align-items: flex-start;
-        border-bottom: none;
-        /* Aumenta a espessura da linha divisória para maior destaque espacial */
-        border-right: 2px solid var(--secondary-accent);
-        box-shadow: 2px 0 10px rgba(255, 0, 255, 0.3);
-        padding-right: 20px;
-        margin-bottom: 0;
-        padding-bottom: 0;
-        gap: 30px; 
-    }
-    
-    .player-info, .difficulty-info, .score-group {
-        flex: 0 0 auto; 
-        width: 100%;
-        text-align: left;
-        margin-bottom: 0;
-    }
-    .score-group {
-        flex-direction: column;
-        gap: 10px;
-        align-items: flex-start; 
-    }
-    .game-area {
-        margin-left: 20px; 
-        width: calc(100% - 240px); 
-    }
+.dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #7f8c8d;
+    margin: 0 3px;
+    transition: background-color 0.2s;
+}
+
+.dot.active {
+    background-color: #3498db; /* Azul: Pista Atual */
+    border: 2px solid #ecf0f1;
+}
+
+.dot.used {
+    background-color: #16a085; /* Verde: Pista Usada */
+}
+
+.hidden {
+    display: none !important;
 }
