@@ -3,88 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adivinhe o Personagem</title>
+    <title>Missão: Adivinhe o Héroi Galáctico</title>
     <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="game_ends.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-    <div id="tela-bem-vindo" class="screen active">
+    <div id="tela-bem-vindo" class="screen active space-background">
         <div class="card-content">
-            <h1>🕵️ Adivinhe o Personagem!</h1>
-            <p>Seja bem-vindo(a) ao desafio de decodificação visual e lógica.</p>
+            <h1>🚀 Missão: Adivinhe o Héroi Galáctico</h1>
+            <p>Seja bem-vindo(a), Cadete! Identifique o alvo antes que o tempo acabe.</p>
             <div class="input-group">
-                <label for="player-name-input">Digite seu Nome / Codinome:</label>
-                <input type="text" id="player-name-input" maxlength="20" placeholder="Ex: Agente Secreto 007">
+                <label for="player-name-input">Identificação (Codinome de Agente):</label>
+                <input type="text" id="player-name-input" maxlength="20" placeholder="Ex: Star Lord, Agente K">
             </div>
-            <button id="start-name-btn" disabled>Iniciar</button>
-            <p class="note">O botão "Iniciar" será ativado ao digitar um nome.</p>
+            <button id="start-name-btn" disabled><i class="fas fa-satellite-dish"></i> Iniciar Transmissão</button>
+            <p class="note">O botão "Iniciar" é ativado com a sua identificação.</p>
         </div>
     </div>
 
     <div id="tela-dificuldade" class="screen hidden">
         <div class="card-content">
-            <h1>⚙️ Selecione a Dificuldade</h1>
-            <p>Escolha o nível de borramento e penalidade de tempo.</p>
+            <h1>⚙️ Nível de Criptografia</h1>
+            <p>Selecione a dificuldade de decodificação do alvo.</p>
             <div class="difficulty-options">
-                <button data-level="facil" class="difficulty-btn">Fácil</button>
-                <button data-level="medio" class="difficulty-btn">Médio</button>
-                <button data-level="dificil" class="difficulty-btn">Difícil</button>
+                <button data-level="facil" class="difficulty-btn"><i class="fas fa-meteor"></i> Fácil (Nebulosa)</button>
+                <button data-level="medio" class="difficulty-btn"><i class="fas fa-star-half-alt"></i> Médio (Constelação)</button>
+                <button data-level="dificil" class="difficulty-btn"><i class="fas fa-rocket"></i> Difícil (Buraco Negro)</button>
             </div>
-            <p class="note">Cada dificuldade ajusta o desafio da rodada.</p>
+            <p class="note">Níveis mais altos oferecem maior pontuação base.</p>
         </div>
     </div>
 
     <div id="tela-jogo" class="screen hidden">
         <header class="hud">
             <div class="info-item">
-                <span class="label">Agente:</span>
+                <span class="label"><i class="fas fa-user-secret"></i> Agente:</span>
                 <span id="player-name-display" class="value"></span>
             </div>
             <div class="info-item">
-                <span class="label">Nível:</span>
+                <span class="label"><i class="fas fa-cogs"></i> Nível:</span>
                 <span id="difficulty-display" class="value"></span>
             </div>
             <div class="info-item">
-                <span class="label">Pontos:</span>
+                <span class="label"><i class="fas fa-coins"></i> Pontos:</span>
                 <span id="score-display" class="value">0</span>
             </div>
             <div class="info-item hidden" id="streak-score-item">
-                <span class="label">Sequência:</span>
+                <span class="label"><i class="fas fa-bolt"></i> Sequência:</span>
                 <span id="streak-display" class="value">0</span>
             </div>
         </header>
 
         <main class="game-area">
-            <h2 id="timer-display" class="timer">60</h2>
+            <h2 id="timer-display" class="timer"><i class="far fa-hourglass-half"></i> 60</h2>
+            <p id="tentativas-display" class="note">Tentativas Erradas: 0/5</p>
 
-            <div class="character-container">
-                <img id="personagem-imagem" src="" alt="Personagem Secreto" class="hidden visual-clue">
+            <div class="character-container glow-border">
+                <img id="personagem-imagem" src="" alt="Alvo Criptografado" class="hidden visual-clue">
                 <div class="feedback-icon hidden" id="feedback-icon"></div>
-                <div class="streak-feedback hidden" id="streak-feedback">🔥 +5 Bônus!</div>
+                <div class="streak-feedback hidden" id="streak-feedback">✨ BÔNUS DE ENERGIA!</div>
             </div>
 
-            <p id="dica-display" class="clue-text">Pista: Pressione "Pedir Dica" para iniciar a decodificação.</p>
+            <p id="dica-display" class="clue-text"><i class="fas fa-microchip"></i> Transmissão: Pressione "Pedir Decodificação" para obter a primeira pista.</p>
 
             <div class="clue-progression" id="dica-progresso">
                 <span class="dot" data-dot="0"></span>
                 <span class="dot" data-dot="1"></span>
                 <span class="dot" data-dot="2"></span>
-                </div>
+            </div>
             
             <div class="guess-control">
-                <input type="text" id="guess-input" placeholder="Qual é o personagem?">
-                <button id="guess-btn">Adivinhar</button>
+                <input type="text" id="guess-input" placeholder="Identifique o Alvo Galáctico...">
+                <button id="guess-btn"><i class="fas fa-satellite"></i> Transmitir Palpite</button>
             </div>
             
             <p id="mensagem" class="message"></p>
 
             <div class="action-buttons">
-                <button id="pedir-dica-btn">Pedir Dica (<span id="dica-cost">GRÁTIS</span>)</button>
-                <button id="pular-btn">Pular Rodada</button>
-                <button id="reiniciar-btn" class="hidden">Próxima Rodada</button>
+                <button id="pedir-dica-btn"><i class="fas fa-plus"></i> Pedir Decodificação (<span id="dica-cost">GRÁTIS</span>)</button>
+                <button id="pular-btn"><i class="fas fa-forward"></i> Pular Missão</button>
+                <button id="reiniciar-btn" class="hidden"><i class="fas fa-redo"></i> Iniciar Próxima Missão</button>
             </div>
         </main>
+    </div>
+    
+    <div id="tela-vitoria" class="screen hidden">
+        <div class="card-content">
+            <h1>🏆 VICTÓRIA GALÁCTICA!</h1>
+            <i class="fas fa-medal fa-5x" style="margin: 20px;"></i>
+            <h2>PARABÉNS, <span id="final-player-name-vitoria"></span>!</h2>
+            <p class="big-message">Você atingiu a pontuação máxima de <span id="final-score-vitoria"></span> pontos e decifrou todos os alvos. Seu status de Agente foi promovido!</p>
+            <button onclick="window.location.reload()"><i class="fas fa-home"></i> Voltar ao Menu Principal</button>
+        </div>
+    </div>
+
+    <div id="tela-fim-de-jogo" class="screen hidden">
+        <div class="card-content">
+            <h1>❌ FALHA NA MISSÃO</h1>
+            <i class="fas fa-skull-crossbones fa-5x" style="margin: 20px;"></i>
+            <h2 id="final-player-name-derrota"></h2>
+            <p id="final-message-derrota" class="big-message"></p>
+            <p>Pontuação Final: <span id="final-score-derrota">0</span></p>
+            <button onclick="window.location.reload()"><i class="fas fa-redo"></i> Tentar Novamente</button>
+        </div>
     </div>
 
     <script src="script.js"></script> 

@@ -1,11 +1,13 @@
 /* ============================================= */
-/* 1. Reset Básico e Fundo (Centralização) */
+/* ARQUIVO: style.css (Estilos Gerais e do Jogo) */
 /* ============================================= */
+
+/* 1. Reset Básico e Fundo (Centralização) */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
 
 body {
@@ -13,26 +15,45 @@ body {
     justify-content: center; 
     align-items: center; 
     min-height: 100vh; 
-    background-color: #2c3e50; /* Fundo principal (Cinza/Azul Escuro) */
-    color: #ecf0f1;
+    background-color: #0b0f19; /* Fundo principal (quase preto) */
+    color: #00eaff; /* Cor primária futurista (Ciano Neon) */
     overflow: hidden; 
 }
 
-/* ============================================= */
-/* 2. Estilização das Telas (Views) */
-/* ============================================= */
+/* Fundo de Galáxia (Tela Inicial) */
+.space-background {
+    /* **ATENÇÃO:** Você deve ter um arquivo de imagem chamado 'galaxy.jpg' no mesmo diretório */
+    background: url('galaxy.jpg') no-repeat center center fixed; 
+    background-size: cover;
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    box-shadow: inset 0 0 100px rgba(0, 100, 200, 0.5); 
+}
 
+#tela-bem-vindo .card-content {
+    background: rgba(10, 20, 40, 0.9); 
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #00eaff; 
+}
+
+/* 2. Estilização das Telas (Views) */
 .screen {
     position: absolute; 
     width: 95%;
-    max-width: 500px; /* Limite padrão para telas de introdução */
-    padding: 20px;
-    background-color: #34495e; 
+    max-width: 550px; 
+    padding: 25px;
+    background-color: #1a233a; /* Fundo dos cards (Azul Escuro Futurista) */
     border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4); /* Sombra Neon Ciano */
     text-align: center;
+    border: 2px solid #00eaff; 
     
-    /* Controle de visibilidade/transição */
     opacity: 0;
     transform: scale(0.95);
     transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
@@ -49,202 +70,205 @@ body {
     display: none; 
 }
 
-/* Ajuste a largura para a tela do jogo, se necessário */
 #tela-jogo {
-    max-width: 800px; 
-    padding: 20px;
+    max-width: 850px; 
+    padding: 25px;
 }
 
-/* ============================================= */
-/* 3. Estilização Comum e Inicial */
-/* ============================================= */
+/* 3. Estilização Comum e Tipografia */
 
 h1 {
-    margin-bottom: 15px;
-    color: #1abc9c;
+    margin-bottom: 20px;
+    color: #ff00ff; 
+    text-shadow: 0 0 8px rgba(255, 0, 255, 0.8);
+}
+h2 {
+    color: #00eaff;
+    margin-bottom: 10px;
 }
 
 p {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    color: #b0e0e6; 
 }
 
 .note {
     font-size: 0.8em;
-    color: #95a5a6;
+    color: #7fffd4; 
     margin-top: 15px;
 }
 
 /* Inputs */
-.input-group, .guess-control {
-    margin: 20px 0;
-}
-
 input[type="text"] {
     width: 100%;
-    padding: 10px;
-    border: 2px solid #7f8c8d;
-    border-radius: 6px;
-    background-color: #2c3e50;
-    color: #ecf0f1;
-    font-size: 1em;
-    margin-top: 5px;
+    padding: 12px;
+    border: 1px solid #00eaff; 
+    border-radius: 8px;
+    background-color: #0b0f19;
+    color: #00eaff;
+    font-size: 1.1em;
+    box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.5);
     outline: none;
-    transition: border-color 0.2s;
 }
 
 input[type="text"]:focus {
-    border-color: #3498db;
+    border-color: #ff00ff;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
 }
 
 /* Botões */
 button {
-    padding: 10px 15px;
+    padding: 10px 18px;
     font-size: 1em;
     cursor: pointer;
     border: none;
-    border-radius: 6px;
-    margin: 5px 2px;
-    transition: background-color 0.2s, transform 0.1s;
-    background-color: #3498db;
-    color: white;
+    border-radius: 8px;
+    margin: 5px 4px;
+    transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s;
+    background-color: #ff00ff; 
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+button i {
+    margin-right: 5px;
 }
 
 button:hover:not(:disabled) {
-    background-color: #2980b9;
-    transform: translateY(-1px);
+    background-color: #cc00cc;
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.8); 
+    transform: translateY(-2px);
 }
 
 button:disabled {
-    background-color: #7f8c8d;
+    background-color: #4a4a4a;
+    box-shadow: none;
     cursor: not-allowed;
 }
 
-.difficulty-options {
-    display: flex;
-    justify-content: space-around;
-    gap: 10px;
-    margin-top: 20px;
-}
-
+/* Botões de Dificuldade */
 .difficulty-options .difficulty-btn {
-    flex-grow: 1;
-    background-color: #16a085;
+    background-color: #00eaff; 
+    color: #1a233a;
+}
+.difficulty-options .difficulty-btn:hover {
+    background-color: #00bfff;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
 }
 
-/* ============================================= */
-/* 4. Estilos do Jogo (HUD e Imagem) */
-/* ============================================= */
+/* 4. Estilos do Jogo (HUD, Imagem, Dicas) */
 .hud {
     display: flex;
     justify-content: space-around;
     padding: 10px 0;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #7f8c8d;
-}
-
-.info-item {
-    font-size: 0.9em;
-    line-height: 1.4;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #ff00ff; 
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
 }
 
 .info-item .label {
     display: block;
-    color: #bdc3c7;
+    color: #b0e0e6;
+    font-size: 0.85em;
 }
 
 .info-item .value {
     font-weight: bold;
-    color: #ecf0f1;
+    color: #00eaff;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
 }
 
 .timer {
-    font-size: 3em;
-    color: #e74c3c;
-    margin-bottom: 20px;
+    font-size: 4em;
+    color: #e74c3c; 
+    margin-bottom: 5px;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
 }
 
+/* Contêiner da Imagem (Esfera/Portal) */
 .character-container {
     position: relative;
-    width: 250px;
-    height: 250px;
-    margin: 0 auto 20px;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto 25px;
     overflow: hidden;
-    border-radius: 8px;
-    background-color: #2c3e50; /* Fundo quando a imagem está 'hidden' */
-    border: 3px solid #7f8c8d;
+    border-radius: 50%; 
+    background-color: #0b0f19; 
+    border: 5px solid transparent; 
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.7), 0 0 15px #00eaff; 
 }
+
 
 #personagem-imagem {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: filter 0.5s ease-out; /* Transição suave do filtro */
+    transition: filter 0.5s ease-out; 
 }
 
 /* Classes de filtro (Blur) */
-.visual-clue {
-    filter: blur(20px); /* Filtro inicial base */
-}
-
-.clue-level-1 {
-    filter: blur(15px) grayscale(50%); /* 1ª dica: menos blur, um pouco de cor */
-}
-
-.clue-level-2 {
-    filter: blur(8px) grayscale(25%); /* 2ª dica: menos blur, mais cor */
-}
-
-.clue-level-3 {
-    filter: blur(3px) grayscale(0%); /* 3ª dica: mínimo blur, cor total */
-}
-
-.reveal {
-    filter: none; /* Imagem totalmente revelada (após acerto) */
-}
+.visual-clue { filter: blur(20px) contrast(200%); } 
+.clue-level-1 { filter: blur(15px) grayscale(50%); } 
+.clue-level-2 { filter: blur(8px) grayscale(25%); } 
+.clue-level-3 { filter: blur(3px) grayscale(0%); } 
+.reveal { filter: none; }
 
 #personagem-imagem.hidden {
-    display: none;
+    opacity: 0;
+    filter: none;
+    transform: scale(0.9);
 }
 
 /* Dicas e Mensagens */
 .clue-text {
     font-style: italic;
-    color: #1abc9c;
+    color: #00eaff;
     margin: 15px 0;
-}
-
-.action-buttons {
-    margin-top: 20px;
+    text-shadow: 0 0 3px rgba(0, 255, 255, 0.5);
 }
 
 #dica-cost.free {
-    color: #2ecc71; /* Cor verde para custo grátis */
+    color: #00ff00; 
     font-weight: bold;
-}
-/* Indicadores de Dica (Dots) */
-.clue-progression {
-    margin-bottom: 15px;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
 }
 
 .dot {
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background-color: #7f8c8d;
-    margin: 0 3px;
-    transition: background-color 0.2s;
+    background-color: #4a4a4a;
+    margin: 0 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.2s, box-shadow 0.2s;
 }
 
 .dot.active {
-    background-color: #3498db; /* Azul: Pista Atual */
-    border: 2px solid #ecf0f1;
+    background-color: #00eaff; 
+    box-shadow: 0 0 10px #00eaff;
+    border: 1px solid #fff;
 }
 
 .dot.used {
-    background-color: #16a085; /* Verde: Pista Usada */
+    background-color: #ff00ff; 
+    box-shadow: 0 0 5px rgba(255, 0, 255, 0.7);
 }
+
+/* Feedback de Acerto/Erro (Ícones) */
+.feedback-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5em;
+    z-index: 10;
+}
+.feedback-icon.correct { color: #00ff00; text-shadow: 0 0 15px #00ff00; }
+.feedback-icon.incorrect { color: #e74c3c; text-shadow: 0 0 15px #e74c3c; }
 
 .hidden {
     display: none !important;
